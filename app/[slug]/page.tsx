@@ -14,7 +14,7 @@ async function Personal({ params }: { params: Promise<{ slug: string }> }) {
   if (!isBotOrPrefetch(h)) {
     await recordView(business.slug);
     after(async () => {
-      sendAlert({
+      await sendAlert({
         event: "scan",
         business: business.name,
         slug: business.slug,

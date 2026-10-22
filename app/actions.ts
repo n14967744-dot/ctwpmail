@@ -35,7 +35,7 @@ export async function submitRequest(_prev: RequestState, form: FormData): Promis
   if (!res || !res.ok) return { ok: false, error: `Something went wrong. Please call us at (210) 284-3727.` };
   const options = answers.help;
   after(async () => {
-    sendAlert({
+    await sendAlert({
       event: "form_submit",
       business: business || null,
       slug: slug || null,

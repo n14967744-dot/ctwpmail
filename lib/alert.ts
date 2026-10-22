@@ -8,6 +8,8 @@ export type AlertPayload = {
   scan_count: number | null;
   time_iso: string;
   name?: string;
+  first_name?: string;
+  last_name?: string;
   phone?: string | null;
   email?: string | null;
   options?: string[];
@@ -31,16 +33,21 @@ export async function scanCount(slug: string | null): Promise<number | null> {
   return rows[0]?.qr_scans ?? null;
 }
 
-async function post(url: string, headers: Record<string, string>, payload: AlertPayload) {
+async function post(label: string, url: string, headers: Record<string, string>, payload: AlertPayload) {
   try {
-    await fetch(url, { method: "POST", headers, body: JSON.stringify(payload), signal: AbortSignal.timeout(3000), cache: "no-store" });
-  } catch {
-    /* ignore */
+    const res = await fetch(url, { method: "POST", headers, body: JSON.stringify(payload), signal: AbortSignal.timeout(5000), cache: "no-store" });
+    console.log(`[alert] ${label} ${payload.event} status=${res.status}`);
+  } catch (e) {
+    console.error(`[alert] ${label} ${payload.event} error=${e instanceof Error ? e.name + ": " + e.message : "unknown"}`);
   }
 }
 
 /** Fire-and-forget webhooks (Grok Bot alert + GoHighLevel). Each skips silently if unset; never throws; 3s timeout. */
 export async function sendAlert(payload: AlertPayload): Promise<void> {
+  if (payload.name && !payload.first_name) {
+    const parts = payload.name.trim().split(/\s+/);
+    payload = { ...payload, first_name: parts[0], last_name: parts.slice(1).join(" ") || undefined };
+  }
   const jobs: Promise<void>[] = [];
   const url = process.env.CTWP_ALERT_WEBHOOK_URL;
   if (url) {
@@ -50,9 +57,9 @@ export async function sendAlert(payload: AlertPayload): Promise<void> {
       headers.Authorization = `Bearer ${key}`;
       headers["X-Webhook-Key"] = key;
     }
-    jobs.push(post(url, headers, payload));
+    jobs.push(post("grokbot", url, headers, payload));
   }
   const ghl = process.env.GHL_WEBHOOK_URL;
-  if (ghl) jobs.push(post(ghl, { "Content-Type": "application/json" }, payload));
+  if (ghl) jobs.push(post("ghl", ghl, { "Content-Type": "application/json" }, payload));
   await Promise.all(jobs);
 }
