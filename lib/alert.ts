@@ -14,7 +14,28 @@ export type AlertPayload = {
   email?: string | null;
   options?: string[];
   message?: string | null;
+  lead_id?: number | null;
+  lead_phone?: string | null;
+  lead_website?: string | null;
 };
+
+/** Normalize a US phone to E.164 (+1XXXXXXXXXX); null if it isn't 10 digits (or 11 starting with 1). */
+export function toE164(raw: string | null | undefined): string | null {
+  const d = (raw ?? "").replace(/\D/g, "");
+  if (d.length === 10) return `+1${d}`;
+  if (d.length === 11 && d.startsWith("1")) return `+${d}`;
+  return null;
+}
+
+async function leadInfo(slug: string | null): Promise<{ id: number | null; phone: string | null; website: string | null }> {
+  const none = { id: null, phone: null, website: null };
+  if (!slug) return none;
+  const res = await rest(`leads?slug=eq.${encodeURIComponent(slug)}&select=id,phone,website&limit=1`);
+  if (!res || !res.ok) return none;
+  const rows = (await res.json().catch(() => [])) as { id: number; phone: string | null; website: string | null }[];
+  const r = rows[0];
+  return r ? { id: r.id ?? null, phone: toE164(r.phone), website: r.website?.trim() || null } : none;
+}
 
 const BOT_RE = /bot|crawl|spider|slurp|preview|facebookexternalhit|embedly|whatsapp|telegram|discord|skype|headless|lighthouse|curl|wget/i;
 
@@ -48,6 +69,10 @@ export async function sendAlert(payload: AlertPayload): Promise<void> {
     const parts = payload.name.trim().split(/\s+/);
     payload = { ...payload, first_name: parts[0], last_name: parts.slice(1).join(" ") || undefined };
   }
+  const lead = await leadInfo(payload.slug);
+  payload = { ...payload, lead_id: lead.id, lead_phone: lead.phone, lead_website: lead.website };
+  // Scans carry no visitor info: use the business phone so GHL matches the mailer contact.
+  if (payload.event === "scan") payload.phone = lead.phone;
   const jobs: Promise<void>[] = [];
   const url = process.env.CTWP_ALERT_WEBHOOK_URL;
   if (url) {
