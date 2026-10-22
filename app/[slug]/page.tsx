@@ -10,8 +10,10 @@ type SP = Promise<Record<string, string | string[] | undefined>>;
 
 async function Personal({ params, searchParams }: { params: Promise<{ slug: string }>; searchParams: SP }) {
   const { slug } = await params;
-  const src = (await searchParams).src;
-  const source: "qr" | "direct" = (Array.isArray(src) ? src[0] : src) === "qr" ? "qr" : "direct";
+  const query = await searchParams;
+  const first = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value) ?? "";
+  const isQr = (value: string | string[] | undefined) => first(value).toLowerCase() === "qr";
+  const source: "qr" | "direct" = isQr(query.src) || isQr(query.utm_medium) ? "qr" : "direct";
   const business = await getBusiness(slug);
   if (!business) notFound();
   const h = await headers();

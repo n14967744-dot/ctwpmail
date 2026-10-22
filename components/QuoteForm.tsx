@@ -44,7 +44,9 @@ export function QuoteForm({ business, slug }: { business: string; slug: string }
   const [source, setSource] = useState<"qr" | "direct">("direct");
 
   useEffect(() => {
-    if (new URLSearchParams(window.location.search).get("src") === "qr") setSource("qr");
+    const query = new URLSearchParams(window.location.search);
+    const isQr = (name: string) => (query.get(name) ?? "").toLowerCase() === "qr";
+    if (isQr("src") || isQr("utm_medium")) setSource("qr");
   }, []);
 
   useEffect(() => {
