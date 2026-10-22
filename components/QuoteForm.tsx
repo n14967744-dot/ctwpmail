@@ -41,6 +41,11 @@ export function QuoteForm({ business, slug }: { business: string; slug: string }
   const [scan, setScan] = useState("");
   const [help, setHelp] = useState<string[]>([]);
   const [contactType, setContactType] = useState<"phone" | "email">("phone");
+  const [source, setSource] = useState<"qr" | "direct">("direct");
+
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("src") === "qr") setSource("qr");
+  }, []);
 
   useEffect(() => {
     const onService = () => setHelp((h) => (h.includes(SERVICE_OPTION) ? h : [...h, SERVICE_OPTION]));
@@ -63,6 +68,7 @@ export function QuoteForm({ business, slug }: { business: string; slug: string }
   return (
     <form action={action} className="form">
       <input type="hidden" name="slug" value={slug} />
+      <input type="hidden" name="source" value={source} />
       <Choices legend="About how many pages do you print each month?" name="pages" options={PAGES} value={pages} onChange={setPages} cls="pages" />
       <Choices legend="Do you print in color?" name="color" options={COLOR} value={color} onChange={setColor} />
       <Choices legend="Do you scan documents?" name="scanning" options={SCAN} value={scan} onChange={setScan} cls="three" />

@@ -14,6 +14,7 @@ export async function submitRequest(_prev: RequestState, form: FormData): Promis
   const contactType = clip(form.get("contactType"), 10) === "email" ? "email" : "phone";
   const business = clip(form.get("business"), 160);
   const slug = clip(form.get("slug"), 120);
+  const source = clip(form.get("source"), 10) === "qr" ? "qr" : "direct";
 
   if (!name) return { ok: false, error: "Please add your name." };
   if (contactType === "email" ? !/^\S+@\S+\.\S+$/.test(contact) : contact.replace(/\D/g, "").length < 10)
@@ -39,6 +40,7 @@ export async function submitRequest(_prev: RequestState, form: FormData): Promis
       event: "form_submit",
       business: business || null,
       slug: slug || null,
+      source,
       scan_count: await scanCount(slug || null),
       time_iso: new Date().toISOString(),
       name,

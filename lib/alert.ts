@@ -5,6 +5,8 @@ export type AlertPayload = {
   event: "scan" | "form_submit";
   business: string | null;
   slug: string | null;
+  /** "qr" when the visit URL carried ?src=qr (printed QR code), else "direct". */
+  source?: "qr" | "direct";
   scan_count: number | null;
   time_iso: string;
   name?: string;
@@ -57,7 +59,7 @@ export async function scanCount(slug: string | null): Promise<number | null> {
 async function post(label: string, url: string, headers: Record<string, string>, payload: AlertPayload) {
   try {
     const res = await fetch(url, { method: "POST", headers, body: JSON.stringify(payload), signal: AbortSignal.timeout(5000), cache: "no-store" });
-    console.log(`[alert] ${label} ${payload.event} status=${res.status}`);
+    console.log(`[alert] ${label} ${payload.event} source=${payload.source ?? "-"} status=${res.status}`);
   } catch (e) {
     console.error(`[alert] ${label} ${payload.event} error=${e instanceof Error ? e.name + ": " + e.message : "unknown"}`);
   }
