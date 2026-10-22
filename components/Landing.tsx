@@ -53,7 +53,7 @@ export function Landing({ business }: { business: Business }) {
             <p className="eyebrow">Leroy stopped by</p>
             <h1>{name.replace(/\.$/, "")}.</h1>
             <p className="heroLead">CTWP has helped dental offices across Texas since 1979. Here&rsquo;s what we can do for yours.</p>
-            <a href="#quote" className="btn btnRed btnBig">Start {possessive(short)} quote</a>
+            <a href="#quote" data-track="Quote button" className="btn btnRed btnBig">Start {possessive(short)} quote</a>
           </div>
           <div className="heroSpacer" />
         </section>
@@ -95,7 +95,7 @@ export function Landing({ business }: { business: Business }) {
                   <strong>{OFFICE_ADDRESS}</strong>
                   <span>{OFFICE_HOURS}</span>
                 </div>
-                <a href={directions} target="_blank" rel="noopener" className="btn btnOutline btnFull">Get directions</a>
+                <a href={directions} target="_blank" rel="noopener" data-track="Directions" className="btn btnOutline btnFull">Get directions</a>
               </div>
             </div>
 
@@ -117,7 +117,7 @@ export function Landing({ business }: { business: Business }) {
                 <p className="repAddr">410 E. Villa Maria Rd<br />Bryan, TX 77801</p>
               </div>
             </div>
-            <a href={PHONE_HREF} className="btn btnNavy btnFull btnBig">Call Ryan · {PHONE_DISPLAY}</a>
+            <a href={PHONE_HREF} data-track="Call button" className="btn btnNavy btnFull btnBig">Call Ryan · {PHONE_DISPLAY}</a>
           </div>
         </section>
 
@@ -135,7 +135,7 @@ export function Landing({ business }: { business: Business }) {
         <div className="wrap">
           <img src={IMAGES.logoWide} alt="CTWP, Your Copier Company" className="footLogo" />
           <p>{OFFICE_ADDRESS}</p>
-          <p><a href={PHONE_HREF}>{PHONE_DISPLAY}</a> · {OFFICE_HOURS}</p>
+          <p><a href={PHONE_HREF} data-track="Call (footer)">{PHONE_DISPLAY}</a> · {OFFICE_HOURS}</p>
           <p className="copy">Serving Texas offices since 1979.</p>
         </div>
       </footer>

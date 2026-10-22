@@ -40,10 +40,10 @@ export function Header() {
           <img src={IMAGES.logo} alt="CTWP, est. 1979" className="logo" />
         </a>
         <div className="actions">
-          <a href="#quote" className={`quoteChip ${pastHero ? "show" : ""}`} tabIndex={pastHero ? 0 : -1} aria-hidden={!pastHero}>
+          <a href="#quote" data-track="Quote chip" className={`quoteChip ${pastHero ? "show" : ""}`} tabIndex={pastHero ? 0 : -1} aria-hidden={!pastHero}>
             Get my quote
           </a>
-          <a href={PHONE_HREF} className="callPill" aria-label={`Call us at ${PHONE_DISPLAY}`}>
+          <a href={PHONE_HREF} data-track="Call (header)" className="callPill" aria-label={`Call us at ${PHONE_DISPLAY}`}>
             <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden>
               <path d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2a1 1 0 011-.25 11.4 11.4 0 003.6.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1z" />
             </svg>
@@ -59,7 +59,7 @@ export function Header() {
           {LINKS.map(([href, label]) => (
             <a key={href} href={href}>{label}</a>
           ))}
-          <a href={PHONE_HREF} className="menuCall">Call {PHONE_DISPLAY}</a>
+          <a href={PHONE_HREF} data-track="Call (menu)" className="menuCall">Call {PHONE_DISPLAY}</a>
         </nav>
       )}
     </header>

@@ -1,8 +1,10 @@
 "use server";
 
+import { headers } from "next/headers";
 import { after } from "next/server";
 import { rest } from "@/lib/supabase";
 import { scanCount, sendAlert, sendTelegram, type AlertPayload } from "@/lib/alert";
+import { advanceStage, geo, insertEvent, leadId, parseUA, recordingId } from "@/lib/track";
 
 export type RequestState = { ok: boolean; error?: string };
 
@@ -29,14 +31,25 @@ export async function submitRequest(_prev: RequestState, form: FormData): Promis
     contactType,
   };
 
+  const lead_id = await leadId(slug || null);
   const res = await rest("landing_requests", {
     method: "POST",
     headers: { Prefer: "return=minimal" },
-    body: JSON.stringify({ slug: slug || null, business: business || null, answers, name, contact }),
+    body: JSON.stringify({ slug: slug || null, business: business || null, answers, name, contact, source, lead_id }),
   });
   if (!res || !res.ok) return { ok: false, error: `Something went wrong. Please call us at (210) 284-3727.` };
   const options = answers.help;
+  const h = await headers();
   after(async () => {
+    if (slug) {
+      await Promise.all([
+        insertEvent("form_submit", h, {
+          slug, source, session_id: sessionId || null, referrer: null, screen: null,
+          device: parseUA(h.get("user-agent") ?? ""), ...geo(h),
+        }, { form_started: true, form_submitted: true }),
+        advanceStage(slug, "requested_info"),
+      ]);
+    }
     const payload: AlertPayload = {
       event: "form_submit",
       business: business || null,
@@ -51,7 +64,7 @@ export async function submitRequest(_prev: RequestState, form: FormData): Promis
       message: [answers.pages && `Pages/mo: ${answers.pages}`, answers.color && `Color: ${answers.color}`, answers.scanning && `Scanning: ${answers.scanning}`]
         .filter(Boolean).join(" · ") || null,
     };
-    await Promise.all([sendAlert(payload), sendTelegram(payload, sessionId)]);
+    await Promise.all([sendAlert(payload), sendTelegram(payload, recordingId(sessionId || null))]);
   });
   return { ok: true };
 }

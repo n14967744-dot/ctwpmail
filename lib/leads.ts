@@ -11,6 +11,7 @@ export async function getBusiness(slug: string): Promise<Business | null> {
   return rows[0] ?? null;
 }
 
+/** Counts the scan (same as increment_qr_scans) and advances the lead stage to "scanned" (never backward). */
 export async function recordView(slug: string): Promise<void> {
-  await rest("rpc/increment_qr_scans", { method: "POST", body: JSON.stringify({ p_slug: slug }) });
+  await rest("rpc/log_scan", { method: "POST", body: JSON.stringify({ p_slug: slug }) });
 }

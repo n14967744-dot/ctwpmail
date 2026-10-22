@@ -83,14 +83,12 @@ function ctTime(iso: string): string {
 }
 
 /** Best-effort Telegram message to Nick. Skips silently if unset; never throws; 5s timeout. Never logs the token. */
-export async function sendTelegram(payload: AlertPayload, sessionId?: string | null): Promise<void> {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
-  if (!token || !chatId) return;
+export async function sendTelegram(payload: AlertPayload, sessionId?: string | null, extra: string[] = []): Promise<void> {
   const biz = payload.business ?? "(unknown business)";
   const lines: string[] = [];
   if (payload.event === "scan") {
     lines.push(`📬 Scan: ${biz} (${payload.slug ?? "-"}), source ${payload.source ?? "direct"}, scan #${payload.scan_count ?? "?"}, ${ctTime(payload.time_iso)}`);
+    lines.push(...extra);
   } else {
     lines.push(`📝 Form: ${biz}${payload.slug ? ` (${payload.slug})` : ""}`);
     if (payload.name) lines.push(`Name: ${payload.name}`);
@@ -101,17 +99,25 @@ export async function sendTelegram(payload: AlertPayload, sessionId?: string | n
     lines.push(`Source ${payload.source ?? "direct"}, ${ctTime(payload.time_iso)}`);
   }
   lines.push(`Recording: ${replayLink(sessionId, payload.slug)}`);
+  await telegramText(lines.join("\n"), payload.event);
+}
+
+/** Send plain text to Nick's Telegram. Skips silently if unset; never throws; 5s timeout. Never logs the token. */
+export async function telegramText(text: string, label: string): Promise<void> {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chatId) return;
   try {
     const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ chat_id: chatId, text: lines.join("\n"), disable_web_page_preview: true }),
+      body: JSON.stringify({ chat_id: chatId, text, disable_web_page_preview: true }),
       signal: AbortSignal.timeout(5000),
       cache: "no-store",
     });
-    console.log(`[alert] telegram ${payload.event} status=${res.status}`);
+    console.log(`[alert] telegram ${label} status=${res.status}`);
   } catch (e) {
-    console.error(`[alert] telegram ${payload.event} error=${e instanceof Error ? e.name : "unknown"}`);
+    console.error(`[alert] telegram ${label} error=${e instanceof Error ? e.name : "unknown"}`);
   }
 }
 

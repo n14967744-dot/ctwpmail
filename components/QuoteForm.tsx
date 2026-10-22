@@ -71,7 +71,7 @@ export function QuoteForm({ business, slug }: { business: string; slug: string }
   return (
     <form
       action={(fd: FormData) => {
-        try { fd.set("ph_session", posthog.get_session_id?.() ?? ""); } catch {}
+        try { fd.set("ph_session", window.__ctwpSid || posthog.get_session_id?.() || ""); } catch {}
         return action(fd);
       }}
       className="form"
