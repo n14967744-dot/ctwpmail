@@ -1,0 +1,41 @@
+:root {
+  --navy: #0b2a5b;
+  --red: #c8102e;
+  --red-hover: #a50d26;
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background: #fff;
+  color: var(--navy);
+  font-family: var(--font-inter), Inter, "Segoe UI", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 3px solid var(--navy);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}

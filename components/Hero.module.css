@@ -1,0 +1,261 @@
+.hero {
+  position: relative;
+  scroll-margin-top: 80px;
+  padding: 28px 0 112px;
+}
+
+.inner {
+  width: min(1160px, calc(100% - 32px));
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.copy {
+  display: contents;
+}
+
+.pill {
+  order: 2;
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0;
+  padding: 7px 12px;
+  border-radius: 999px;
+  background: var(--navy);
+  color: #fff;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.3;
+}
+
+.headline {
+  order: 1;
+  margin: 0;
+  color: var(--navy);
+  font-size: clamp(2rem, 8.4vw, 2.55rem);
+  font-weight: 800;
+  letter-spacing: -0.038em;
+  line-height: 1.05;
+}
+
+.sub {
+  order: 3;
+  margin: 2px 0 0;
+  max-width: 38ch;
+  color: #41536f;
+  font-size: 1.02rem;
+  font-weight: 450;
+  line-height: 1.5;
+}
+
+.actions {
+  order: 4;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+  margin-top: 6px;
+}
+
+.primary,
+.secondary,
+.dockCall,
+.dockSave {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: 999px;
+  font-size: 0.98rem;
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  text-decoration: none;
+  text-align: center;
+}
+
+.primary,
+.dockSave {
+  background: var(--red);
+  color: #fff;
+  box-shadow: 0 8px 18px rgba(200, 16, 46, 0.18);
+}
+
+.primary:hover,
+.dockSave:hover {
+  background: var(--red-hover);
+}
+
+.secondary,
+.dockCall {
+  background: #fff;
+  color: var(--navy);
+  border: 1.5px solid var(--navy);
+}
+
+.secondary:hover,
+.dockCall:hover {
+  background: #f4f7fb;
+}
+
+.trust {
+  order: 6;
+  display: grid;
+  gap: 12px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.trust li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--navy);
+  font-size: 0.95rem;
+  font-weight: 650;
+  letter-spacing: -0.011em;
+}
+
+.trustIcon {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: #eef3fa;
+  color: var(--navy);
+}
+
+.trustIcon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.media {
+  order: 5;
+  position: relative;
+  margin: 4px 0 0;
+  aspect-ratio: 4 / 5;
+  border-radius: 24px;
+  overflow: hidden;
+  background:
+    radial-gradient(120% 80% at 50% 0%, #f7f9fc 0%, #e7eef6 70%);
+  box-shadow:
+    0 0 0 1px rgba(11, 42, 91, 0.08),
+    0 18px 40px rgba(11, 42, 91, 0.12);
+}
+
+.photo {
+  object-fit: cover;
+  object-position: center 22%;
+}
+
+.dock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 30;
+  display: flex;
+  gap: 10px;
+  padding: 10px 16px calc(10px + env(safe-area-inset-bottom));
+  background: rgba(255, 255, 255, 0.94);
+  backdrop-filter: blur(14px);
+  border-top: 1px solid rgba(11, 42, 91, 0.08);
+  box-shadow: 0 -10px 30px rgba(11, 42, 91, 0.08);
+}
+
+.dockCall,
+.dockSave {
+  flex: 1;
+  min-width: 0;
+}
+
+.dockIcon {
+  width: 16px;
+  height: 16px;
+}
+
+@media (min-width: 900px) {
+  .hero {
+    padding: 64px 0 88px;
+  }
+
+  .inner {
+    width: min(1160px, calc(100% - 64px));
+    display: grid;
+    grid-template-columns: minmax(0, 1.16fr) minmax(280px, 0.84fr);
+    gap: 56px;
+    align-items: center;
+  }
+
+  .copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 18px;
+  }
+
+  .pill,
+  .headline,
+  .sub,
+  .actions,
+  .trust,
+  .media {
+    order: 0;
+  }
+
+  .headline {
+    max-width: 15em;
+    font-size: clamp(2.7rem, 3.45vw, 3.45rem);
+  }
+
+  .actions a {
+    width: auto;
+  }
+
+  .sub {
+    margin: 0;
+    font-size: 1.08rem;
+  }
+
+  .actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin-top: 6px;
+  }
+
+  .trust {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 22px;
+    margin: 10px 0 0;
+  }
+
+  .media {
+    margin: 0;
+    aspect-ratio: 5 / 6;
+    border-radius: 28px;
+    min-height: 460px;
+  }
+
+  .dock {
+    display: none;
+  }
+}
+
+@media (max-width: 899px) {
+  .secondary {
+    font-size: 0.94rem;
+  }
+}
