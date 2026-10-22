@@ -21,7 +21,7 @@ html {
 
 body {
   min-height: 100vh;
-  background: #fff;
+  background: #f6f4ef;
   color: var(--navy);
   font-family: var(--font-inter), Inter, "Segoe UI", sans-serif;
   -webkit-font-smoothing: antialiased;

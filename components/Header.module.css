@@ -2,163 +2,104 @@
   position: sticky;
   top: 0;
   z-index: 40;
-  background: rgba(255, 255, 255, 0.92);
-  backdrop-filter: blur(14px);
-  border-bottom: 1px solid rgba(11, 42, 91, 0.08);
-  box-shadow:
-    0 1px 2px rgba(11, 42, 91, 0.04),
-    0 10px 28px rgba(11, 42, 91, 0.06);
+  background: #f6f4ef;
+  border-bottom: 1px solid rgba(11, 42, 91, 0.06);
 }
 
-.inner {
-  width: min(1160px, calc(100% - 32px));
-  margin: 0 auto;
-  min-height: 68px;
+.bar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
+  gap: 8px;
+  min-height: 64px;
+  padding: 8px 12px;
+}
+
+.menu {
+  flex: 0 0 auto;
+}
+
+.hamburger {
+  width: 40px;
+  height: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--navy);
+  cursor: pointer;
+}
+
+.hamburgerIcon {
+  width: 24px;
+  height: 24px;
 }
 
 .brand {
   display: flex;
   align-items: center;
-  flex: 0 0 auto;
+  min-width: 0;
+  margin-right: auto;
   line-height: 0;
 }
 
-.logoWide,
-.logoMark {
-  width: auto;
-  height: auto;
-}
-
-.logoWide {
-  display: none;
-  height: 52px;
-}
-
-.logoMark {
+.logo {
   display: block;
-  height: 46px;
-  width: 46px;
+  width: auto;
+  height: 34px;
+  max-width: 118px;
+  object-fit: contain;
+  object-position: left center;
 }
 
-.desktop {
-  display: none;
-  align-items: center;
-  gap: 18px;
-}
-
-.tagline {
-  margin: 0;
-  color: #4d5f7c;
-  font-size: 0.95rem;
-  font-weight: 560;
-  letter-spacing: -0.011em;
-  white-space: nowrap;
-}
-
-.rule {
-  display: none;
-  width: 1px;
-  height: 18px;
-  background: rgba(11, 42, 91, 0.16);
-}
-
-.phone {
-  display: inline-flex;
+.actions {
+  display: flex;
   align-items: center;
   gap: 8px;
-  color: var(--navy);
-  text-decoration: none;
-  white-space: nowrap;
-}
-
-.phoneIcon {
-  width: 18px;
-  height: 18px;
   flex: 0 0 auto;
 }
 
-.phoneText {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-}
-
-.phoneName {
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-}
-
-.phoneNumber {
-  font-size: 0.98rem;
-  font-weight: 700;
-  letter-spacing: -0.015em;
-}
-
-.phone:hover .phoneNumber {
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-
-.cta,
-.panelPrimary,
-.panelSecondary {
+.review {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
-  padding: 0 18px;
+  height: 36px;
+  padding: 0 12px;
   border-radius: 999px;
-  font-size: 0.95rem;
-  font-weight: 700;
+  background: var(--navy);
+  color: #fff;
+  font-size: 13px;
+  font-weight: 650;
   letter-spacing: -0.015em;
   text-decoration: none;
   white-space: nowrap;
 }
 
-.cta,
-.panelPrimary {
-  background: var(--red);
-  color: #fff;
-  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.2) inset;
+.review:hover {
+  background: #081e42;
 }
 
-.cta:hover,
-.panelPrimary:hover {
-  background: var(--red-hover);
-}
-
-.mobile {
-  display: flex;
-  align-items: center;
-  gap: 2px;
-}
-
-.iconButton {
-  width: 44px;
-  height: 44px;
+.call {
+  width: 36px;
+  height: 36px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 0;
   border-radius: 999px;
-  background: transparent;
-  color: var(--navy);
+  background: var(--navy);
+  color: #fff;
   text-decoration: none;
-  cursor: pointer;
 }
 
-.iconButton:hover {
-  background: #f2f5fa;
+.call:hover {
+  background: #081e42;
 }
 
-.icon {
-  width: 22px;
-  height: 22px;
+.callIcon {
+  width: 16px;
+  height: 16px;
 }
 
 .panel {
@@ -167,95 +108,46 @@
   left: 0;
   right: 0;
   display: grid;
-  gap: 10px;
-  padding: 8px 16px 18px;
-  background: #fff;
+  background: #f6f4ef;
   border-bottom: 1px solid rgba(11, 42, 91, 0.08);
-  box-shadow: 0 18px 40px rgba(11, 42, 91, 0.12);
+  box-shadow: 0 16px 32px rgba(11, 42, 91, 0.08);
 }
 
 .panel[hidden] {
   display: none;
 }
 
-.panelTagline {
-  margin: 8px 0 0;
-  color: #4d5f7c;
-  font-size: 0.92rem;
-  font-weight: 600;
-}
-
-.panelPhone {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 10px 2px;
+.panel a {
+  padding: 16px 20px;
   color: var(--navy);
+  font-size: 1.05rem;
+  font-weight: 600;
   text-decoration: none;
 }
 
-.panelPhoneIcon {
-  width: 20px;
-  height: 20px;
+.panel a + a {
+  border-top: 1px solid rgba(11, 42, 91, 0.08);
 }
 
-.panelPhoneName,
-.panelPhoneNumber {
-  display: block;
-}
-
-.panelPhoneName {
-  font-size: 0.78rem;
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #5c6e8c;
-}
-
-.panelPhoneNumber {
-  font-size: 1.15rem;
-  font-weight: 750;
-  letter-spacing: -0.02em;
-}
-
-.panelPrimary,
-.panelSecondary {
-  width: 100%;
-}
-
-.panelSecondary {
-  background: #fff;
-  color: var(--navy);
-  border: 1.5px solid var(--navy);
-}
-
-.panelSecondary:hover {
-  background: #f4f7fb;
-}
-
-@media (min-width: 900px) {
-  .inner {
-    width: min(1160px, calc(100% - 64px));
-    min-height: 80px;
+@media (min-width: 480px) {
+  .bar {
+    padding-inline: 20px;
+    gap: 12px;
   }
 
-  .logoWide {
-    display: block;
+  .logo {
+    max-width: 240px;
+    height: 44px;
   }
 
-  .logoMark,
-  .mobile {
-    display: none;
+  .review {
+    height: 40px;
+    padding: 0 16px;
+    font-size: 15px;
   }
 
-  .desktop {
-    display: flex;
-  }
-}
-
-@media (min-width: 1100px) {
-  .tagline,
-  .rule {
-    display: block;
+  .call {
+    width: 40px;
+    height: 40px;
   }
 }

@@ -1,6 +1,6 @@
 export const PHONE_DISPLAY = "(210) 284-3727";
-export const PHONE_HREF = "tel:+12102843727";
-export const DEFAULT_PRACTICE = "Your Practice";
+export const PHONE_HREF = "tel:2102843727";
+export const DEFAULT_PRACTICE = "your practice";
 
 export function practiceFromParam(value: string | string[] | undefined): string {
   const raw = Array.isArray(value) ? value[0] : value;

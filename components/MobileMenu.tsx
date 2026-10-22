@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useId, useState } from "react";
-import { CloseIcon, MenuIcon, PhoneIcon } from "./icons";
+import { CloseIcon, MenuIcon } from "./icons";
 import { PHONE_DISPLAY, PHONE_HREF } from "@/lib/site";
 import styles from "./Header.module.css";
 
@@ -19,42 +19,23 @@ export function MobileMenu() {
   }, [open]);
 
   return (
-    <div className={styles.mobile}>
-      <a
-        className={styles.iconButton}
-        href={PHONE_HREF}
-        aria-label={`Call Ryan at ${PHONE_DISPLAY}`}
-      >
-        <PhoneIcon className={styles.icon} />
-      </a>
+    <div className={styles.menu}>
       <button
         type="button"
-        className={styles.iconButton}
+        className={styles.hamburger}
         aria-expanded={open}
         aria-controls={panelId}
         aria-label={open ? "Close menu" : "Open menu"}
         onClick={() => setOpen((value) => !value)}
       >
-        {open ? (
-          <CloseIcon className={styles.icon} />
-        ) : (
-          <MenuIcon className={styles.icon} />
-        )}
+        {open ? <CloseIcon className={styles.hamburgerIcon} /> : <MenuIcon className={styles.hamburgerIcon} />}
       </button>
       <div id={panelId} className={styles.panel} hidden={!open}>
-        <p className={styles.panelTagline}>Your local copier company</p>
-        <a className={styles.panelPhone} href={PHONE_HREF} onClick={() => setOpen(false)}>
-          <PhoneIcon className={styles.panelPhoneIcon} />
-          <span>
-            <span className={styles.panelPhoneName}>Ryan</span>
-            <span className={styles.panelPhoneNumber}>{PHONE_DISPLAY}</span>
-          </span>
+        <a href="#review" onClick={() => setOpen(false)}>
+          Get my review
         </a>
-        <a className={styles.panelPrimary} href="#save" onClick={() => setOpen(false)}>
-          See what I could save
-        </a>
-        <a className={styles.panelSecondary} href="#solutions" onClick={() => setOpen(false)}>
-          Explore solutions for my practice
+        <a href={PHONE_HREF} onClick={() => setOpen(false)}>
+          Call {PHONE_DISPLAY}
         </a>
       </div>
     </div>

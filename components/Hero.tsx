@@ -1,67 +1,38 @@
 import Image from "next/image";
-import { ClockIcon, PhoneIcon, PinIcon, RefreshIcon } from "./icons";
-import { PHONE_DISPLAY, PHONE_HREF } from "@/lib/site";
 import styles from "./Hero.module.css";
-
-const trust = [
-  { icon: PinIcon, label: "Local service since 1979" },
-  { icon: ClockIcon, label: "Fast local response" },
-  { icon: RefreshIcon, label: "No auto-renewal traps" },
-];
 
 export function Hero({ practice }: { practice: string }) {
   return (
-    <section className={styles.hero} id="save" aria-labelledby="hero-heading">
-      <div className={styles.inner}>
+    <>
+      <section className={styles.hero} id="review" aria-labelledby="hero-heading">
+        <Image
+          className={styles.photo}
+          src="/leroy.png"
+          alt="Leroy, CTWP's Yorkie mascot"
+          fill
+          priority
+          sizes="100vw"
+        />
+        <div className={styles.shade} aria-hidden="true" />
         <div className={styles.copy}>
-          <p className={styles.pill}>Prepared for {practice}</p>
           <h1 id="hero-heading" className={styles.headline}>
-            See what your practice could save, and what could work better.
+            See what {practice} could save on printing.
           </h1>
           <p className={styles.sub}>
-            Get a custom print &amp; copier assessment tailored to your needs. Takes 2 minutes.
+            Free 10-minute copier and print-cost review from your local CTWP team.
           </p>
-          <div className={styles.actions}>
-            <a className={styles.primary} href="#save">
-              See what I could save
-            </a>
-            <a className={styles.secondary} href="#solutions">
-              Explore solutions for my practice
-            </a>
-          </div>
-          <ul className={styles.trust}>
-            {trust.map(({ icon: Icon, label }) => (
-              <li key={label}>
-                <span className={styles.trustIcon}>
-                  <Icon />
-                </span>
-                {label}
-              </li>
-            ))}
-          </ul>
+          <a className={styles.cta} href="#review">
+            Get my review
+          </a>
         </div>
-
-        <figure className={styles.media} id="solutions">
-          <Image
-            className={styles.photo}
-            src="/leroy.png"
-            alt="Leroy, CTWP's Yorkie mascot"
-            fill
-            priority
-            sizes="(max-width: 899px) 92vw, 480px"
-          />
-        </figure>
-      </div>
-
-      <div className={styles.dock}>
-        <a className={styles.dockCall} href={PHONE_HREF}>
-          <PhoneIcon className={styles.dockIcon} />
-          Call
-        </a>
-        <a className={styles.dockSave} href="#save">
-          See what I could save
-        </a>
-      </div>
-    </section>
+      </section>
+      <section className={styles.eyebrow} aria-label="Local trust">
+        <p className={styles.kicker}>
+          <span className={styles.accent} aria-hidden="true" />
+          Local since 1979
+        </p>
+        <p className={styles.trusted}>Trusted by Brazos Valley offices</p>
+      </section>
+    </>
   );
 }

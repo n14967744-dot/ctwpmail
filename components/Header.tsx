@@ -1,48 +1,32 @@
 import Image from "next/image";
 import { PhoneIcon } from "./icons";
 import { MobileMenu } from "./MobileMenu";
-import { PHONE_DISPLAY, PHONE_HREF } from "@/lib/site";
+import { PHONE_HREF } from "@/lib/site";
 import styles from "./Header.module.css";
 
 export function Header() {
   return (
     <header className={styles.header}>
-      <div className={styles.inner}>
-        <a className={styles.brand} href="#save">
+      <div className={styles.bar}>
+        <MobileMenu />
+        <a className={styles.brand} href="#review">
           <Image
-            className={styles.logoWide}
+            className={styles.logo}
             src="/ctwp-header-logo.png"
             alt="CTWP Your Copier Company"
             width={720}
             height={180}
             priority
           />
-          <Image
-            className={styles.logoMark}
-            src="/ctwp-square-logo.png"
-            alt="CTWP"
-            width={512}
-            height={512}
-            priority
-          />
         </a>
-
-        <div className={styles.desktop}>
-          <p className={styles.tagline}>Your local copier company</p>
-          <span className={styles.rule} aria-hidden="true" />
-          <a className={styles.phone} href={PHONE_HREF}>
-            <PhoneIcon className={styles.phoneIcon} />
-            <span className={styles.phoneText}>
-              <span className={styles.phoneName}>Ryan</span>
-              <span className={styles.phoneNumber}>{PHONE_DISPLAY}</span>
-            </span>
+        <div className={styles.actions}>
+          <a className={styles.review} href="#review">
+            Get my review
           </a>
-          <a className={styles.cta} href="#save">
-            See what I could save
+          <a className={styles.call} href={PHONE_HREF} aria-label="Call (210) 284-3727">
+            <PhoneIcon className={styles.callIcon} />
           </a>
         </div>
-
-        <MobileMenu />
       </div>
     </header>
   );
