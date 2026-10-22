@@ -1,6 +1,8 @@
 "use server";
 
+import { after } from "next/server";
 import { rest } from "@/lib/supabase";
+import { scanCount, sendAlert } from "@/lib/alert";
 
 export type RequestState = { ok: boolean; error?: string };
 
@@ -31,5 +33,21 @@ export async function submitRequest(_prev: RequestState, form: FormData): Promis
     body: JSON.stringify({ slug: slug || null, business: business || null, answers, name, contact }),
   });
   if (!res || !res.ok) return { ok: false, error: `Something went wrong. Please call us at (210) 284-3727.` };
+  const options = answers.help;
+  after(async () => {
+    sendAlert({
+      event: "form_submit",
+      business: business || null,
+      slug: slug || null,
+      scan_count: await scanCount(slug || null),
+      time_iso: new Date().toISOString(),
+      name,
+      phone: contactType === "phone" ? contact : null,
+      email: contactType === "email" ? contact : null,
+      options,
+      message: [answers.pages && `Pages/mo: ${answers.pages}`, answers.color && `Color: ${answers.color}`, answers.scanning && `Scanning: ${answers.scanning}`]
+        .filter(Boolean).join(" · ") || null,
+    });
+  });
   return { ok: true };
 }

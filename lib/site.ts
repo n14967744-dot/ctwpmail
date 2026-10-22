@@ -8,7 +8,6 @@ export const DEMO_SLUG = "universitydentalassociates";
 /* Swap images here. Drop a new file in /public/dental and point to it. */
 export const IMAGES = {
   hero: "/dental/hero.jpg",
-  parallax: "/dental/leroy-parallax.jpg",
   logo: "/ctwp-mark.webp",
   logoWide: "/ctwp-header-logo.png",
 };

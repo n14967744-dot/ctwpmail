@@ -1,5 +1,4 @@
 import { Header } from "./Header";
-import { Parallax } from "./Parallax";
 import { QuoteForm } from "./QuoteForm";
 import { ServiceButton } from "./ServiceButton";
 import {
@@ -59,13 +58,11 @@ export function Landing({ business }: { business: Business }) {
           <div className="heroSpacer" />
         </section>
 
-        <Parallax src={IMAGES.parallax} alt="Leroy in his dental coat sitting on a copier" />
-
         <section id="solutions" className="section cream">
           <div className="wrap">
             <p className="kicker">For dental offices</p>
-            <h2>Everything your front desk needs.</h2>
-            <p className="sub">The everyday paperwork, handled. Here&rsquo;s what offices like yours use us for.</p>
+            <h2>Dental offices overpay for printing. Yours won&rsquo;t.</h2>
+            <p className="sub">We set up a system around how your practice actually works, at a fair price, with local techs a phone call away.</p>
             <div className="cards">
               {FEATURES.map(([icon, title, a, b]) => (
                 <article key={title} className="card">
