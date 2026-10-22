@@ -1,30 +1,19 @@
 import { Suspense } from "react";
-import { Header } from "@/components/Header";
-import { Hero } from "@/components/Hero";
-import { DEFAULT_PRACTICE, practiceFromParam } from "@/lib/site";
+import { connection } from "next/server";
+import { Landing } from "@/components/Landing";
+import { getBusiness } from "@/lib/leads";
+import { DEMO_BUSINESS, DEMO_SLUG } from "@/lib/site";
 
-export default function Page({
-  searchParams,
-}: {
-  searchParams: Promise<{ practice?: string | string[] }>;
-}) {
-  return (
-    <>
-      <Header />
-      <main>
-        <Suspense fallback={<Hero practice={DEFAULT_PRACTICE} />}>
-          <PracticeHero searchParams={searchParams} />
-        </Suspense>
-      </main>
-    </>
-  );
+async function Demo() {
+  await connection();
+  const business = (await getBusiness(DEMO_SLUG)) ?? DEMO_BUSINESS;
+  return <Landing business={business} />;
 }
 
-async function PracticeHero({
-  searchParams,
-}: {
-  searchParams: Promise<{ practice?: string | string[] }>;
-}) {
-  const params = await searchParams;
-  return <Hero practice={practiceFromParam(params.practice)} />;
+export default function Page() {
+  return (
+    <Suspense fallback={<div style={{ minHeight: "100svh" }} />}>
+      <Demo />
+    </Suspense>
+  );
 }

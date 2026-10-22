@@ -1,27 +1,21 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Fraunces, Outfit } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  subsets: ["latin"],
-  display: "swap",
-  variable: "--font-inter",
-});
+const fraunces = Fraunces({ subsets: ["latin"], display: "swap", variable: "--font-serif", weight: ["500", "600", "700"] });
+const outfit = Outfit({ subsets: ["latin"], display: "swap", variable: "--font-sans", weight: ["400", "500", "600", "700"] });
 
 export const metadata: Metadata = {
   title: "CTWP | Your Copier Company",
-  description:
-    "See what your practice could save, and what could work better. A custom print and copier assessment from your local copier company in Bryan/College Station.",
+  description: "Your local copier company in Bryan, Texas since 1979.",
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export const viewport: Viewport = { width: "device-width", initialScale: 1, themeColor: "#ffffff" };
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={inter.variable}>
-      <body className={inter.className}>{children}</body>
+    <html lang="en" className={`${fraunces.variable} ${outfit.variable}`}>
+      <body>{children}</body>
     </html>
   );
 }
