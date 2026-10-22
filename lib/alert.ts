@@ -31,19 +31,28 @@ export async function scanCount(slug: string | null): Promise<number | null> {
   return rows[0]?.qr_scans ?? null;
 }
 
-/** Fire-and-forget webhook. Skips silently if unset; never throws; 3s timeout. */
-export async function sendAlert(payload: AlertPayload): Promise<void> {
-  const url = process.env.CTWP_ALERT_WEBHOOK_URL;
-  if (!url) return;
-  const key = process.env.CTWP_ALERT_WEBHOOK_KEY ?? "";
-  const headers: Record<string, string> = { "Content-Type": "application/json" };
-  if (key) {
-    headers.Authorization = `Bearer ${key}`;
-    headers["X-Webhook-Key"] = key;
-  }
+async function post(url: string, headers: Record<string, string>, payload: AlertPayload) {
   try {
     await fetch(url, { method: "POST", headers, body: JSON.stringify(payload), signal: AbortSignal.timeout(3000), cache: "no-store" });
   } catch {
     /* ignore */
   }
+}
+
+/** Fire-and-forget webhooks (Grok Bot alert + GoHighLevel). Each skips silently if unset; never throws; 3s timeout. */
+export async function sendAlert(payload: AlertPayload): Promise<void> {
+  const jobs: Promise<void>[] = [];
+  const url = process.env.CTWP_ALERT_WEBHOOK_URL;
+  if (url) {
+    const key = process.env.CTWP_ALERT_WEBHOOK_KEY ?? "";
+    const headers: Record<string, string> = { "Content-Type": "application/json" };
+    if (key) {
+      headers.Authorization = `Bearer ${key}`;
+      headers["X-Webhook-Key"] = key;
+    }
+    jobs.push(post(url, headers, payload));
+  }
+  const ghl = process.env.GHL_WEBHOOK_URL;
+  if (ghl) jobs.push(post(ghl, { "Content-Type": "application/json" }, payload));
+  await Promise.all(jobs);
 }
