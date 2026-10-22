@@ -16,12 +16,12 @@ const I = {
 };
 
 const FEATURES: [keyof typeof I, string, string, string][] = [
-  ["card", "Insurance cards in one scan.", "Copy the front and back onto a single page.", "No more flipping cards and stapling sheets."],
-  ["lock", "Patient privacy, built in.", "Sensitive papers wait until you’re at the machine.", "Nothing sits in the tray for anyone to see."],
-  ["folder", "Scans that file themselves.", "Send forms straight to the right folder with one tap.", "Your team stops renaming and dragging files."],
-  ["packet", "Patient packets, ready to go.", "Print two-sided and stapled, right at the front desk.", "New patients get a clean, professional packet."],
-  ["color", "Color only when it counts.", "Print in color when it matters, black and white the rest of the time.", "Your bill reflects what you actually use."],
-  ["search", "Find any form in seconds.", "Search old scans by patient name or date.", "No more digging through folders."],
+  ["card", "Insurance cards, front and back, in one scan", "Lay the card on the glass and get both sides on a single page, ready for the chart.", "Your front desk checks patients in faster, and every card copy comes out clean and readable."],
+  ["lock", "Patient privacy built into every print job", "Sensitive documents stay in the queue until you sign in at the machine to release them.", "Charts, statements and lab results never sit in the tray where a passing patient could see them."],
+  ["folder", "Scans that file themselves", "Set up a one-touch button for each form type and the copier sends the scan straight to the right folder, already named.", "Your team spends that time with patients, not sorting files on a computer."],
+  ["packet", "Patient packets ready at the front desk", "Print intake forms two-sided, collated and stapled right next to the check-in window.", "Every new patient gets a neat, professional packet the moment they walk in."],
+  ["color", "Color where it counts, black and white everywhere else", "Use color for treatment plans, smile photos and marketing pieces, and set everyday forms to print in black and white automatically.", "Your monthly bill tracks what your office actually prints."],
+  ["search", "Find any form in seconds", "Search past scans by patient name or date and pull up the right document right away.", "Old consent forms and insurance records are always a quick search away."],
 ];
 
 function Icon({ name }: { name: keyof typeof I }) {
