@@ -2,7 +2,7 @@
 
 import { after } from "next/server";
 import { rest } from "@/lib/supabase";
-import { scanCount, sendAlert } from "@/lib/alert";
+import { scanCount, sendAlert, sendTelegram, type AlertPayload } from "@/lib/alert";
 
 export type RequestState = { ok: boolean; error?: string };
 
@@ -15,6 +15,7 @@ export async function submitRequest(_prev: RequestState, form: FormData): Promis
   const business = clip(form.get("business"), 160);
   const slug = clip(form.get("slug"), 120);
   const source = clip(form.get("source"), 10) === "qr" ? "qr" : "direct";
+  const sessionId = clip(form.get("ph_session"), 64);
 
   if (!name) return { ok: false, error: "Please add your name." };
   if (contactType === "email" ? !/^\S+@\S+\.\S+$/.test(contact) : contact.replace(/\D/g, "").length < 10)
@@ -36,7 +37,7 @@ export async function submitRequest(_prev: RequestState, form: FormData): Promis
   if (!res || !res.ok) return { ok: false, error: `Something went wrong. Please call us at (210) 284-3727.` };
   const options = answers.help;
   after(async () => {
-    await sendAlert({
+    const payload: AlertPayload = {
       event: "form_submit",
       business: business || null,
       slug: slug || null,
@@ -49,7 +50,8 @@ export async function submitRequest(_prev: RequestState, form: FormData): Promis
       options,
       message: [answers.pages && `Pages/mo: ${answers.pages}`, answers.color && `Color: ${answers.color}`, answers.scanning && `Scanning: ${answers.scanning}`]
         .filter(Boolean).join(" · ") || null,
-    });
+    };
+    await Promise.all([sendAlert(payload), sendTelegram(payload, sessionId)]);
   });
   return { ok: true };
 }

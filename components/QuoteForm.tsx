@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useState } from "react";
+import posthog from "posthog-js";
 import { submitRequest, type RequestState } from "@/app/actions";
 
 const PAGES = ["Under 500", "500–2,000", "2,001–5,000", "Over 5,000", "Not sure"];
@@ -68,7 +69,13 @@ export function QuoteForm({ business, slug }: { business: string; slug: string }
   const toggle = (o: string) => setHelp((h) => (h.includes(o) ? h.filter((x) => x !== o) : [...h, o]));
 
   return (
-    <form action={action} className="form">
+    <form
+      action={(fd: FormData) => {
+        try { fd.set("ph_session", posthog.get_session_id?.() ?? ""); } catch {}
+        return action(fd);
+      }}
+      className="form"
+    >
       <input type="hidden" name="slug" value={slug} />
       <input type="hidden" name="source" value={source} />
       <Choices legend="About how many pages do you print each month?" name="pages" options={PAGES} value={pages} onChange={setPages} cls="pages" />

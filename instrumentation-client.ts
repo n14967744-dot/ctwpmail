@@ -28,3 +28,21 @@ if (key && typeof window !== "undefined") {
     posthog.register(props);
   }
 }
+
+// Once per full page load: tell the server about this visit (with the PostHog session id) so it can
+// send the Telegram scan alert with a recording link. Server applies the same bot/prefetch rules.
+if (typeof window !== "undefined") {
+  const slug = window.location.pathname.split("/").filter(Boolean)[0];
+  if (slug) {
+    const q = new URLSearchParams(window.location.search);
+    const isQr = (v: string | null) => (v ?? "").toLowerCase() === "qr";
+    let sessionId = "";
+    try { sessionId = key ? posthog.get_session_id() ?? "" : ""; } catch {}
+    fetch("/api/visit", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ slug, session_id: sessionId, source: isQr(q.get("src")) || isQr(q.get("utm_medium")) ? "qr" : "direct" }),
+      keepalive: true,
+    }).catch(() => {});
+  }
+}

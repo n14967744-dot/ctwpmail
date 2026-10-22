@@ -65,6 +65,56 @@ async function post(label: string, url: string, headers: Record<string, string>,
   }
 }
 
+const REPLAY_BASE = "https://us.posthog.com/project/681639/replay";
+
+/** Link to the visitor's PostHog session recording, or the slug-filtered replay list if no session id. */
+export function replayLink(sessionId: string | null | undefined, slug: string | null): string {
+  const sid = (sessionId ?? "").trim();
+  if (/^[A-Za-z0-9-]{8,64}$/.test(sid)) return `${REPLAY_BASE}/${sid}`;
+  if (!slug) return REPLAY_BASE;
+  const filters = { properties: [{ key: "slug", value: [slug], operator: "exact", type: "event" }], date_from: "-7d" };
+  return `${REPLAY_BASE}?filters=${encodeURIComponent(JSON.stringify(filters))}`;
+}
+
+function ctTime(iso: string): string {
+  return new Date(iso).toLocaleString("en-US", {
+    timeZone: "America/Chicago", month: "short", day: "numeric", hour: "numeric", minute: "2-digit", timeZoneName: "short",
+  });
+}
+
+/** Best-effort Telegram message to Nick. Skips silently if unset; never throws; 5s timeout. Never logs the token. */
+export async function sendTelegram(payload: AlertPayload, sessionId?: string | null): Promise<void> {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chatId) return;
+  const biz = payload.business ?? "(unknown business)";
+  const lines: string[] = [];
+  if (payload.event === "scan") {
+    lines.push(`📬 Scan: ${biz} (${payload.slug ?? "-"}), source ${payload.source ?? "direct"}, scan #${payload.scan_count ?? "?"}, ${ctTime(payload.time_iso)}`);
+  } else {
+    lines.push(`📝 Form: ${biz}${payload.slug ? ` (${payload.slug})` : ""}`);
+    if (payload.name) lines.push(`Name: ${payload.name}`);
+    if (payload.phone) lines.push(`Phone: ${payload.phone}`);
+    if (payload.email) lines.push(`Email: ${payload.email}`);
+    if (payload.options?.length) lines.push(`Options: ${payload.options.join(", ")}`);
+    if (payload.message) lines.push(`Message: ${payload.message}`);
+    lines.push(`Source ${payload.source ?? "direct"}, ${ctTime(payload.time_iso)}`);
+  }
+  lines.push(`Recording: ${replayLink(sessionId, payload.slug)}`);
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ chat_id: chatId, text: lines.join("\n"), disable_web_page_preview: true }),
+      signal: AbortSignal.timeout(5000),
+      cache: "no-store",
+    });
+    console.log(`[alert] telegram ${payload.event} status=${res.status}`);
+  } catch (e) {
+    console.error(`[alert] telegram ${payload.event} error=${e instanceof Error ? e.name : "unknown"}`);
+  }
+}
+
 /** Fire-and-forget webhooks (Grok Bot alert + GoHighLevel). Each skips silently if unset; never throws; 3s timeout. */
 export async function sendAlert(payload: AlertPayload): Promise<void> {
   if (payload.name && !payload.first_name) {
