@@ -48,5 +48,10 @@ The existing root instrumentation runs on review routes too. No tracking code is
 ## Validation
 
 - `npm run build`: passed, including TypeScript and both statically generated variant routes.
-- Browser checks and screenshot evidence: to be recorded after visual QA.
+- Both variants visually inspected in the browser using a static mirror of the successful Next.js build. The managed preview launcher passes unsupported `--host` arguments to Next.js; the mirror preserves the compiled HTML, CSS and JavaScript without changing project settings.
+- Responsive checks covered 320, 360, 390, 430, 768, 1200 and 1440px review viewports. No horizontal overflow observed. All three benefits remain present. The 320px viewport was checked again after automatic iframe resizing settled.
+- Layout controls, viewport controls and the A quote anchor were exercised. The quote anchor reaches the clearly labeled placeholder; real form delivery is outside this design comparison.
+- Fallback contrast checks passed the 4.5:1 text target for accent labels, body copy, numbering and the primary button.
+- Screenshots: `app/section-two-review/screenshots/a-desktop.jpg`, `b-desktop.jpg`, `a-mobile.jpg` and `b-mobile.jpg`. Desktop screenshots show both variants at the same browser size; mobile captures use 390px-wide frames.
+- Vercel reports the implementation deployment successful. Preview URL: https://ctwpmail-git-design-section-two-n14967744-2024.vercel.app/section-two-review . This browser is redirected to Vercel login. The screenshots are from the local compiled preview, not a claim of authenticated visual verification on Vercel. Protection remains unchanged; the integrating conversation should resolve reviewer access.
 - Production, hero, shared CSS, root layout, forms, tracking and deployment settings remain unchanged.
