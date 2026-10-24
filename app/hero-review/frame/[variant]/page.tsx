@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { CurrentHero } from "@/components/hero/CurrentHero";
 import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { IMAGES, PHONE_DISPLAY, PHONE_HREF } from "@/lib/site";
@@ -11,6 +12,7 @@ export default async function Page({ params }: { params: Promise<{ variant: stri
   const { variant } = await params;
   const heroOnly = variant === "current";
   if (!["a", "b", "c", "d", "current"].includes(variant)) notFound();
+  if (heroOnly) return <CurrentHero />;
   return (
     <div id="top" className={`${styles.preview} ${styles[heroOnly ? "d" : variant]}`}>
       <div className={styles.originalHeader}><Header /></div>

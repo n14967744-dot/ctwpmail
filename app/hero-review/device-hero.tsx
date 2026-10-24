@@ -10,7 +10,7 @@ export function DeviceHero({ device }: { device: "mobile" | "desktop" }) {
     return () => observer.disconnect();
   }, []);
   const width = device === "desktop" ? 1440 : available && available <= 600 ? available : 390;
-  const height = device === "desktop" ? 724 : 944;
+  const height = device === "desktop" ? 724 : 820;
   const scale = available ? Math.min(1, available / width) : 1;
   return <div ref={container} style={{ width: "100%", overflow: "hidden" }}>
     <div style={{ width: width * scale, height: height * scale, margin: "0 auto" }}>
