@@ -1,7 +1,9 @@
 # Current hero review workflow
 
-Use exactly two review entry points: `/hero-review/mobile` and `/hero-review/desktop`. Each opens one fixed device view without A–D choices or device toggles. Desktop retains selected D; mobile retains the existing mobile reference. Both reuse the same hero source and existing image. This change simplifies review, not the design itself. Lower sections are omitted in these explicitly labeled hero-only views; the complete customer page is unchanged.
+Use `/hero-review/mobile` and `/hero-review/desktop`. Both render the actual responsive hero directly at the browser viewport width. No review title, device label, grey wrapper, fixed-size iframe, scaling, device toggle or A–D choices. Open the mobile link on a phone and the desktop link on a computer. These are two entry points to the same responsive design, not forced device emulators.
 
-Work on the hero only until desktop and mobile are settled. Do not generate new images or start section-two changes. Future refinements update this one pair of links; use alternate comparisons only when the user requests a specific comparison. The older A–D review remains historical.
+Desktop retains selected D and mobile retains the existing layout. Both reuse the same hero source and existing image. The complete customer page is unchanged. Work only on the hero until desktop and mobile are settled. Older A–D studies are historical references.
+
+The user explicitly authorized publishing these review pages. Keep these two links current when implementing requested hero revisions.
 
 Authoritative plan: https://chatgpt.com/space/page_1d9c570336e0819182d131af2b6a5aba
