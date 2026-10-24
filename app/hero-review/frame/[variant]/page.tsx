@@ -5,13 +5,14 @@ import { IMAGES, PHONE_DISPLAY, PHONE_HREF } from "@/lib/site";
 import styles from "../../review.module.css";
 
 export const metadata: Metadata = { title: "CTWP | Hero preview", robots: { index: false, follow: false } };
-export function generateStaticParams() { return ["a", "b", "c", "d"].map((variant) => ({ variant })); }
+export function generateStaticParams() { return ["a", "b", "c", "d", "current"].map((variant) => ({ variant })); }
 
 export default async function Page({ params }: { params: Promise<{ variant: string }> }) {
   const { variant } = await params;
-  if (!["a", "b", "c", "d"].includes(variant)) notFound();
+  const heroOnly = variant === "current";
+  if (!["a", "b", "c", "d", "current"].includes(variant)) notFound();
   return (
-    <div id="top" className={`${styles.preview} ${styles[variant]}`}>
+    <div id="top" className={`${styles.preview} ${styles[heroOnly ? "d" : variant]}`}>
       <div className={styles.originalHeader}><Header /></div>
       <main>
         <section id="hero" className={`hero ${styles.hero}`}>
@@ -25,10 +26,11 @@ export default async function Page({ params }: { params: Promise<{ variant: stri
             <p className="eyebrow">Leroy stopped by</p>
             <h1>University Dental Associates.</h1>
             <p className="heroLead">CTWP has helped dental offices across Texas since 1979. Here&rsquo;s what we can do for yours.</p>
-            <a href="#quote" className="btn btnRed btnBig">Start University Dental&rsquo;s quote</a>
+            <a href={heroOnly ? "/universitydentalassociates#quote" : "#quote"} target={heroOnly ? "_top" : undefined} className="btn btnRed btnBig">Start University Dental&rsquo;s quote</a>
           </div>
           <div className="heroSpacer" />
         </section>
+        {!heroOnly && <>
         <section className="section cream" id="solutions"><div className="wrap">
           <p className="kicker">For dental offices</p>
           <h2>Dental offices overpay for printing. Yours won&rsquo;t.</h2>
@@ -40,6 +42,7 @@ export default async function Page({ params }: { params: Promise<{ variant: stri
           <p className="sub">This review is focused on the hero. The customer page keeps its existing quote form.</p>
           <a className="btn btnNavy" href="/universitydentalassociates#quote" target="_blank" rel="noopener">View the current quote form ↗</a>
         </div></section>
+        </>}
       </main>
     </div>
   );

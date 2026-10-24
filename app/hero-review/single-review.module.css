@@ -1,0 +1,9 @@
+.workspace { min-height: 100vh; background: #eae9e5; padding: 20px 16px 28px; }
+.heading { max-width: 1440px; margin: 0 auto 18px; }
+.heading p { font-size: 11px; font-weight: 600; letter-spacing: .12em; color: #535c6b; }
+.heading h1 { font-size: 25px; line-height: 1.2; margin-top: 4px; }
+.stage { max-width: 1440px; margin: auto; }
+.frame { margin: auto; overflow: hidden; background: white; box-shadow: 0 6px 28px #16213a17; }
+.frame iframe { display: block; border: 0; transform-origin: top left; }
+.note { text-align: center; font-size: 13px; color: #535c6b; margin-top: 18px; }
+@media (max-width: 600px) { .workspace { padding: 14px 0 22px; } .heading { padding: 0 16px; } }
