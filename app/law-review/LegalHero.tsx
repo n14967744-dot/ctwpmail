@@ -14,15 +14,15 @@ export function LegalHero({ businessName = "" }: { businessName?: string }) {
         <p className={styles.eyebrow}>From your neighbors at CTWP</p>
         <p className={styles.recipient}>{businessName ? <><span>Prepared for</span>{businessName}</> : "For law firms in Bryan–College Station"}</p>
         <h1 id="law-title">More time on the case.<br /><em>Less at the copier.</em></h1>
-        <p className={styles.description}>Client packets. Scanned files. The next deadline.<br className={styles.mobileBreak} /> Let’s make the paperwork easier.</p>
+        <p className={styles.description}>Less sorting. Less rescanning. Fewer printer headaches.<br className={styles.mobileBreak} /> Let’s make your office work a little easier.</p>
       </div>
       <figure className={styles.art}>
-        <Image src="/dental/hero.jpg" width={928} height={1152} sizes="(max-width: 899px) 100vw, 60vw" priority alt="Temporary layout image of Leroy beside a copier; final lawyer artwork will replace this" />
+        <Image src="/review/law-hero.webp" width={1254} height={1254} sizes="(max-width: 899px) 100vw, 60vw" priority alt="Leroy beside a copier in a law office, campaign concept image" />
         <figcaption>Meet Leroy <span>· CTWP’s company dog</span></figcaption>
       </figure>
       <div className={styles.actions}>
-        <a className={styles.button} href="#office-review">Find our firm’s fit <span aria-hidden="true">↗</span></a>
-        <p>Start with what you know. We’ll help with the rest.</p>
+        <a className={styles.button} href="#office-review">Get an equipment review <span aria-hidden="true">↗</span></a>
+        <p>A few details. A real conversation with your local CTWP rep.</p>
       </div>
     </div>
   </section>;

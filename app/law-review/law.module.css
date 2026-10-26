@@ -201,45 +201,47 @@
  .faq summary { font-size:15px; }
 }
 @media (min-width:600px) and (max-width:899px) { .heroCopy { max-width:600px; } .heroArt { max-width:600px; } .needs,.offerSection,.reviewSection,.faq { padding-left:max(24px,calc((100vw - 550px)/2)); padding-right:max(24px,calc((100vw - 550px)/2)); } }
-.colorSection { padding:75px max(48px,calc((100vw - 1200px)/2)); background:#edf1f6; }
-.colorHeading { max-width:750px; }
-.colorHeading h2 { margin:16px 0 22px; }
-.colorHeading > p:last-child { max-width:630px; font-size:18px; color:#536173; line-height:1.7; }
-.colorGrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; margin:40px 0 32px; }
-.colorGrid article { background:#fff; padding:30px; border:1px solid #d8e0e9; border-radius:8px; }
-.colorGrid h3 { font-family:Georgia,serif; font-size:25px; line-height:1.2; margin:12px 0; }
-.colorGrid article > p { font-size:14px; line-height:1.7; color:#536173; }
-.colorLabel { display:block; color:#a51c2d; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-top:24px; }
-.colorSample { width:145px; height:185px; background:#fff; padding:19px; border:1px solid #dee4ec; box-shadow:8px 8px 0 #f0f3f7; transform:rotate(-3deg); margin:4px auto 29px; }
-.colorSample > span { color:#a51c2d; font-size:8px; font-weight:800; display:block; margin-bottom:18px; }
-.colorSample i { display:block; height:3px; background:#b5bac0; margin:8px 0; }
-.colorSample i:nth-child(3) { width:84%; }
-.colorSample b { display:block; height:31px; margin:12px 0; border-bottom:3px solid #bec4cb; }
-.colorSample1 b { background:linear-gradient(90deg,#052d5e 25%,transparent 25% 34%,#bb1f33 34% 60%,transparent 60% 69%,#8ea8c5 69%); border:0; }
-.colorSample1 i:nth-child(4) { background:#d7b77a; }
-.colorSample2 b { background:linear-gradient(130deg,#052d5e 40%,#618aaa 40% 65%,#bb1f33 65%); height:63px; border:0; }
-.colorSample2 i:nth-last-child(1),.colorSample2 i:nth-last-child(2) { display:none; }
-.colorBottom { border-top:1px solid #c7d2e0; padding-top:25px; display:grid; grid-template-columns:1.7fr 1fr; align-items:center; gap:38px; }
-.colorBottom h3 { font:500 24px/1.25 var(--serif); margin:0 0 12px; }
-.colorBottom p { font-size:15px; line-height:1.7; color:#536173; }
-.colorBottom small { display:block; margin-top:13px; font-size:11px; line-height:1.6; color:#536173; }
-.colorBottom a { font-size:14px; justify-self:end; padding:15px 0; text-underline-offset:6px; }
-@media (max-width:899px) {
- .colorSection { padding:50px 24px; }
- .colorHeading > p:last-child { font-size:16px; }
- .colorGrid { display:block; margin:26px 0; }
- .colorGrid article { display:flow-root; padding:23px 20px; margin:12px 0; }
- .colorSample { float:right; transform:rotate(2deg) scale(.8); transform-origin:top right; margin:2px -2px -30px 14px; width:110px; height:151px; padding:14px; }
- .colorSample > span { margin-bottom:12px; }
- .colorSample b { height:23px; }
- .colorSample2 b { height:50px; }
- .colorLabel { margin-top:3px; font-size:10px; }
- .colorGrid h3 { font-size:23px; }
- .colorGrid article > p { font-size:13px; }
- .colorBottom { display:block; }
- .colorBottom a { display:inline-flex; margin-top:20px; font-size:13px; }
-}
 
 .featurePanel:focus-visible { outline:3px solid var(--ctwp-red); outline-offset:4px; }
 .page :where(h2,h3) { text-wrap:balance; }
-@media (max-width:899px) { .featurePanel { flex-direction:column; } .featureTabs button { min-height:65px; } .colorBottom h3 { font-size:24px; } }
+.featureTabs { gap:16px; border:0; }
+.featureTabs button { padding:12px; gap:14px; border:1px solid var(--ctwp-line); border-radius:8px; background:#fff; transition:background .15s,border-color .15s; }
+.featureTabs button[aria-selected=true] { border-color:var(--ctwp-red); background:#fcf5f5; box-shadow:inset 0 -3px 0 var(--ctwp-red); }
+.featureTabs button > .tabImage { display:block; width:64px; height:64px; flex-shrink:0; border-radius:4px; overflow:hidden; }
+.tabImage img { width:100%; height:100%; object-fit:cover; }
+.tabLabel { display:grid; gap:5px; font-size:15px; line-height:1.35; }
+.tabLabel small { color:var(--ctwp-red); font-size:10px; letter-spacing:.12em; }
+.featurePanel { grid-template-columns:1fr 1fr; background:#f4f6f9; border-radius:10px; margin-top:22px; }
+.featureCopy { padding:40px; }
+.featureCopy h3 { max-width:22ch; }
+.featurePhoto { position:relative; margin:0; min-width:0; aspect-ratio:1; overflow:hidden; align-self:stretch; background:#e7e7e3; }
+.featurePhoto > img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+.featurePhoto::after { content:""; position:absolute; inset:55% 0 0; background:linear-gradient(transparent,#071a30b3); }
+.featurePhoto figcaption { position:absolute; z-index:1; left:30px; right:24px; bottom:27px; color:white; font:500 24px/1.3 var(--serif); }
+.featurePhoto figcaption span { display:block; font:500 10px var(--sans); letter-spacing:.15em; margin-bottom:9px; }
+.checkList { margin-top:24px; border-top:1px solid #d6dee7; padding-top:20px; }
+.checkList h4 { margin:0 0 12px; font-size:12px; font-weight:600; }
+.checkList ul { list-style:none; margin:0; padding:0; display:grid; gap:9px; }
+.checkList li { position:relative; padding-left:19px; font-size:13px; color:var(--ctwp-muted); line-height:1.5; }
+.checkList li::before { content:""; position:absolute; left:0; top:8px; width:5px; height:5px; border-radius:50%; background:var(--ctwp-red); }
+.capabilityNote { margin-top:14px !important; color:var(--ctwp-muted); font-size:11px; line-height:1.6; }
+.offerSection { border-top:1px solid var(--ctwp-line); padding-top:65px; }
+.offerHeading { max-width:780px; }
+.offerHeading > p:last-child { max-width:56ch; }
+@media (max-width:899px) {
+ .featureTabs { gap:8px; margin-top:25px; }
+ .featureTabs button { padding:10px 8px 14px; gap:10px; align-items:center; text-align:center; }
+ .featureTabs button > .tabImage { width:54px; height:54px; }
+ .tabLabel { font-size:12px; min-height:49px; gap:4px; }
+ .tabLabel small { font-size:9px; }
+ .featurePanel { display:flex; flex-direction:column-reverse; margin-top:16px; }
+ .featurePhoto { width:100%; aspect-ratio:1; }
+ .featurePhoto figcaption { left:23px; bottom:22px; font-size:25px; }
+ .featureCopy { padding:28px 24px 30px; }
+ .featureCopy h3 { font-size:29px; margin-top:10px; }
+ .checkList { margin-top:21px; padding-top:17px; }
+ .checkList li { font-size:13px; }
+ .capabilityNote { font-size:10px; }
+ .offerSection { padding-top:45px; }
+ .offerHeading h2 { font-size:32px; }
+}

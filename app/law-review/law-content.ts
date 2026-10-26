@@ -3,9 +3,9 @@ export const lawPractices = {
     label: "General / multiple practices",
     examples: "Client packets, correspondence, and documents that need to become usable files.",
     points: [
-      ["The packet is due. The stapler can wait.", "Mixed paper sizes, two-sided pages, and enough copies for everyone. Let’s look at paper handling and finishing that could take some of the handwork out of preparing a complete set."],
-      ["A scan should be easy to use later.", "A clear page is a start. Finding it again matters, too. Show us how files reach the right folder, and we’ll review scanning, file naming, and any software needed for searchable PDFs."],
-      ["Print it. Pick it up. Keep it yours.", "Client paperwork shouldn’t wait unattended on a shared tray. We’ll look at user access and print-release options that fit your team and the equipment you choose."],
+      ["The meeting’s at two. The packet isn’t ready.", "Sorting, flipping, and stapling can turn a print job into a project. Let’s look at a setup that handles more of that preparation for your team."],
+      ["You scanned it. Now, where did it go?", "A scan is only useful if someone can find it. We’ll walk through how paper becomes a named, searchable file—and what your existing software needs to make that work."],
+      ["Client documents. Not communal reading.", "Sensitive pages can end up waiting in a shared output tray. We’ll review print-release and user-access options so your team can collect documents more deliberately."],
     ],
   },
   "personal-injury": {
