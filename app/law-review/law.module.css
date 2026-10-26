@@ -398,3 +398,31 @@
  .repFocusTitle { font-size:17px; margin-bottom:12px !important; }
  .lawPage .repIntro > .repPromise { font-size:14px; line-height:1.6; }
 }
+
+/* A compact dealer introduction, followed by topic cards rather than numbered steps. */
+.companyIntro { max-width:1200px; margin:0 auto; padding:48px 50px; display:grid; grid-template-columns:190px 1fr; gap:46px; align-items:center; border-bottom:1px solid #dce3e8; }
+.companyIdentity img { display:block; width:110px; height:auto; }
+.companyIdentity p { margin:14px 0 0; font-size:12px; color:#596876; line-height:1.5; }
+.companyCopy h2 { margin:0 0 13px; font:600 28px/1.2 var(--sans); letter-spacing:-.025em; color:#102c46; }
+.companyCopy > p { max-width:75ch; margin:0; font-size:15px; line-height:1.7; color:#526172; }
+.companyCopy .companyBrands { margin-top:18px; font-size:13px; color:#102c46; line-height:1.8; }
+.companyBrands span { display:block; font-size:10px; letter-spacing:.09em; text-transform:uppercase; color:#697584; margin-bottom:4px; }
+.lawPage .featureTabs { gap:10px; border:0; }
+.lawPage .featureTabs button { border:1px solid #dce3e8; border-radius:10px; padding:18px; min-height:88px; background:#fff; transition:background .15s,color .15s; }
+.lawPage .featureTabs button:hover { background:#f0f4f6; border-color:#abbcc9; }
+.lawPage .featureTabs button[aria-selected=true] { background:#102c46; color:#fff; border:1px solid #102c46; }
+.lawPage .tabLabel svg { flex-shrink:0; }
+.lawPage .featureTabs button:focus-visible { outline:3px solid #b5283d; outline-offset:3px; }
+@media(max-width:899px) {
+ .companyIntro { margin:0 22px; padding:30px 0 32px; grid-template-columns:1fr; gap:22px; }
+ .companyIdentity { display:flex; align-items:center; gap:16px; }
+ .companyIdentity img { width:77px; }
+ .companyIdentity p { margin:0; font-size:12px; }
+ .companyCopy h2 { font-size:24px; }
+ .companyCopy > p { font-size:14px; line-height:1.65; }
+ .companyCopy .companyBrands { margin-top:16px; font-size:12px; }
+ .lawPage .featureTabs { gap:8px; }
+ .lawPage .featureTabs button { padding:13px 10px; min-height:108px; }
+ .lawPage .tabLabel { gap:12px; }
+ .lawPage .tabLabel svg { width:23px; height:23px; }
+}

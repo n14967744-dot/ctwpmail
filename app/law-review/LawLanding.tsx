@@ -48,13 +48,25 @@ const blank = { paper: "Not sure", equipment: "Not sure", model: "", volume: "No
 type Answers = typeof blank;
 
 const workflows = [
-  { label: "Lower printing costs", priority: "Understanding costs & agreements", position: "left", alt: "Illustrative document packet representing an office printing workload", caption: "A clearer view of your costs.", checks: ["Lease payments and remaining obligations", "Included pages, color charges, and overages", "Supplies, service, and total monthly cost"] },
-  { label: "Better local support", priority: "Better service & local support", position: "right", alt: "Illustration of shared office printing equipment", caption: "A local team to call.", checks: ["Who to contact when work is interrupted", "Service coverage and supply arrangements", "Training and day-to-day equipment help"] },
-  { label: "Less packet preparation", priority: "Preparing large document packets", position: "left", alt: "Illustration of a collated document packet with divider tabs on an office desk", caption: "Ready for the next meeting.", checks: ["Mixed letter and legal pages", "Two-sided sets in the right order", "Sorting, stapling, and finishing options"] },
-  { label: "Easier scanning", priority: "Scanning & finding files", position: "center", alt: "Illustration of documents being loaded into an office scanner", caption: "Paper in. A usable file out.", checks: ["Clear scans with less rescanning", "Searchable PDFs and file naming", "A route to the folders your team uses"] },
-  { label: "More private printing", priority: "Document access controls", position: "right", alt: "Illustration of an office worker collecting documents from a copier", caption: "Collected by the right person.", checks: ["Releasing a job at the device", "User access and shared equipment", "Keeping client pages off the shared pile"] },
-  { label: "Equipment that keeps up", priority: "Equipment capacity for busy days", position: "right", alt: "Illustration of shared office printing equipment", caption: "A setup that keeps up with your team.", checks: ["Peak workload and simultaneous jobs", "Paper sizes, trays, and finishing", "Shared devices and desktop printers"] },
+  { label: "Printing costs", priority: "Understanding costs & agreements", position: "left", alt: "Illustrative document packet representing an office printing workload", caption: "A clearer view of your costs.", checks: ["Lease payments and remaining obligations", "Included pages, color charges, and overages", "Supplies, service, and total monthly cost"] },
+  { label: "Service & support", priority: "Better service & local support", position: "right", alt: "Illustration of shared office printing equipment", caption: "A local team to call.", checks: ["Who to contact when work is interrupted", "Service coverage and supply arrangements", "Training and day-to-day equipment help"] },
+  { label: "Court-ready packets", priority: "Preparing large document packets", position: "left", alt: "Illustration of a collated document packet with divider tabs on an office desk", caption: "Ready for the next meeting.", checks: ["Mixed letter and legal pages", "Two-sided sets in the right order", "Sorting, stapling, and finishing options"] },
+  { label: "Scanning & digital files", priority: "Scanning & finding files", position: "center", alt: "Illustration of documents being loaded into an office scanner", caption: "Paper in. A usable file out.", checks: ["Clear scans with less rescanning", "Searchable PDFs and file naming", "A route to the folders your team uses"] },
+  { label: "Confidential documents", priority: "Document access controls", position: "right", alt: "Illustration of an office worker collecting documents from a copier", caption: "Collected by the right person.", checks: ["Releasing a job at the device", "User access and shared equipment", "Keeping client pages off the shared pile"] },
+  { label: "Busy-day performance", priority: "Equipment capacity for busy days", position: "right", alt: "Illustration of shared office printing equipment", caption: "A setup that keeps up with your team.", checks: ["Peak workload and simultaneous jobs", "Paper sizes, trays, and finishing", "Shared devices and desktop printers"] },
 ] as const;
+
+function SolutionIcon({ index }: { index: number }) {
+  const paths = [
+    <><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M9 7h6M9 11h1m4 0h1m-6 4h1m4 0h1m-6 3h6"/></>,
+    <><path d="M4 13v-2a8 8 0 0 1 16 0v2M20 16v2a3 3 0 0 1-3 3h-4"/><rect x="2" y="11" width="4" height="7" rx="2"/><rect x="18" y="11" width="4" height="7" rx="2"/></>,
+    <><path d="M8 3h9l3 3v12H8zM4 7v15h12M16 3v4h4M11 11h6M11 15h6"/></>,
+    <><path d="M4 9V4h5m6 0h5v5M4 15v5h5m6 0h5v-5M2 12h20"/><path d="M9 8h6M9 16h6"/></>,
+    <><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></>,
+    <><path d="M4 18a9 9 0 1 1 16 0M12 13l5-5M5 12h2M12 5v2M17 12h2"/><circle cx="12" cy="13" r="2"/></>,
+  ];
+  return <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{paths[index]}</svg>;
+}
 
 function Arrow() { return <span aria-hidden="true">↗</span>; }
 
@@ -119,14 +131,17 @@ export function LawLanding({ niche = "law", businessName = "", initialPractice =
       </div>
     </section>}
 
-    <div className={styles.trustStrip}><span>Bryan–College Station</span><span>{niche === "law" ? "Equipment + local service" : "Wide-format equipment options"}</span><span>A setup that fits your office</span></div>
+    {niche === "law" ? <section className={styles.companyIntro} aria-labelledby="company-title">
+      <div className={styles.companyIdentity}><img src="/ctwp-mark.webp" alt="CTWP — Your Copier Company" width="111" height="90" /><p>Serving Texas since 1979</p></div>
+      <div className={styles.companyCopy}><h2 id="company-title">A Texas equipment dealer.<br />A local team behind you.</h2><p>CTWP sells and services copiers, printers, and office equipment from leading brands. Our Bryan–College Station team helps with equipment selection, supplies, training, and ongoing service—so your firm has a place to turn after installation, too.</p><p className={styles.companyBrands}><span>Brands we carry</span>Kyocera · Canon · Konica Minolta · Xerox · Lexmark · KIP</p></div>
+    </section> : <div className={styles.trustStrip}><span>Bryan–College Station</span><span>Wide-format equipment options</span><span>A setup that fits your office</span></div>}
 
     <section className={styles.needs} aria-labelledby="needs-title">
-      <div className={styles.sectionHead}><p className={styles.eyebrow}>{niche === "law" ? "CTWP for law firms" : "For the work behind the build"}</p><h2 id="needs-title">{niche === "law" ? <>What would you like to know more about?</> : <>Plans in hand.<br /><em>One less interruption.</em></>}</h2><p>{niche === "law" ? "Explore ways to lower printing costs, simplify your firm’s paperwork, and get the support your team needs." : "Start with the part of getting drawings printed that keeps interrupting your day."}</p></div>
+      <div className={styles.sectionHead}><p className={styles.eyebrow}>{niche === "law" ? "CTWP for law firms" : "For the work behind the build"}</p><h2 id="needs-title">{niche === "law" ? <>What would make your workday easier?</> : <>Plans in hand.<br /><em>One less interruption.</em></>}</h2><p>{niche === "law" ? "Choose a topic to see how CTWP can help with the work behind your cases." : "Start with the part of getting drawings printed that keeps interrupting your day."}</p></div>
 
       <div className={styles.featureTabs} role="tablist" aria-label="Explore equipment needs">
         {(niche === "law" ? workflows.map(w => w.label) : ["Last-minute revisions", "Drawing quality", "Scanning plans"]).map((label,i) => <button key={label} type="button" role="tab" id={`need-tab-${i}`} aria-selected={activeNeed === i} aria-controls="need-panel" tabIndex={activeNeed === i ? 0 : -1} onKeyDown={e => { const next = e.key === "ArrowRight" ? (i + 1) % tabCount : e.key === "ArrowLeft" ? (i + tabCount - 1) % tabCount : e.key === "Home" ? 0 : e.key === "End" ? tabCount - 1 : -1; if (next >= 0) { e.preventDefault(); setActiveNeed(next); document.getElementById(`need-tab-${next}`)?.focus(); } }} onClick={() => setActiveNeed(i)}>
-          <span className={styles.tabLabel}><small>{`0${i+1}`}</small>{label}</span><Arrow />
+          <span className={styles.tabLabel}>{niche === "law" ? <SolutionIcon index={i} /> : <small>{`0${i+1}`}</small>}{label}</span><Arrow />
         </button>)}
       </div>
       <div className={styles.featurePanel} role="tabpanel" tabIndex={0} id="need-panel" aria-labelledby={`need-tab-${activeNeed}`}>
