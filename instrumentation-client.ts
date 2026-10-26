@@ -1,8 +1,10 @@
 import posthog from "posthog-js";
 
 const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
+// Design-only form previews must not create prospect events or recordings.
+const isLawDesignReview = typeof window !== "undefined" && /^\/(?:law-review|construction-review)(?:\/|$)/.test(window.location.pathname);
 
-if (key && typeof window !== "undefined") {
+if (key && typeof window !== "undefined" && !isLawDesignReview) {
   posthog.init(key, {
     api_host: "/ingest", // first-party reverse proxy (next.config.ts rewrites) -> us.i.posthog.com
     ui_host: "https://us.posthog.com",
@@ -34,7 +36,7 @@ declare global { interface Window { __ctwpSid?: string } }
 
 // Once per full page load: tell the server about this visit (stored in landing_events + Telegram scan alert),
 // then track light engagement and send one exit summary via sendBeacon. Server applies the same bot rules.
-if (typeof window !== "undefined") {
+if (typeof window !== "undefined" && !isLawDesignReview) {
   const slug = window.location.pathname.split("/").filter(Boolean)[0];
   if (slug) {
     const q = new URLSearchParams(window.location.search);
