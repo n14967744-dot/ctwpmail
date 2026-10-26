@@ -5,11 +5,12 @@ import { useRef, useState } from "react";
 import { PHONE_DISPLAY, PHONE_HREF, OFFICE_ADDRESS } from "@/lib/site";
 import styles from "./law.module.css";
 import { LegalHero } from "./LegalHero";
+import { lawPractices, resolveLawPractice, type LawPractice } from "./law-content";
 
 const campaign = {
   law: {
     audience: "For law firms in Bryan–College Station", title: <>More time on the case.<br /><em>Less at the copier.</em></>,
-    intro: "Client packets. Scanned case files. One more deadline. Let’s find a Kyocera setup that makes sense for the work on your desk.",
+    intro: "Client packets. Scanned case files. One more deadline. Let’s make the paperwork easier.",
     cta: "Find the right fit for our firm", image: "Leroy + Kyocera · legal office", eyebrow: "Less friction between you and the next deadline",
     heading: <>The paperwork is part of the job.<br />The frustration shouldn’t be.</>,
     explanation: "Start with the tasks that take too many steps, too much waiting, or too much attention.",
@@ -18,7 +19,7 @@ const campaign = {
       ["Scanning shouldn’t create another task.", "If your team rescans pages or moves files by hand, show us the steps. We’ll check scan destinations, document handling, and whether searchable PDFs need extra software."],
       ["Client documents deserve more control.", "Shared equipment doesn’t have to mean an afterthought about access. We’ll discuss print release and user controls, then verify the right configuration for your firm."],
     ],
-    needs: ["Preparing large document packets", "Scanning & finding files", "Document access controls", "Costs & contract", "Replacing unreliable equipment", "Not sure yet"],
+    needs: ["Preparing large document packets", "Scanning & finding files", "Document access controls", "Color printing costs", "Replacing unreliable equipment", "Not sure yet"],
     equipment: ["Not sure", "Shared copier", "Desktop printers", "Both", "Setting up a new office"],
     volumeLabel: "About how many pages each month?", volumes: ["Not sure", "Under 500", "500–2,000", "2,001–5,000", "More than 5,000"],
     equipmentLabel: "What does your firm use today?", businessLabel: "Firm name", workLabel: "Your office",
@@ -42,31 +43,28 @@ const campaign = {
     note: "Wide-format options · equipment selected to fit your work", specialty: "General contractor, roofer, electrician, or another trade: your drawing sizes and workflow matter more than a one-size-fits-all recommendation.",
   },
 };
-const blank = { paper: "Not sure", equipment: "Not sure", model: "", volume: "Not sure", color: "Not sure", cost: "", agreement: "Not sure", end: "", name: "", contact: "", business: "" };
+const blank = { paper: "Not sure", equipment: "Not sure", model: "", volume: "Not sure", color: "Not sure", colorDocuments: "Not sure", cost: "", agreement: "Not sure", end: "", name: "", contact: "", business: "" };
 type Answers = typeof blank;
 
 function Arrow() { return <span aria-hidden="true">↗</span>; }
 
-export function LawLanding({ niche = "law" }: { niche?: "law" | "construction" }) {
+export function LawLanding({ niche = "law", businessName = "", initialPractice = "general" }: { niche?: "law" | "construction"; businessName?: string; initialPractice?: LawPractice }) {
   const content = campaign[niche];
   const [activeNeed, setActiveNeed] = useState(0);
-  const [practice, setPractice] = useState("Litigation");
-  const practices: Record<string, string> = niche === "law" ? {
-    "Litigation": "Discovery files, exhibits, and last-minute packet changes. Let’s look at volume, scan handling, and finishing around your next deadline.",
-    "Family law": "Client intake, financial records, and court paperwork. Let’s focus on everyday scanning, document access, and preparing client copies.",
-    "Estate planning": "Wills, trusts, and signing packets. Let’s talk about consistent output, paper handling, and preparing complete sets.",
-    "Business law": "Contracts, agreements, and revisions. Let’s review how documents move from a printed page to the right digital destination.",
-  } : {
+  const [practice, setPractice] = useState<string>(niche === "law" ? initialPractice : "General contracting");
+  const practices: Record<string, string> = {
     "General contracting": "Bid sets, subcontractor copies, and revised drawings. Let’s match the printer to your sheet sizes, turnaround, and project workload.",
     "Roofing": "Roof plans, details, and takeoff drawings. Let’s see which sheets you actually use and how often you need them on paper.",
     "Electrical": "Electrical plans, schedules, and color markups. Let’s review line detail, sheet size, and revision printing.",
     "Other trades": "Tell us which drawings your team uses. We’ll work from your files, paper sizes, and printing frequency.",
   };
-  const currentPractice = practices[practice] ? practice : Object.keys(practices)[0];
+  const legalContent = lawPractices[resolveLawPractice(practice)];
+  const points = niche === "law" ? legalContent.points : content.points;
+  const currentPractice = niche === "law" ? legalContent.label : practice;
   const needs = content.needs;
   const [step, setStep] = useState(0);
   const [selected, setSelected] = useState<string[]>([]);
-  const [answers, setAnswers] = useState<Answers>(blank);
+  const [answers, setAnswers] = useState<Answers>({ ...blank, business: businessName });
   const [contactType, setContactType] = useState<"email" | "tel">("email");
   const [complete, setComplete] = useState(false);
   const [error, setError] = useState("");
@@ -85,7 +83,7 @@ export function LawLanding({ niche = "law" }: { niche?: "law" | "construction" }
 
   return <main className={styles.page}>
     <div className={styles.preview}>Layout review · temporary imagery · form preview</div>
-    {niche === "law" ? <LegalHero /> : <section className={styles.hero} aria-labelledby="law-title">
+    {niche === "law" ? <LegalHero businessName={businessName || "Your law firm"} /> : <section className={styles.hero} aria-labelledby="law-title">
       <header className={styles.header}>
         <a href="#" aria-label="CTWP home" className={styles.logo}><img src="/ctwp-mark.webp" alt="CTWP, Your Copier Company" width="111" height="63" /></a>
         <nav className={styles.nav}><a href="#needs-title">Built for your work</a><a href="#rep-title">Your local team</a></nav><div className={styles.location}>Bryan–College Station<a href={PHONE_HREF}>Let’s talk <Arrow /></a></div>
@@ -106,13 +104,14 @@ export function LawLanding({ niche = "law" }: { niche?: "law" | "construction" }
       </div>
     </section>}
 
-    <div className={styles.trustStrip}><span>Local people. Real conversations.</span><span>{niche === "law" ? "Kyocera equipment options" : "Wide-format equipment options"}</span><span>Equipment + service, considered together</span></div>
+    <div className={styles.trustStrip}><span>Local people. Real conversations.</span><span>{niche === "law" ? "Built around your document work" : "Wide-format equipment options"}</span><span>Equipment + service, considered together</span></div>
 
     <section className={styles.needs} aria-labelledby="needs-title">
       <div className={styles.sectionHead}><p className={styles.eyebrow}>{niche === "law" ? "For the work behind the case" : "For the work behind the build"}</p><h2 id="needs-title">{niche === "law" ? <>What’s slowing<br /><em>your firm down?</em></> : <>Plans in hand.<br /><em>One less interruption.</em></>}</h2><p>{niche === "law" ? "A new machine should solve an everyday problem. Start with the one your team notices most." : "Start with the part of getting drawings printed that keeps interrupting your day."}</p></div>
+      {niche === "law" && <div className={styles.practicePicker}><label htmlFor="practice-area">What kind of work does your firm handle?</label><select id="practice-area" value={resolveLawPractice(practice)} onChange={e => setPractice(e.target.value)}>{Object.entries(lawPractices).map(([key, value]) => <option key={key} value={key}>{value.label}</option>)}</select><p>{legalContent.examples}</p></div>}
       <div className={styles.featureTabs} role="tablist" aria-label="Explore equipment needs">{(niche === "law" ? ["Preparing packets", "Scanning files", "Document access"] : ["Last-minute revisions", "Drawing quality", "Scanning plans"]).map((label,i) => <button key={label} type="button" role="tab" id={`need-tab-${i}`} aria-selected={activeNeed === i} aria-controls="need-panel" onClick={() => setActiveNeed(i)}><span>0{i+1}</span>{label}<Arrow /></button>)}</div>
       <div className={styles.featurePanel} role="tabpanel" id="need-panel" aria-labelledby={`need-tab-${activeNeed}`}>
-        <div className={styles.featureCopy}><p className={styles.eyebrow}>A better setup starts here</p><h3>{content.points[activeNeed][0]}</h3><p>{content.points[activeNeed][1]}</p><a href="#office-review" className={styles.textLink} onClick={() => setSelected([content.needs[activeNeed]])}>Let’s look at this for our {niche === "law" ? "firm" : "team"} <Arrow /></a></div>
+        <div className={styles.featureCopy}><p className={styles.eyebrow}>A better setup starts here</p><h3>{points[activeNeed][0]}</h3><p>{points[activeNeed][1]}</p><a href="#office-review" className={styles.textLink} onClick={() => setSelected([content.needs[activeNeed]])}>Let’s look at this for our {niche === "law" ? "firm" : "team"} <Arrow /></a></div>
         <div className={styles.workflowVisual} aria-label="Illustrative document workflow">
           <div className={styles.paperStack}><span className={styles.documentLabel}>{niche === "law" ? ["CLIENT PACKET", "SCANNED CASE FILE", "CONFIDENTIAL PRINT"][activeNeed] : ["REVISED PLAN SET", "DRAWING DETAIL", "MARKED-UP ORIGINAL"][activeNeed]}</span><strong>{niche === "law" ? ["Ready for the\nnext meeting.", "From paper\nto your workflow.", "The right pages.\nThe right people."][activeNeed] : ["Revision in.\nNew set out.", "Every line.\nEvery detail.", "Keep the notes.\nShare the drawing."][activeNeed]}</strong><div className={styles.documentLines}><i/><i/><i/></div><span className={styles.documentFooter}>{niche === "law" ? "YOUR FIRM / YOUR WORKFLOW" : "YOUR TEAM / YOUR DRAWINGS"}</span></div>
           <div className={styles.workflowTag}><span>✓</span>{niche === "law" ? ["Paper handling + finishing", "Scan destinations + software", "Access + print release"][activeNeed] : ["Sheet size + turnaround", "Scale + color + line detail", "Scan width + file destination"][activeNeed]}</div>
@@ -121,11 +120,17 @@ export function LawLanding({ niche = "law" }: { niche?: "law" | "construction" }
       </div>
     </section>
 
-    <section className={styles.practiceSection}><div><p className={styles.eyebrow}>The same industry. Different working days.</p><h2>{niche === "law" ? <>Your practice has<br />its own paperwork.</> : <>Your trade has<br />its own drawing set.</>}</h2></div><div className={styles.practiceContent}><div className={styles.practiceChips}>{Object.keys(practices).map(p => <button key={p} aria-pressed={currentPractice === p} onClick={() => setPractice(p)}>{p}</button>)}</div><p>{practices[currentPractice]}</p><span>We’ll tailor the conversation to your work.</span></div></section>
+    {niche === "construction" && <section className={styles.practiceSection}><div><p className={styles.eyebrow}>The same industry. Different working days.</p><h2>Your trade has<br />its own drawing set.</h2></div><div className={styles.practiceContent}><div className={styles.practiceChips}>{Object.keys(practices).map(p => <button key={p} aria-pressed={currentPractice === p} onClick={() => setPractice(p)}>{p}</button>)}</div><p>{practices[currentPractice]}</p><span>We’ll tailor the conversation to your work.</span></div></section>}
+
+    {niche === "law" && <section className={styles.colorSection} aria-labelledby="color-title"><div className={styles.colorHeading}><p className={styles.eyebrow}>A closer look at color costs</p><h2 id="color-title">A small color logo.<br /><em>A full-color charge?</em></h2><p>Some agreements charge one rate for every color page. Your everyday documents may tell a different story.</p></div><div className={styles.colorGrid}>{[
+      ["A little color", "The logo-at-the-top page.", "Mostly black text, with a small splash of color."],
+      ["A bit more color", "The chart-and-highlights page.", "Graphs, headings, or color that helps explain a point."],
+      ["Color throughout", "The picture-heavy page.", "Photos, full-page graphics, and colorful presentations."],
+    ].map(([label,title,description],i) => <article key={label}><div className={[styles.colorSample, styles[`colorSample${i}`]].join(" ")} aria-hidden="true"><span>YOUR FIRM</span><i/><i/><i/><b/><i/><i/></div><span className={styles.colorLabel}>{label}</span><h3>{title}</h3><p>{description}</p></article>)}</div><div className={styles.colorBottom}><p>Kyocera’s tiered color billing can price pages differently based on color coverage. We’ll compare representative documents with your current agreement and CTWP’s available rates. Savings depend on your usage and the terms. Examples above illustrate document types, not billing thresholds.</p><a className={styles.textLink} href="#office-review" onClick={() => setSelected(["Color printing costs"])}>Let’s check our color costs <Arrow /></a></div></section>}
 
     <section className={styles.offerSection}><div className={styles.offerHeading}><p className={styles.eyebrow}>Know what you’re comparing</p><h2>More than a machine.<br /><em>A clearer decision.</em></h2><p>Tell us about your current setup. We’ll help you work through the choices that matter.</p></div><div className={styles.offerGrid}><article><span>01 / THE EQUIPMENT</span><h3>What fits your work?</h3><p>{niche === "law" ? "Device capacity, scanning, paper handling, and the accessories you actually need." : "Print width, drawing quality, color, and whether you need a scanner as well."}</p></article><article><span>02 / THE FULL COST</span><h3>What’s included?</h3><p>Equipment, service, supplies, and usage charges—clearly separated so you can compare the arrangement.</p></article><article><span>03 / THE TIMING</span><h3>When does it make sense?</h3><p>Your current agreement, remaining obligations, and installation needs should be part of the conversation.</p></article></div></section>
 
-    <section className={styles.repSection} aria-labelledby="rep-title"><div className={styles.repPortrait}><img src="/leroy.png" alt="Real photo of Leroy at the CTWP office" loading="lazy" /><span>Leroy handles the introduction.<br />Nick handles the conversation.</span></div><div className={styles.repIntro}><p className={styles.eyebrow}>From your neighbors at CTWP</p><h2 id="rep-title">A real person.<br /><em>Right here in Bryan.</em></h2><p>Tell me what’s getting in the way. I’ll help you sort through the equipment and service options, without expecting you to know every model number.</p><p className={styles.signature}>Nick Sanford<span>Your CTWP contact · Bryan–College Station</span></p><a className={styles.textLink} href={PHONE_HREF}>Call CTWP · {PHONE_DISPLAY} <Arrow /></a></div></section>
+    <section className={styles.repSection} aria-labelledby="rep-title"><div className={styles.repPortrait}><img src="/leroy.png" alt="Real photo of Leroy at the CTWP office" loading="lazy" /><span>Leroy handles the introduction.<br />Nick handles the conversation.</span></div><div className={styles.repIntro}><p className={styles.eyebrow}>From your neighbors at CTWP</p><h2 id="rep-title">A real person.<br /><em>Right here in Bryan.</em></h2><p>You don’t need to arrive with a model number or a perfect page count. Show me what your team is trying to do, and we’ll work through the equipment, service, and costs together.</p><p className={styles.signature}>Nick Sanford<span>Your CTWP contact · Bryan–College Station</span></p><a className={styles.textLink} href={PHONE_HREF}>Call CTWP · {PHONE_DISPLAY} <Arrow /></a></div></section>
 
     <section className={styles.reviewSection} id="office-review" aria-labelledby="review-title">
       <div className={styles.reviewIntro}><p className={styles.eyebrow}>Let’s start with your work</p><h2 id="review-title">Let’s find<br /><em>your better fit.</em></h2><p>A few details give us a useful starting point. Estimates and “not sure” are welcome.</p><ol className={styles.howItWorks}><li>Share a few details.</li><li>Your CTWP rep reviews your needs.</li><li>Talk through suitable options.</li></ol></div>
@@ -142,7 +147,7 @@ export function LawLanding({ niche = "law" }: { niche?: "law" | "construction" }
           {step === 1 && <div className={styles.fields}>
             {selectField("volume", content.volumeLabel, content.volumes)}
             {niche === "construction" && selectField("paper", "Largest drawing size you need?", ["Not sure", "Up to 24 inches wide", "Up to 36 inches wide", "Larger than 36 inches"])}
-            {selectField("color", "How often do you need color?", ["Not sure", "Often", "Sometimes", "Never"])}
+            {niche === "law" ? selectField("colorDocuments", "What does your color printing usually look like?", ["Not sure", "Mostly black text with a color logo", "Charts, highlights, or color headings", "Photos or full-color pages", "A mix of these", "We only print black and white"]) : selectField("color", "How often do your drawings need color?", ["Not sure", "Often", "Sometimes", "Never"])}
             <label className={styles.field}><span>Approximate monthly cost <small>Optional</small></span><input inputMode="decimal" value={answers.cost} onChange={e => update("cost", e.target.value)} placeholder="$  Not sure is fine" maxLength={30} /><small>Equipment and printing together. We’ll clarify what’s included.</small></label>
             {selectField("agreement", "Current lease or service agreement?", ["Not sure", "Yes", "No"])}
             {answers.agreement === "Yes" && <label className={styles.field}><span>When does it end? <small>Optional</small></span><input type="month" value={answers.end} onChange={e => update("end", e.target.value)} /></label>}
@@ -159,7 +164,7 @@ export function LawLanding({ niche = "law" }: { niche?: "law" | "construction" }
           {step === 0 && <p className={styles.formNote}>You can continue without selecting an answer.</p>}
         </> : <div className={styles.summary}>
           <p className={styles.eyebrow}>Preview complete</p><h3 ref={stepHeading} tabIndex={-1} className={styles.stepTitle}>Here’s the starting point.</h3><p>This is the information your CTWP rep would review. Nothing has been sent.</p>
-          <dl><dt>{content.businessLabel}</dt><dd>{answers.business}</dd><dt>Practice / trade</dt><dd>{currentPractice}</dd><dt>Priorities</dt><dd>{selected.join(", ") || "Not sure yet"}</dd><dt>Current equipment</dt><dd>{answers.equipment}{answers.model ? ` · ${answers.model}` : ""}</dd><dt>Print workload / color</dt><dd>{answers.volume} / {answers.color}</dd>{niche === "construction" && <><dt>Drawing width</dt><dd>{answers.paper}</dd></>}<dt>Approximate cost</dt><dd>{answers.cost || "Not sure"}</dd><dt>Agreement</dt><dd>{answers.agreement}{answers.agreement === "Yes" && answers.end ? ` · ends ${answers.end}` : ""}</dd><dt>Contact</dt><dd>{answers.name}<br />{answers.contact}</dd></dl>
+          <dl><dt>{content.businessLabel}</dt><dd>{answers.business}</dd><dt>Practice / trade</dt><dd>{currentPractice}</dd><dt>Priorities</dt><dd>{selected.join(", ") || "Not sure yet"}</dd><dt>Current equipment</dt><dd>{answers.equipment}{answers.model ? ` · ${answers.model}` : ""}</dd><dt>Print workload / color</dt><dd>{answers.volume} / {niche === "law" ? answers.colorDocuments : answers.color}</dd>{niche === "construction" && <><dt>Drawing width</dt><dd>{answers.paper}</dd></>}<dt>Approximate cost</dt><dd>{answers.cost || "Not sure"}</dd><dt>Agreement</dt><dd>{answers.agreement}{answers.agreement === "Yes" && answers.end ? ` · ends ${answers.end}` : ""}</dd><dt>Contact</dt><dd>{answers.name}<br />{answers.contact}</dd></dl>
           <button className={styles.back} onClick={() => { setComplete(false); changeStep(2); }}>Edit my answers</button>
         </div>}
       </div>

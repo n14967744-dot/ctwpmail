@@ -201,3 +201,46 @@
  .faq summary { font-size:15px; }
 }
 @media (min-width:600px) and (max-width:899px) { .heroCopy { max-width:600px; } .heroArt { max-width:600px; } .needs,.offerSection,.reviewSection,.faq { padding-left:max(24px,calc((100vw - 550px)/2)); padding-right:max(24px,calc((100vw - 550px)/2)); } }
+.practicePicker { margin-top:36px; display:grid; grid-template-columns:1fr 1fr; gap:12px 35px; align-items:center; border-top:1px solid var(--ctwp-line); padding-top:26px; }
+.practicePicker label { font-size:15px; font-weight:600; }
+.practicePicker select { border:1px solid #bac7d6; border-radius:6px; background:white; color:var(--ctwp-navy); font:inherit; font-size:14px; padding:13px 15px; width:100%; }
+.practicePicker p { grid-column:1 / -1; color:#536173; font-size:14px; margin:0; }
+.colorSection { padding:75px max(48px,calc((100vw - 1200px)/2)); background:#edf1f6; }
+.colorHeading { max-width:750px; }
+.colorHeading h2 { margin:16px 0 22px; }
+.colorHeading > p:last-child { max-width:630px; font-size:18px; color:#536173; line-height:1.7; }
+.colorGrid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:24px; margin:40px 0 32px; }
+.colorGrid article { background:#fff; padding:30px; border:1px solid #d8e0e9; border-radius:8px; }
+.colorGrid h3 { font-family:Georgia,serif; font-size:25px; line-height:1.2; margin:12px 0; }
+.colorGrid article > p { font-size:14px; line-height:1.7; color:#536173; }
+.colorLabel { display:block; color:#a51c2d; font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; margin-top:24px; }
+.colorSample { width:145px; height:185px; background:#fff; padding:19px; border:1px solid #dee4ec; box-shadow:8px 8px 0 #f0f3f7; transform:rotate(-3deg); margin:4px auto 29px; }
+.colorSample > span { color:#a51c2d; font-size:8px; font-weight:800; display:block; margin-bottom:18px; }
+.colorSample i { display:block; height:3px; background:#b5bac0; margin:8px 0; }
+.colorSample i:nth-child(3) { width:84%; }
+.colorSample b { display:block; height:31px; margin:12px 0; border-bottom:3px solid #bec4cb; }
+.colorSample1 b { background:linear-gradient(90deg,#052d5e 25%,transparent 25% 34%,#bb1f33 34% 60%,transparent 60% 69%,#8ea8c5 69%); border:0; }
+.colorSample1 i:nth-child(4) { background:#d7b77a; }
+.colorSample2 b { background:linear-gradient(130deg,#052d5e 40%,#618aaa 40% 65%,#bb1f33 65%); height:63px; border:0; }
+.colorSample2 i:nth-last-child(1),.colorSample2 i:nth-last-child(2) { display:none; }
+.colorBottom { border-top:1px solid #c7d2e0; padding-top:25px; display:grid; grid-template-columns:1.7fr 1fr; align-items:center; gap:38px; }
+.colorBottom p { font-size:14px; line-height:1.8; color:#536173; }
+.colorBottom a { font-size:14px; justify-self:end; }
+@media (max-width:899px) {
+ .practicePicker { display:block; margin-top:24px; padding-top:20px; }
+ .practicePicker label { display:block; font-size:13px; margin-bottom:12px; }
+ .practicePicker p { font-size:12px; margin-top:12px; line-height:1.7; }
+ .colorSection { padding:50px 24px; }
+ .colorHeading > p:last-child { font-size:16px; }
+ .colorGrid { display:block; margin:26px 0; }
+ .colorGrid article { display:flow-root; padding:23px 20px; margin:12px 0; }
+ .colorSample { float:right; transform:rotate(2deg) scale(.8); transform-origin:top right; margin:2px -2px -30px 14px; width:110px; height:151px; padding:14px; }
+ .colorSample > span { margin-bottom:12px; }
+ .colorSample b { height:23px; }
+ .colorSample2 b { height:50px; }
+ .colorLabel { margin-top:3px; font-size:10px; }
+ .colorGrid h3 { font-size:23px; }
+ .colorGrid article > p { font-size:13px; }
+ .colorBottom { display:block; }
+ .colorBottom a { display:inline-flex; margin-top:20px; font-size:13px; }
+}

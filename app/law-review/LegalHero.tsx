@@ -14,7 +14,7 @@ export function LegalHero({ businessName = "Your law firm" }: { businessName?: s
         <p className={styles.eyebrow}>From your neighbors at CTWP</p>
         <p className={styles.recipient}>{businessName}</p>
         <h1 id="law-title">More time on the case.<br /><em>Less at the copier.</em></h1>
-        <p className={styles.description}>Kyocera equipment and local support,<br className={styles.mobileBreak} /> fitted to the way your firm works.</p>
+        <p className={styles.description}>Client packets. Scanned files. The next deadline.<br className={styles.mobileBreak} /> Let’s make the paperwork easier.</p>
       </div>
       <figure className={styles.art}>
         <Image src="/dental/hero.jpg" width={928} height={1152} sizes="(max-width: 899px) 100vw, 60vw" priority alt="Temporary layout image of Leroy beside a copier; final lawyer artwork will replace this" />
