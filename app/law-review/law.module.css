@@ -245,3 +245,102 @@
  .offerSection { padding-top:45px; }
  .offerHeading h2 { font-size:32px; }
 }
+
+/* Cohesive law-page refinement. Keep the construction review independent. */
+.lawPage { --ctwp-navy:#102c46; --ctwp-muted:#526172; --ctwp-line:#dce2e8; --ctwp-surface:#f5f6f7; }
+.lawPage h2 { font-size:40px; line-height:1.12; }
+.lawPage .eyebrow { font-size:10px; letter-spacing:.13em; }
+.lawPage .trustStrip { gap:55px; background:#f6f7f8; font-size:12px; padding:19px 24px; }
+.lawPage .needs { padding-top:70px; padding-bottom:65px; }
+.lawPage .sectionHead { gap:12px 60px; }
+.lawPage .sectionHead > p:last-child { font-size:16px; line-height:1.65; }
+.lawPage .featureTabs { gap:10px; margin-top:28px; }
+.lawPage .featureTabs button { border-radius:8px; padding:12px; }
+.lawPage .featureTabs button[aria-selected=true] { background:#eef2f5; border-color:#102c46; box-shadow:inset 0 -2px 0 #102c46; }
+.lawPage .tabLabel small { display:none; }
+.lawPage .featurePanel { border-radius:12px; background:#f3f5f6; }
+.lawPage .featurePhoto { aspect-ratio:auto; min-height:390px; }
+.lawPage .featureCopy h3 { font-size:32px; }
+.lawPage .featureCopy > p:not(.eyebrow) { font-size:15px; line-height:1.65; }
+.lawPage .checkList { padding-top:18px; margin-top:20px; }
+.lawPage .textLink { font-weight:500; text-decoration-thickness:1px; }
+.lawPage .offerSection { padding-top:56px; padding-bottom:64px; }
+.lawPage .offerHeading { max-width:610px; }
+.lawPage .offerHeading > p:last-child { font-size:16px; line-height:1.65; }
+.lawPage .offerGrid { gap:16px; margin-top:32px; }
+.lawPage .offerGrid article { background:#f5f6f7; border:0; border-radius:10px; padding:25px; }
+.lawPage .offerGrid h3 { font-size:24px; }
+.lawPage .offerGrid p { font-size:14px; line-height:1.65; }
+.lawPage .repSection { grid-template-columns:220px 1fr; gap:50px; background:#102c46; color:white; padding:45px; border-radius:12px; }
+.lawPage .repPortrait img { height:235px; border-radius:8px; }
+.lawPage .repPortrait > span,.lawPage .signature > span { color:#c5d3de; }
+.lawPage .repIntro .eyebrow { color:#c5d3de; }
+.lawPage .repIntro h2 em { color:#fff; }
+.lawPage .repIntro > p:not(.eyebrow):not(.signature) { color:#dae3eb; font-size:16px; line-height:1.65; }
+.lawPage .repIntro .textLink { display:inline-flex; align-items:center; min-height:44px; gap:10px; }
+.lawPage .reviewSection { padding-top:72px; padding-bottom:64px; gap:65px; }
+.lawPage .reviewIntro > p:not(.eyebrow) { font-size:16px; }
+.lawPage .formCard { background:#f8f9fa; box-shadow:none; padding:28px; }
+.lawPage .choice { background:white; min-height:50px; font-size:14px; }
+.lawPage .choice:has(input:checked) { background:#edf2f6; border-color:#102c46; }
+.lawPage .primary { border-radius:7px; }
+.lawPage .faq { max-width:780px; }
+.lawPage .faq summary { list-style:none; display:flex; justify-content:space-between; align-items:center; gap:20px; min-height:28px; }
+.lawPage .faq summary::-webkit-details-marker { display:none; }
+.lawPage .faq summary::after { content:'+'; font-size:24px; font-weight:400; }
+.lawPage .faq details[open] summary::after { content:'−'; }
+.lawPage .footer { background:#f3f5f6; color:#102c46; padding:32px 24px; }
+.lawPage .footer address,.lawPage .footer small { color:#526172; }
+.lawPage .footer img { width:75px; background:transparent; padding:0; margin-bottom:15px; }
+@media(max-width:899px) {
+ .lawPage h2 { font-size:32px; line-height:1.13; }
+ .lawPage .trustStrip { justify-content:center; gap:16px; padding:15px 16px; font-size:10px; }
+ .lawPage .trustStrip > span::before { margin-right:5px; }
+ .lawPage .needs,.lawPage .offerSection { padding:45px 22px; }
+ .lawPage .sectionHead .eyebrow { margin-bottom:11px; }
+ .lawPage .sectionHead > p:last-child { font-size:15px; margin-top:14px; line-height:1.6; }
+ .lawPage .featureTabs { gap:7px; margin-top:23px; }
+ .lawPage .featureTabs button { padding:9px 6px 12px; gap:8px; }
+ .lawPage .featureTabs button > .tabImage { width:48px; height:48px; border-radius:5px; }
+ .lawPage .tabLabel { min-height:32px; font-size:11px; line-height:1.35; display:flex; align-items:center; }
+ .lawPage .featurePhoto { aspect-ratio:auto; height:235px; min-height:0; }
+ .lawPage .featurePhoto > img { width:300%; max-width:none; object-fit:cover; }
+ .lawPage .featurePhoto > img[style*="left"] { left:0; }
+ .lawPage .featurePhoto > img[style*="center"] { left:-100%; }
+ .lawPage .featurePhoto > img[style*="right"] { left:-200%; }
+ .lawPage .featurePhoto figcaption { font-size:22px; bottom:20px; left:20px; }
+ .lawPage .featurePhoto figcaption > span { display:none; }
+ .lawPage .featureCopy { padding:25px 21px; }
+ .lawPage .featureCopy > .eyebrow { display:none; }
+ .lawPage .featureCopy h3 { font-size:27px; margin:0 0 13px; }
+ .lawPage .featureCopy > p:not(.eyebrow) { font-size:14px; line-height:1.65; }
+ .lawPage .featureCopy .textLink { min-height:44px; display:inline-flex; align-items:center; margin-top:13px; gap:10px; }
+ .lawPage .checkList h4 { font-size:12px; }
+ .lawPage .capabilityNote { font-size:10px; line-height:1.5; margin-top:12px !important; }
+ .lawPage .offerHeading h2 { margin:12px 0 15px; }
+ .lawPage .offerHeading > p:last-child { font-size:15px; }
+ .lawPage .offerGrid { display:grid; grid-template-columns:1fr; gap:10px; margin-top:24px; }
+ .lawPage .offerGrid article { padding:21px; }
+ .lawPage .offerGrid h3 { font-size:23px; margin:7px 0 9px; }
+ .lawPage .offerGrid p { font-size:14px; }
+ .lawPage .repSection { margin:0 14px; padding:28px 24px; gap:22px; }
+ .lawPage .repIntro h2 { margin:11px 0 16px; }
+ .lawPage .repIntro > p:not(.eyebrow):not(.signature) { font-size:15px; }
+ .lawPage .signature { margin-top:19px !important; }
+ .lawPage .repIntro .textLink { font-size:13px; }
+ .lawPage .repPortrait { border-color:#ffffff30; padding-top:20px; }
+ .lawPage .repPortrait img { width:64px; height:72px; }
+ .lawPage .repPortrait > span { font-size:11px; }
+ .lawPage .reviewSection { padding:46px 22px; }
+ .lawPage .reviewIntro h2 { margin:11px 0 15px; }
+ .lawPage .reviewIntro > p:not(.eyebrow) { font-size:15px; }
+ .lawPage .howItWorks { margin:20px 0 24px; }
+ .lawPage .howItWorks li { margin:10px 0; }
+ .lawPage .formCard { padding:23px 18px; margin:0 -2px; }
+ .lawPage .stepTitle { font-size:25px; line-height:1.2; }
+ .lawPage .faq { padding:0 22px 42px; }
+ .lawPage .faq h2 { font-size:28px; margin:10px 0 22px; }
+ .lawPage .faq details { padding:17px 0; }
+ .lawPage .faq summary { font-size:14px; }
+ .lawPage .faq details p { font-size:14px; }
+}
