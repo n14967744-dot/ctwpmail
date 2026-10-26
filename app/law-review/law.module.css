@@ -449,3 +449,22 @@
 }
 
 .companyCopy { min-width:0; }
+
+/* Dealer introduction: balanced identity, readable copy, full-width brands. */
+.companyIntro { grid-template-columns:170px minmax(0,1fr); gap:30px 44px; align-items:start; padding:56px 50px 38px; }
+.companyIdentity { padding-top:4px; }
+.companyIdentity img { width:146px; }
+.companyIdentity p { font-size:14px; margin-top:12px; }
+.companyCopy h2 { font-size:clamp(30px,3vw,40px); line-height:1.14; margin-bottom:18px; }
+.companyCopy > p { font-size:18px; line-height:1.65; max-width:59ch; }
+.companyBrandRow { grid-column:1 / -1; min-width:0; border-top:1px solid #dce3e8; padding-top:22px; }
+.companyBrandRow > section { max-width:none; margin-top:0; }
+@media(max-width:899px) {
+ .companyIntro { grid-template-columns:1fr; padding:32px 0; gap:24px; }
+ .companyIdentity { display:flex; align-items:center; gap:20px; padding:0; }
+ .companyIdentity img { width:100px; }
+ .companyIdentity p { margin:0; font-size:14px; }
+ .companyCopy h2 { font-size:29px; line-height:1.18; margin-bottom:16px; }
+ .companyCopy > p { font-size:16px; line-height:1.65; }
+ .companyBrandRow { padding-top:22px; }
+}

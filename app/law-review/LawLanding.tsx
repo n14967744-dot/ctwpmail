@@ -133,8 +133,8 @@ export function LawLanding({ niche = "law", businessName = "", initialPractice =
     </section>}
 
     {niche === "law" ? <section className={styles.companyIntro} aria-labelledby="company-title">
-      <div className={styles.companyIdentity}><img src="/ctwp-mark.webp" alt="CTWP — Your Copier Company" width="111" height="90" /><p>Serving Texas since 1979</p></div>
-      <div className={styles.companyCopy}><h2 id="company-title">A Texas equipment dealer.<br />A local team behind you.</h2><p>CTWP sells and services copiers, printers, and office equipment from leading brands. Our Bryan–College Station team helps with equipment selection, supplies, training, and ongoing service—so your firm has a place to turn after installation, too.</p><BrandCarousel /></div>
+      <div className={styles.companyIdentity}><img src="/ctwp-mark.webp" alt="CTWP — Your Copier Company" width="111" height="90" /><p>Serving Texas<br />since 1979</p></div>
+      <div className={styles.companyCopy}><h2 id="company-title">A Texas equipment dealer.<br />A local team behind you.</h2><p>Copiers, printers, and people you can call. Our Bryan–College Station team helps your firm choose the right equipment—and keeps supporting you with service, supplies, and training.</p></div><div className={styles.companyBrandRow}><BrandCarousel /></div>
     </section> : <div className={styles.trustStrip}><span>Bryan–College Station</span><span>Wide-format equipment options</span><span>A setup that fits your office</span></div>}
 
     <section className={styles.needs} aria-labelledby="needs-title">
