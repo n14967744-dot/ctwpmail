@@ -344,3 +344,30 @@
  .lawPage .faq summary { font-size:14px; }
  .lawPage .faq details p { font-size:14px; }
 }
+
+/* Section two: a solution-led introduction with compact numbered navigation. */
+.lawPage .needs { padding-top:62px; }
+.lawPage .sectionHead { grid-template-columns:1.05fr 1fr; gap:16px 64px; align-items:center; }
+.lawPage .sectionHead .eyebrow { color:#526172; font-size:11px; font-weight:500; letter-spacing:.075em; text-transform:uppercase; display:flex; align-items:center; gap:10px; }
+.lawPage .sectionHead .eyebrow::before { content:''; display:block; width:22px; height:2px; background:#bb1f34; }
+.lawPage .sectionHead h2 { color:#102c46; font:600 clamp(32px,3.2vw,42px)/1.12 var(--sans); letter-spacing:-.035em; text-wrap:balance; }
+.lawPage .sectionHead > p:last-child { color:#526172; font-size:16px; line-height:1.65; max-width:48ch; padding:0; }
+.lawPage .featureTabs { margin-top:32px; gap:0; border-bottom:1px solid #d7e0e6; }
+.lawPage .featureTabs button { border:0; border-radius:0; background:transparent; padding:16px 20px; min-height:78px; gap:0; text-align:left; color:#526172; align-items:center; border-bottom:3px solid transparent; }
+.lawPage .featureTabs button[aria-selected=true] { background:#f0f4f6; border:0; border-bottom:3px solid #102c46; box-shadow:none; color:#102c46; }
+.lawPage .featureTabs button:hover { background:#f0f4f6; }
+.lawPage .tabLabel { display:flex; align-items:center; gap:12px; font-size:15px; line-height:1.35; min-height:0; }
+.lawPage .tabLabel small { display:inline-grid; place-items:center; color:inherit; background:#e8edf1; width:26px; height:26px; border-radius:50%; font-size:10px; letter-spacing:0; font-weight:500; flex-shrink:0; }
+.lawPage .featureTabs button[aria-selected=true] .tabLabel small { background:#102c46; color:white; }
+.lawPage .featureTabs button > span:last-child:not(.tabLabel) { display:none; }
+@media(max-width:899px) {
+ .lawPage .needs { padding:40px 22px 45px; }
+ .lawPage .sectionHead { display:block; }
+ .lawPage .sectionHead .eyebrow { margin-bottom:16px; font-size:10px; }
+ .lawPage .sectionHead h2 { font-size:32px; line-height:1.12; letter-spacing:-.035em; text-wrap:initial; max-width:19ch; }
+ .lawPage .sectionHead > p:last-child { font-size:15px; line-height:1.6; margin-top:18px; }
+ .lawPage .featureTabs { margin-top:26px; }
+ .lawPage .featureTabs button { padding:12px 8px; min-height:86px; align-items:flex-start; text-align:left; }
+ .lawPage .tabLabel { display:flex; flex-direction:column; align-items:flex-start; gap:8px; font-size:12px; font-weight:500; }
+ .lawPage .tabLabel small { width:23px; height:23px; font-size:10px; }
+}
