@@ -13,40 +13,22 @@ const brands = [
 ];
 
 export function BrandCarousel() {
-  const [perSlide, setPerSlide] = useState(2);
-  const [active, setActive] = useState(0);
-  const [paused, setPaused] = useState(true);
-  const [hovered, setHovered] = useState(false);
-  const total = Math.ceil(brands.length / perSlide);
+  const [paused, setPaused] = useState(false);
+  const [reducedMotion, setReducedMotion] = useState(false);
   useEffect(() => {
-    const screen = window.matchMedia("(min-width: 900px)");
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const resize = () => { setPerSlide(screen.matches ? 3 : 2); setActive(0); };
-    const preference = () => setPaused(motion.matches);
-    resize(); preference();
-    screen.addEventListener("change", resize);
-    motion.addEventListener("change", preference);
-    return () => { screen.removeEventListener("change", resize); motion.removeEventListener("change", preference); };
+    const update = () => setReducedMotion(motion.matches);
+    update(); motion.addEventListener("change", update);
+    return () => motion.removeEventListener("change", update);
   }, []);
-  useEffect(() => {
-    if (paused || hovered) return;
-    const timer = window.setInterval(() => setActive(n => (n + 1) % total), 4500);
-    return () => window.clearInterval(timer);
-  }, [paused, hovered, total]);
-  const move = (direction: number) => { setPaused(true); setActive(n => (n + direction + total) % total); };
-  return <div className={styles.carousel} role="region" aria-roledescription="carousel" aria-label="Brands CTWP carries" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} onFocusCapture={e => { if (!(e.target as HTMLElement).closest("[data-rotation-control]")) setPaused(true); }}>
-    <div className={styles.heading}><p>Brands we carry</p><div className={styles.controls}>
-      <button type="button" aria-label="Previous brands" onClick={() => move(-1)}>←</button>
-      <button type="button" data-rotation-control aria-label={paused ? "Play brand slideshow" : "Pause brand slideshow"} onClick={() => setPaused(p => !p)}>{paused ? <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 9 6-9 6Z" fill="currentColor"/></svg> : <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 4v12M14 4v12" stroke="currentColor" strokeWidth="3"/></svg>}</button>
-      <button type="button" aria-label="Next brands" onClick={() => move(1)}>→</button>
-    </div></div>
-    <div className={styles.viewport} aria-live={paused ? "polite" : "off"}>
-      <div className={styles.track} style={{ transform: `translateX(-${active * 100}%)` }}>
-        {Array.from({ length: total }, (_, page) => <div key={page} className={styles.slide} role="group" aria-roledescription="slide" aria-label={`${page + 1} of ${total}`} aria-hidden={page !== active} style={{ gridTemplateColumns: `repeat(${perSlide}, minmax(0, 1fr))` }}>
-          {brands.slice(page * perSlide, (page + 1) * perSlide).map(brand => <div className={styles.brand} key={brand.name}><img src={brand.src} alt={brand.name} width="180" height="80" /></div>)}
+  return <div className={styles.carousel} role="region" aria-label="Brands CTWP carries">
+    <div className={styles.heading}><h3>Brands we carry</h3>{!reducedMotion && <button type="button" className={styles.control} aria-label={paused ? "Play brand slideshow" : "Pause brand slideshow"} onClick={() => setPaused(p => !p)}><span aria-hidden="true">{paused ? "▶" : "Ⅱ"}</span>{paused ? "Play" : "Pause"}</button>}</div>
+    <div className={styles.viewport}>
+      <div className={styles.track} style={{ animationPlayState: paused ? "paused" : undefined }}>
+        {[0, 1].map(copy => <div className={styles.group} key={copy} aria-hidden={copy === 1 ? true : undefined}>
+          {brands.map(brand => <div className={styles.brand} key={brand.name}><img src={brand.src} alt={copy === 0 ? brand.name : ""} width="180" height="80" /></div>)}
         </div>)}
       </div>
     </div>
-    <div className={styles.dots} aria-hidden="true">{Array.from({ length: total }, (_, page) => <span key={page} className={page === active ? styles.active : ""} />)}</div>
   </div>;
 }

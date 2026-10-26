@@ -426,3 +426,26 @@
  .lawPage .tabLabel { gap:12px; }
  .lawPage .tabLabel svg { width:23px; height:23px; }
 }
+
+/* Readable section labels and checklist headings. */
+.lawPage .sectionHead .eyebrow { font:600 21px/1.35 var(--sans); color:#102c46; letter-spacing:-.02em; text-transform:none; gap:12px; }
+.lawPage .sectionHead .eyebrow::before { width:5px; height:24px; border-radius:3px; }
+.lawPage .checkList h4 { font:600 21px/1.35 var(--sans); letter-spacing:-.02em; color:#102c46; margin-bottom:16px; }
+.lawPage .checkList li { font-size:15px; line-height:1.65; padding-left:23px; }
+.lawPage .checkList ul { gap:12px; }
+.lawPage .checkList li::before { top:10px; }
+.lawPage .featurePhoto > img.serviceImage { width:100%; left:0; object-fit:cover; object-position:center; }
+.serviceBrand { position:absolute; z-index:1; top:20px; left:20px; display:flex; align-items:center; gap:10px; padding:9px 13px; border-radius:7px; background:#fffffff5; color:#102c46; box-shadow:0 4px 15px #102c4610; }
+.serviceBrand img { display:block; width:54px; height:auto; }
+.serviceBrand span { font-size:13px; font-weight:600; }
+@media(max-width:899px) {
+ .lawPage .sectionHead .eyebrow { font-size:19px; margin-bottom:19px; }
+ .lawPage .checkList h4 { font-size:19px; }
+ .lawPage .checkList li { font-size:14px; }
+ .lawPage .featurePhoto > img.serviceImage { object-position:center 44%; }
+ .serviceBrand { top:14px; left:16px; padding:6px 10px; }
+ .serviceBrand img { width:45px; }
+ .serviceBrand span { font-size:12px; }
+}
+
+.companyCopy { min-width:0; }
