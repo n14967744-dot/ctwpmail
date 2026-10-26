@@ -34,10 +34,10 @@ export function BrandCarousel() {
     return () => window.clearInterval(timer);
   }, [paused, hovered, total]);
   const move = (direction: number) => { setPaused(true); setActive(n => (n + direction + total) % total); };
-  return <div className={styles.carousel} role="region" aria-roledescription="carousel" aria-label="Brands CTWP carries" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} onFocusCapture={() => setPaused(true)}>
+  return <div className={styles.carousel} role="region" aria-roledescription="carousel" aria-label="Brands CTWP carries" onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)} onFocusCapture={e => { if (!(e.target as HTMLElement).closest("[data-rotation-control]")) setPaused(true); }}>
     <div className={styles.heading}><p>Brands we carry</p><div className={styles.controls}>
       <button type="button" aria-label="Previous brands" onClick={() => move(-1)}>←</button>
-      <button type="button" aria-label={paused ? "Play brand slideshow" : "Pause brand slideshow"} onClick={() => setPaused(p => !p)}>{paused ? <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 9 6-9 6Z" fill="currentColor"/></svg> : <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 4v12M14 4v12" stroke="currentColor" strokeWidth="3"/></svg>}</button>
+      <button type="button" data-rotation-control aria-label={paused ? "Play brand slideshow" : "Pause brand slideshow"} onClick={() => setPaused(p => !p)}>{paused ? <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m7 4 9 6-9 6Z" fill="currentColor"/></svg> : <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M6 4v12M14 4v12" stroke="currentColor" strokeWidth="3"/></svg>}</button>
       <button type="button" aria-label="Next brands" onClick={() => move(1)}>→</button>
     </div></div>
     <div className={styles.viewport} aria-live={paused ? "polite" : "off"}>
