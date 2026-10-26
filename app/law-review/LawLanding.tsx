@@ -1,13 +1,14 @@
 "use client";
 
+import Image from "next/image";
 import { useRef, useState } from "react";
 import { PHONE_DISPLAY, PHONE_HREF, OFFICE_ADDRESS } from "@/lib/site";
 import styles from "./law.module.css";
 
 const campaign = {
   law: {
-    audience: "For your law firm", title: <>Your deadlines.<br />Your documents.<br />Your kind of copier.</>,
-    intro: "From a quick client letter to a full case file, your equipment should fit the work. Let’s look at what your firm actually needs.",
+    audience: "For law firms in Bryan–College Station", title: <>More time on the case.<br /><em>Less at the copier.</em></>,
+    intro: "Client packets. Scanned case files. One more deadline. Let’s find a Kyocera setup that makes sense for the work on your desk.",
     cta: "Find the right fit for our firm", image: "Leroy + Kyocera · legal office", eyebrow: "Less friction between you and the next deadline",
     heading: <>The paperwork is part of the job.<br />The frustration shouldn’t be.</>,
     explanation: "Start with the tasks that take too many steps, too much waiting, or too much attention.",
@@ -23,7 +24,7 @@ const campaign = {
     note: "Kyocera equipment · configuration based on your needs", specialty: "Litigation, estate planning, family law, or business law: tell us what your practice handles. We’ll focus on your actual document work.",
   },
   construction: {
-    audience: "For your construction team", title: <>The right plans.<br />At the right size.<br />When you need them.</>,
+    audience: "For your construction team", title: <>The plans changed.<br /><em>Keep the job moving.</em></>,
     intro: "Bids change. Drawings get revised. Your crew still needs the right set. Let’s see whether an in-house wide-format setup fits your work.",
     cta: "Find the right fit for our team", image: "Leroy + wide-format printer · construction office", eyebrow: "From the estimating desk to the job site",
     heading: <>A revised drawing.<br />Another trip to the print shop?</>,
@@ -40,13 +41,27 @@ const campaign = {
     note: "Wide-format options · equipment selected to fit your work", specialty: "General contractor, roofer, electrician, or another trade: your drawing sizes and workflow matter more than a one-size-fits-all recommendation.",
   },
 };
-const blank = { equipment: "Not sure", model: "", volume: "Not sure", color: "Not sure", cost: "", agreement: "Not sure", end: "", name: "", contact: "", business: "" };
+const blank = { paper: "Not sure", equipment: "Not sure", model: "", volume: "Not sure", color: "Not sure", cost: "", agreement: "Not sure", end: "", name: "", contact: "", business: "" };
 type Answers = typeof blank;
 
 function Arrow() { return <span aria-hidden="true">↗</span>; }
 
 export function LawLanding({ niche = "law" }: { niche?: "law" | "construction" }) {
   const content = campaign[niche];
+  const [activeNeed, setActiveNeed] = useState(0);
+  const [practice, setPractice] = useState("Litigation");
+  const practices: Record<string, string> = niche === "law" ? {
+    "Litigation": "Discovery files, exhibits, and last-minute packet changes. Let’s look at volume, scan handling, and finishing around your next deadline.",
+    "Family law": "Client intake, financial records, and court paperwork. Let’s focus on everyday scanning, document access, and preparing client copies.",
+    "Estate planning": "Wills, trusts, and signing packets. Let’s talk about consistent output, paper handling, and preparing complete sets.",
+    "Business law": "Contracts, agreements, and revisions. Let’s review how documents move from a printed page to the right digital destination.",
+  } : {
+    "General contracting": "Bid sets, subcontractor copies, and revised drawings. Let’s match the printer to your sheet sizes, turnaround, and project workload.",
+    "Roofing": "Roof plans, details, and takeoff drawings. Let’s see which sheets you actually use and how often you need them on paper.",
+    "Electrical": "Electrical plans, schedules, and color markups. Let’s review line detail, sheet size, and revision printing.",
+    "Other trades": "Tell us which drawings your team uses. We’ll work from your files, paper sizes, and printing frequency.",
+  };
+  const currentPractice = practices[practice] ? practice : Object.keys(practices)[0];
   const needs = content.needs;
   const [step, setStep] = useState(0);
   const [selected, setSelected] = useState<string[]>([]);
@@ -68,11 +83,11 @@ export function LawLanding({ niche = "law" }: { niche?: "law" | "construction" }
   const selectField = (key: keyof Answers, label: string, options: string[]) => <label className={styles.field}><span>{label}</span><select value={answers[key]} onChange={e => update(key, e.target.value)}>{options.map(o => <option key={o}>{o}</option>)}</select></label>;
 
   return <main className={styles.page}>
-    <div className={styles.preview}>Design preview · sample firm · form does not send</div>
+    <div className={styles.preview}>Layout review · temporary imagery · form preview</div>
     <section className={styles.hero} aria-labelledby="law-title">
       <header className={styles.header}>
         <a href="#" aria-label="CTWP home" className={styles.logo}><img src="/ctwp-mark.webp" alt="CTWP, Your Copier Company" width="111" height="63" /></a>
-        <div className={styles.location}>Bryan–College Station<a href={PHONE_HREF}>Call CTWP <Arrow /></a></div>
+        <nav className={styles.nav}><a href="#needs-title">Built for your work</a><a href="#rep-title">Your local team</a></nav><div className={styles.location}>Bryan–College Station<a href={PHONE_HREF}>Let’s talk <Arrow /></a></div>
       </header>
       <div className={styles.heroBody}>
         <div className={styles.heroCopy}>
@@ -84,25 +99,35 @@ export function LawLanding({ niche = "law" }: { niche?: "law" | "construction" }
           <p className={styles.heroNote}>Start with what you know. We’ll help with the rest.</p>
         </div>
         <figure className={styles.heroArt}>
-          <div className={styles.imagePlaceholder}><span>CAMPAIGN IMAGE</span><strong>{content.image}</strong><p>Image composition comes after layout approval.</p></div>
+          <Image src="/dental/hero.jpg" width={1254} height={1254} priority sizes="(max-width: 899px) 100vw, 55vw" alt="Temporary layout image of Leroy beside a copier; final niche artwork will replace this" />
+          <figcaption><span className={styles.paw}>Meet Leroy</span><span>CTWP’s company dog.<br />Your friendly introduction.</span></figcaption>
         </figure>
       </div>
     </section>
 
+    <div className={styles.trustStrip}><span>Local people. Real conversations.</span><span>{niche === "law" ? "Kyocera equipment options" : "Wide-format equipment options"}</span><span>Equipment + service, considered together</span></div>
+
     <section className={styles.needs} aria-labelledby="needs-title">
-      <div className={styles.sectionHead}><p className={styles.eyebrow}>{content.eyebrow}</p><h2 id="needs-title">{content.heading}</h2><p>{content.explanation}</p></div>
-      <div className={styles.needList}>{content.points.map(([heading, description], i) => <article className={styles.need} key={heading}><span className={styles.number}>0{i + 1}</span><div><h3>{heading}</h3><p>{description}</p></div></article>)}</div>
-      <p className={styles.specialty}>{content.specialty}</p>
-      <div className={styles.costNote}><span aria-hidden="true">+</span><p><strong>And yes, the numbers should make sense.</strong> We’ll look at equipment, service, supplies, and agreement timing together.</p></div>
+      <div className={styles.sectionHead}><p className={styles.eyebrow}>{niche === "law" ? "For the work behind the case" : "For the work behind the build"}</p><h2 id="needs-title">{niche === "law" ? <>What’s slowing<br /><em>your firm down?</em></> : <>Plans in hand.<br /><em>One less interruption.</em></>}</h2><p>{niche === "law" ? "A new machine should solve an everyday problem. Start with the one your team notices most." : "Start with the part of getting drawings printed that keeps interrupting your day."}</p></div>
+      <div className={styles.featureTabs} role="tablist" aria-label="Explore equipment needs">{(niche === "law" ? ["Preparing packets", "Scanning files", "Document access"] : ["Last-minute revisions", "Drawing quality", "Scanning plans"]).map((label,i) => <button key={label} type="button" role="tab" id={`need-tab-${i}`} aria-selected={activeNeed === i} aria-controls="need-panel" onClick={() => setActiveNeed(i)}><span>0{i+1}</span>{label}<Arrow /></button>)}</div>
+      <div className={styles.featurePanel} role="tabpanel" id="need-panel" aria-labelledby={`need-tab-${activeNeed}`}>
+        <div className={styles.featureCopy}><p className={styles.eyebrow}>A better setup starts here</p><h3>{content.points[activeNeed][0]}</h3><p>{content.points[activeNeed][1]}</p><a href="#office-review" className={styles.textLink} onClick={() => setSelected([content.needs[activeNeed]])}>Let’s look at this for our {niche === "law" ? "firm" : "team"} <Arrow /></a></div>
+        <div className={styles.workflowVisual} aria-label="Illustrative document workflow">
+          <div className={styles.paperStack}><span className={styles.documentLabel}>{niche === "law" ? ["CLIENT PACKET", "SCANNED CASE FILE", "CONFIDENTIAL PRINT"][activeNeed] : ["REVISED PLAN SET", "DRAWING DETAIL", "MARKED-UP ORIGINAL"][activeNeed]}</span><strong>{niche === "law" ? ["Ready for the\nnext meeting.", "From paper\nto your workflow.", "The right pages.\nThe right people."][activeNeed] : ["Revision in.\nNew set out.", "Every line.\nEvery detail.", "Keep the notes.\nShare the drawing."][activeNeed]}</strong><div className={styles.documentLines}><i/><i/><i/></div><span className={styles.documentFooter}>{niche === "law" ? "YOUR FIRM / YOUR WORKFLOW" : "YOUR TEAM / YOUR DRAWINGS"}</span></div>
+          <div className={styles.workflowTag}><span>✓</span>{niche === "law" ? ["Paper handling + finishing", "Scan destinations + software", "Access + print release"][activeNeed] : ["Sheet size + turnaround", "Scale + color + line detail", "Scan width + file destination"][activeNeed]}</div>
+          <small>Options to review with your CTWP rep</small>
+        </div>
+      </div>
     </section>
 
-    <section className={styles.repSection} aria-labelledby="rep-title">
-      <div className={styles.repIntro}><p className={styles.eyebrow}>A local person behind the page</p><h2 id="rep-title">Hi, I’m Nick.</h2><p>Tell me what’s working—and what isn’t. I’ll review your answers, clarify the details, and help you compare suitable options.</p><p className={styles.signature}>Nick Sanford<span>CTWP · Bryan–College Station</span></p><a className={styles.textLink} href={PHONE_HREF}>Prefer to talk? {PHONE_DISPLAY} <Arrow /></a></div>
-      <div className={styles.repPortrait}><div className={styles.photoPlaceholder} aria-label="Placeholder for Nick’s portrait">NS</div><span>Rep photo goes here</span></div>
-    </section>
+    <section className={styles.practiceSection}><div><p className={styles.eyebrow}>The same industry. Different working days.</p><h2>{niche === "law" ? <>Your practice has<br />its own paperwork.</> : <>Your trade has<br />its own drawing set.</>}</h2></div><div className={styles.practiceContent}><div className={styles.practiceChips}>{Object.keys(practices).map(p => <button key={p} aria-pressed={currentPractice === p} onClick={() => setPractice(p)}>{p}</button>)}</div><p>{practices[currentPractice]}</p><span>We’ll tailor the conversation to your work.</span></div></section>
+
+    <section className={styles.offerSection}><div className={styles.offerHeading}><p className={styles.eyebrow}>Know what you’re comparing</p><h2>More than a machine.<br /><em>A clearer decision.</em></h2><p>Tell us about your current setup. We’ll help you work through the choices that matter.</p></div><div className={styles.offerGrid}><article><span>01 / THE EQUIPMENT</span><h3>What fits your work?</h3><p>{niche === "law" ? "Device capacity, scanning, paper handling, and the accessories you actually need." : "Print width, drawing quality, color, and whether you need a scanner as well."}</p></article><article><span>02 / THE FULL COST</span><h3>What’s included?</h3><p>Equipment, service, supplies, and usage charges—clearly separated so you can compare the arrangement.</p></article><article><span>03 / THE TIMING</span><h3>When does it make sense?</h3><p>Your current agreement, remaining obligations, and installation needs should be part of the conversation.</p></article></div></section>
+
+    <section className={styles.repSection} aria-labelledby="rep-title"><div className={styles.repPortrait}><img src="/leroy.png" alt="Real photo of Leroy at the CTWP office" loading="lazy" /><span>Leroy handles the introduction.<br />Nick handles the conversation.</span></div><div className={styles.repIntro}><p className={styles.eyebrow}>From your neighbors at CTWP</p><h2 id="rep-title">A real person.<br /><em>Right here in Bryan.</em></h2><p>Tell me what’s getting in the way. I’ll help you sort through the equipment and service options, without expecting you to know every model number.</p><p className={styles.signature}>Nick Sanford<span>Your CTWP contact · Bryan–College Station</span></p><a className={styles.textLink} href={PHONE_HREF}>Call CTWP · {PHONE_DISPLAY} <Arrow /></a></div></section>
 
     <section className={styles.reviewSection} id="office-review" aria-labelledby="review-title">
-      <div className={styles.reviewIntro}><p className={styles.eyebrow}>Let’s start with your work</p><h2 id="review-title">You don’t need<br />all the answers.</h2><p>Estimates are fine. “Not sure” is always an option.</p><ol className={styles.howItWorks}><li>Share a few details.</li><li>Your CTWP rep reviews your needs.</li><li>Talk through suitable options.</li></ol></div>
+      <div className={styles.reviewIntro}><p className={styles.eyebrow}>Let’s start with your work</p><h2 id="review-title">Let’s find<br /><em>your better fit.</em></h2><p>A few details give us a useful starting point. Estimates and “not sure” are welcome.</p><ol className={styles.howItWorks}><li>Share a few details.</li><li>Your CTWP rep reviews your needs.</li><li>Talk through suitable options.</li></ol></div>
       <div className={styles.formCard}>
         {!complete ? <>
           <div className={styles.progress} aria-label={`Step ${step + 1} of 3`}><span>{[content.workLabel, "Usage & timing", "Your contact"][step]}</span><span>{step + 1} / 3</span></div>
@@ -115,6 +140,7 @@ export function LawLanding({ niche = "law" }: { niche?: "law" | "construction" }
           </div>}
           {step === 1 && <div className={styles.fields}>
             {selectField("volume", content.volumeLabel, content.volumes)}
+            {niche === "construction" && selectField("paper", "Largest drawing size you need?", ["Not sure", "Up to 24 inches wide", "Up to 36 inches wide", "Larger than 36 inches"])}
             {selectField("color", "How often do you need color?", ["Not sure", "Often", "Sometimes", "Never"])}
             <label className={styles.field}><span>Approximate monthly cost <small>Optional</small></span><input inputMode="decimal" value={answers.cost} onChange={e => update("cost", e.target.value)} placeholder="$  Not sure is fine" maxLength={30} /><small>Equipment and printing together. We’ll clarify what’s included.</small></label>
             {selectField("agreement", "Current lease or service agreement?", ["Not sure", "Yes", "No"])}
@@ -132,12 +158,13 @@ export function LawLanding({ niche = "law" }: { niche?: "law" | "construction" }
           {step === 0 && <p className={styles.formNote}>You can continue without selecting an answer.</p>}
         </> : <div className={styles.summary}>
           <p className={styles.eyebrow}>Preview complete</p><h3 ref={stepHeading} tabIndex={-1} className={styles.stepTitle}>Here’s the starting point.</h3><p>This is the information your CTWP rep would review. Nothing has been sent.</p>
-          <dl><dt>{content.businessLabel}</dt><dd>{answers.business}</dd><dt>Priorities</dt><dd>{selected.join(", ") || "Not sure yet"}</dd><dt>Current equipment</dt><dd>{answers.equipment}{answers.model ? ` · ${answers.model}` : ""}</dd><dt>Print workload / color</dt><dd>{answers.volume} / {answers.color}</dd><dt>Approximate cost</dt><dd>{answers.cost || "Not sure"}</dd><dt>Agreement</dt><dd>{answers.agreement}{answers.agreement === "Yes" && answers.end ? ` · ends ${answers.end}` : ""}</dd><dt>Contact</dt><dd>{answers.name}<br />{answers.contact}</dd></dl>
+          <dl><dt>{content.businessLabel}</dt><dd>{answers.business}</dd><dt>Practice / trade</dt><dd>{currentPractice}</dd><dt>Priorities</dt><dd>{selected.join(", ") || "Not sure yet"}</dd><dt>Current equipment</dt><dd>{answers.equipment}{answers.model ? ` · ${answers.model}` : ""}</dd><dt>Print workload / color</dt><dd>{answers.volume} / {answers.color}</dd>{niche === "construction" && <><dt>Drawing width</dt><dd>{answers.paper}</dd></>}<dt>Approximate cost</dt><dd>{answers.cost || "Not sure"}</dd><dt>Agreement</dt><dd>{answers.agreement}{answers.agreement === "Yes" && answers.end ? ` · ends ${answers.end}` : ""}</dd><dt>Contact</dt><dd>{answers.name}<br />{answers.contact}</dd></dl>
           <button className={styles.back} onClick={() => { setComplete(false); changeStep(2); }}>Edit my answers</button>
         </div>}
       </div>
     </section>
 
+    <section className={styles.faq}><p className={styles.eyebrow}>A few things you might be wondering</p><h2>Before you get started.</h2><details><summary>What if we’re still in a lease?</summary><p>Include the end date if you know it. Your rep will review timing and any remaining obligations before recommending a change.</p></details><details><summary>Do I need our model number or exact page counts?</summary><p>No. Start with what you know. A photo of the equipment or a recent bill can help your rep fill in the details later.</p></details><details><summary>Will I receive an instant quote?</summary><p>Your rep reviews your needs and confirms equipment, availability, and pricing before preparing a proposal. This first step starts that conversation.</p></details></section>
     <footer className={styles.footer}><img src="/ctwp-mark.webp" alt="CTWP" width="105" height="60" /><p>Your neighbors in Bryan–College Station.</p><address>{OFFICE_ADDRESS}</address><a href={PHONE_HREF}>{PHONE_DISPLAY}</a><small>{content.note}</small></footer>
   </main>;
 }

@@ -1,0 +1,1 @@
+export default function MobileReview() { return <div style={{maxWidth:390,margin:"0 auto"}}><iframe title="Mobile law-firm layout" src="/law-review" style={{width:"100%",height:"100dvh",border:0,display:"block"}} /></div>; }
