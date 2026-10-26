@@ -7,8 +7,8 @@ export const LAW_OFFICE_HREF = 'tel:+19797792998';
 
 export const additionalSolutions = [
   ['Know what each month really costs.', 'A lease payment is only part of the picture. We’ll review included pages, color and black-and-white rates, overages, supplies, and service to look for avoidable spending and compare the full cost of your options.'],
-  ['A busy day needs more than a fast printer.', 'Large jobs, small urgent copies, and everyday scanning compete for the same equipment. We’ll review capacity, paper trays, the mix of shared and desktop devices, and service needs around your busiest days.'],
-  ['A new copier shouldn’t become a new project.', 'We’ll map out agreement timing, installation, print settings, scan destinations, and team training before a change. The goal is a planned handover that fits your office, with responsibilities clear from the start.'],
+  ['When the copier stops, the deadline doesn’t.', 'An equipment problem can interrupt hearing prep, client meetings, or everyday work. CTWP’s local team can help with service, supplies, and training. We’ll review what your firm needs, what a service agreement covers, and how to get help when you need it.'],
+  ['A busy day needs more than a fast printer.', 'Large document sets, urgent copies, and everyday scanning can compete for the same machine. We’ll review capacity, paper sizes, trays, and finishing around your busiest days, then consider the right mix of shared equipment and desktop printers.'],
 ] as const;
 
 export const practiceRepFocus: Record<LawPractice, { title: string; copy: string }> = {

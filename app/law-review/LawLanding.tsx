@@ -48,12 +48,12 @@ const blank = { paper: "Not sure", equipment: "Not sure", model: "", volume: "No
 type Answers = typeof blank;
 
 const workflows = [
-  { label: "Preparing packets", position: "left", alt: "Illustration of a collated document packet with divider tabs on an office desk", caption: "Ready for the next meeting.", checks: ["Mixed letter and legal pages", "Two-sided sets in the right order", "Sorting, stapling, and finishing options"] },
-  { label: "Scanning files", position: "center", alt: "Illustration of documents being loaded into an office scanner", caption: "Paper in. A usable file out.", checks: ["Clear scans with less rescanning", "Searchable PDFs and file naming", "A route to the folders your team uses"] },
-  { label: "Private printing", position: "right", alt: "Illustration of an office worker collecting documents from a copier", caption: "Collected by the right person.", checks: ["Releasing a job at the device", "User access and shared equipment", "Keeping client pages off the shared pile"] },
-  { label: "Printing costs", position: "left", alt: "Illustrative document packet representing an office printing workload", caption: "A clearer view of your costs.", checks: ["Included pages and overage rates", "Equipment, supplies, and service", "Current obligations and total cost"] },
-  { label: "Busy-day capacity", position: "right", alt: "Illustration of shared office printing equipment", caption: "A setup that keeps up with your team.", checks: ["Peak workload and simultaneous jobs", "Paper capacity and device placement", "Service needs and backup options"] },
-  { label: "A smoother switch", position: "center", alt: "Illustration of a scanning workflow to review during an equipment change", caption: "A plan for the first day and beyond.", checks: ["Agreement timing and installation", "Print settings and scan destinations", "Team training and handover"] },
+  { label: "Lower printing costs", priority: "Understanding costs & agreements", position: "left", alt: "Illustrative document packet representing an office printing workload", caption: "A clearer view of your costs.", checks: ["Lease payments and remaining obligations", "Included pages, color charges, and overages", "Supplies, service, and total monthly cost"] },
+  { label: "Better local support", priority: "Better service & local support", position: "right", alt: "Illustration of shared office printing equipment", caption: "A local team to call.", checks: ["Who to contact when work is interrupted", "Service coverage and supply arrangements", "Training and day-to-day equipment help"] },
+  { label: "Less packet preparation", priority: "Preparing large document packets", position: "left", alt: "Illustration of a collated document packet with divider tabs on an office desk", caption: "Ready for the next meeting.", checks: ["Mixed letter and legal pages", "Two-sided sets in the right order", "Sorting, stapling, and finishing options"] },
+  { label: "Easier scanning", priority: "Scanning & finding files", position: "center", alt: "Illustration of documents being loaded into an office scanner", caption: "Paper in. A usable file out.", checks: ["Clear scans with less rescanning", "Searchable PDFs and file naming", "A route to the folders your team uses"] },
+  { label: "More private printing", priority: "Document access controls", position: "right", alt: "Illustration of an office worker collecting documents from a copier", caption: "Collected by the right person.", checks: ["Releasing a job at the device", "User access and shared equipment", "Keeping client pages off the shared pile"] },
+  { label: "Equipment that keeps up", priority: "Equipment capacity for busy days", position: "right", alt: "Illustration of shared office printing equipment", caption: "A setup that keeps up with your team.", checks: ["Peak workload and simultaneous jobs", "Paper sizes, trays, and finishing", "Shared devices and desktop printers"] },
 ] as const;
 
 function Arrow() { return <span aria-hidden="true">↗</span>; }
@@ -69,15 +69,15 @@ export function LawLanding({ niche = "law", businessName = "", initialPractice =
     "Other trades": "Tell us which drawings your team uses. We’ll work from your files, paper sizes, and printing frequency.",
   };
   const legalContent = lawPractices[resolveLawPractice(initialPractice)];
-  const points = niche === "law" ? [...legalContent.points, ...additionalSolutions] : content.points;
+  const points = niche === "law" ? [additionalSolutions[0], additionalSolutions[1], ...legalContent.points, additionalSolutions[2]] : content.points;
   const tabCount = points.length;
   const repName = niche === "law" ? "Ryan" : "Nick";
   const officePhone = niche === "law" ? LAW_OFFICE_PHONE : PHONE_DISPLAY;
   const officeHref = niche === "law" ? LAW_OFFICE_HREF : PHONE_HREF;
   const repFocus = practiceRepFocus[resolveLawPractice(initialPractice)];
-  const solutionPriorities = [content.needs[0], content.needs[1], content.needs[2], content.needs[3], "Equipment capacity for busy days", "Planning an equipment change"];
+  const solutionPriorities = workflows.map(workflow => workflow.priority);
   const currentPractice = niche === "law" ? legalContent.label : practice;
-  const needs = niche === "law" ? [...content.needs.slice(0, 5), "Equipment capacity for busy days", "Planning an equipment change", "Not sure yet"] : content.needs;
+  const needs = niche === "law" ? [...solutionPriorities, "Not sure yet"] : content.needs;
   const [step, setStep] = useState(0);
   const [selected, setSelected] = useState<string[]>([]);
   const [answers, setAnswers] = useState<Answers>({ ...blank, business: businessName });
@@ -122,7 +122,7 @@ export function LawLanding({ niche = "law", businessName = "", initialPractice =
     <div className={styles.trustStrip}><span>Bryan–College Station</span><span>{niche === "law" ? "Equipment + local service" : "Wide-format equipment options"}</span><span>A setup that fits your office</span></div>
 
     <section className={styles.needs} aria-labelledby="needs-title">
-      <div className={styles.sectionHead}><p className={styles.eyebrow}>{niche === "law" ? "CTWP for law firms" : "For the work behind the build"}</p><h2 id="needs-title">{niche === "law" ? <>Document solutions.<br />Built around your practice.</> : <>Plans in hand.<br /><em>One less interruption.</em></>}</h2><p>{niche === "law" ? "From complete case packets to clearer printing costs, CTWP helps you put the right equipment, software, and local support around your firm’s work. Explore six ways we can help." : "Start with the part of getting drawings printed that keeps interrupting your day."}</p></div>
+      <div className={styles.sectionHead}><p className={styles.eyebrow}>{niche === "law" ? "CTWP for law firms" : "For the work behind the build"}</p><h2 id="needs-title">{niche === "law" ? <>What would you like to know more about?</> : <>Plans in hand.<br /><em>One less interruption.</em></>}</h2><p>{niche === "law" ? "Explore ways to lower printing costs, simplify your firm’s paperwork, and get the support your team needs." : "Start with the part of getting drawings printed that keeps interrupting your day."}</p></div>
 
       <div className={styles.featureTabs} role="tablist" aria-label="Explore equipment needs">
         {(niche === "law" ? workflows.map(w => w.label) : ["Last-minute revisions", "Drawing quality", "Scanning plans"]).map((label,i) => <button key={label} type="button" role="tab" id={`need-tab-${i}`} aria-selected={activeNeed === i} aria-controls="need-panel" tabIndex={activeNeed === i ? 0 : -1} onKeyDown={e => { const next = e.key === "ArrowRight" ? (i + 1) % tabCount : e.key === "ArrowLeft" ? (i + tabCount - 1) % tabCount : e.key === "Home" ? 0 : e.key === "End" ? tabCount - 1 : -1; if (next >= 0) { e.preventDefault(); setActiveNeed(next); document.getElementById(`need-tab-${next}`)?.focus(); } }} onClick={() => setActiveNeed(i)}>
@@ -132,7 +132,7 @@ export function LawLanding({ niche = "law", businessName = "", initialPractice =
       <div className={styles.featurePanel} role="tabpanel" tabIndex={0} id="need-panel" aria-labelledby={`need-tab-${activeNeed}`}>
         <div className={styles.featureCopy}><p className={styles.eyebrow}>{niche === "law" ? "A little less friction in your day" : "A better setup starts here"}</p><h3>{points[activeNeed][0]}</h3><p>{points[activeNeed][1]}</p>
           {niche === "law" && <div className={styles.checkList}><h4>What we’ll look at together</h4><ul>{workflows[activeNeed].checks.map(check => <li key={check}>{check}</li>)}</ul></div>}
-          <a href="#office-review" className={styles.textLink} onClick={() => setSelected([niche === "law" ? solutionPriorities[activeNeed] : content.needs[activeNeed]])}>{niche === "law" ? "Help with this workflow" : "Let’s look at this for our team"} <Arrow /></a>
+          <a href="#office-review" className={styles.textLink} onClick={() => setSelected([niche === "law" ? solutionPriorities[activeNeed] : content.needs[activeNeed]])}>{niche === "law" ? "Talk with Ryan about this" : "Let’s look at this for our team"} <Arrow /></a>
         </div>
         {niche === "law" ? <figure className={styles.featurePhoto}><img src="/law/workflows-v1.webp" alt={workflows[activeNeed].alt} width="2172" height="724" style={{objectPosition:workflows[activeNeed].position}} loading="lazy" /><figcaption><span>0{activeNeed+1}</span>{workflows[activeNeed].caption}</figcaption></figure> : <div className={styles.workflowVisual} aria-label="Illustrative document workflow">
           <div className={styles.paperStack}><span className={styles.documentLabel}>{["REVISED PLAN SET", "DRAWING DETAIL", "MARKED-UP ORIGINAL"][activeNeed]}</span><strong>{["Revision in.\nNew set out.", "Every line.\nEvery detail.", "Keep the notes.\nShare the drawing."][activeNeed]}</strong><div className={styles.documentLines}><i/><i/><i/></div><span className={styles.documentFooter}>YOUR TEAM / YOUR DRAWINGS</span></div>
