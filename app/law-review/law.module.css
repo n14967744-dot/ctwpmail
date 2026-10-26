@@ -371,3 +371,11 @@
  .lawPage .tabLabel { display:flex; flex-direction:column; align-items:flex-start; gap:8px; font-size:12px; font-weight:500; }
  .lawPage .tabLabel small { width:23px; height:23px; font-size:10px; }
 }
+.lawPage .featureTabs button > .tabLabel { color:inherit; font-size:15px; }
+.lawPage .featurePhoto > img { width:300%; max-width:none; object-fit:cover; }
+.lawPage .featurePhoto > img[style*="left"] { left:0; }
+.lawPage .featurePhoto > img[style*="center"] { left:-100%; }
+.lawPage .featurePhoto > img[style*="right"] { left:-200%; }
+@media(max-width:899px) {
+ .lawPage .featureTabs button > .tabLabel { font-size:12px; }
+}
