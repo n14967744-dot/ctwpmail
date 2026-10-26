@@ -1,0 +1,404 @@
+[
+  {
+    "id": "LAW-004",
+    "slug": "andreski-law-firm-law-004",
+    "name": "Andreski Law Firm",
+    "practice": "criminal"
+  },
+  {
+    "id": "LAW-006",
+    "slug": "banks-banks-attorneys-at-law-p-c-law-006",
+    "name": "Banks & Banks, Attorneys at Law, P.C.",
+    "practice": "family"
+  },
+  {
+    "id": "LAW-007",
+    "slug": "benn-law-group-law-007",
+    "name": "Benn Law Group",
+    "practice": "estate"
+  },
+  {
+    "id": "LAW-069",
+    "slug": "bruchez-goss-p-c-law-069",
+    "name": "Bruchez & Goss, P.C.",
+    "practice": "business"
+  },
+  {
+    "id": "LAW-123",
+    "slug": "c-e-borman-associates-law-123",
+    "name": "C.E. Borman & Associates",
+    "practice": "family"
+  },
+  {
+    "id": "LAW-010",
+    "slug": "chad-jones-law-law-010",
+    "name": "Chad Jones Law",
+    "practice": "personal-injury"
+  },
+  {
+    "id": "LAW-125",
+    "slug": "daniel-stark-injury-lawyers-law-125",
+    "name": "Daniel Stark Injury Lawyers",
+    "practice": "personal-injury"
+  },
+  {
+    "id": "LAW-017",
+    "slug": "dunham-jones-law-017",
+    "name": "Dunham & Jones",
+    "practice": "criminal"
+  },
+  {
+    "id": "LAW-023",
+    "slug": "hoelscher-lipsey-elmore-poole-turnbill-p-c-attorneys-and-counselors-at-law-law-023",
+    "name": "Hoelscher, Lipsey, Elmore, Poole & Turnbill P.C. Attorneys and Counselors at Law",
+    "practice": "general"
+  },
+  {
+    "id": "LAW-079",
+    "slug": "james-reynolds-ask-kleinschmidt-law-079",
+    "name": "James, Reynolds, Ask & Kleinschmidt",
+    "practice": "criminal"
+  },
+  {
+    "id": "LAW-089",
+    "slug": "middleton-middleton-law-089",
+    "name": "Middleton & Middleton",
+    "practice": "estate"
+  },
+  {
+    "id": "LAW-095",
+    "slug": "paradowski-law-law-095",
+    "name": "Paradowski Law",
+    "practice": "personal-injury"
+  },
+  {
+    "id": "LAW-035",
+    "slug": "peterson-law-group-law-035",
+    "name": "Peterson Law Group",
+    "practice": "estate"
+  },
+  {
+    "id": "LAW-039",
+    "slug": "rodgers-miller-rodriguez-fusco-p-c-law-039",
+    "name": "Rodgers, Miller, Rodriguez & Fusco P.C",
+    "practice": "business"
+  },
+  {
+    "id": "LAW-102",
+    "slug": "rodriguez-gimbert-p-l-l-c-law-102",
+    "name": "Rodriguez & Gimbert P.L.L.C.",
+    "practice": "personal-injury"
+  },
+  {
+    "id": "LAW-104",
+    "slug": "searcy-gandy-p-c-law-104",
+    "name": "Searcy & Gandy, P.C.",
+    "practice": "general"
+  },
+  {
+    "id": "LAW-042",
+    "slug": "shane-phelps-law-law-042",
+    "name": "Shane Phelps Law",
+    "practice": "criminal"
+  },
+  {
+    "id": "LAW-047",
+    "slug": "stibbs-co-p-c-law-047",
+    "name": "Stibbs & Co., P.C.",
+    "practice": "business"
+  },
+  {
+    "id": "LAW-134",
+    "slug": "the-carlson-law-firm-law-134",
+    "name": "The Carlson Law Firm",
+    "practice": "personal-injury"
+  },
+  {
+    "id": "LAW-114",
+    "slug": "the-law-office-of-jay-granberry-law-114",
+    "name": "The Law Office of Jay Granberry",
+    "practice": "criminal"
+  },
+  {
+    "id": "LAW-056",
+    "slug": "the-payne-law-group-law-056",
+    "name": "The Payne Law Group",
+    "practice": "personal-injury"
+  },
+  {
+    "id": "LAW-059",
+    "slug": "waltman-law-group-law-059",
+    "name": "Waltman Law Group",
+    "practice": "personal-injury"
+  },
+  {
+    "id": "LAW-060",
+    "slug": "watson-law-firm-law-060",
+    "name": "Watson Law Firm",
+    "practice": "real-estate"
+  },
+  {
+    "id": "LAW-061",
+    "slug": "west-webb-allbritton-gentry-pc-law-061",
+    "name": "West Webb Allbritton & Gentry PC",
+    "practice": "general"
+  },
+  {
+    "id": "LAW-001",
+    "slug": "a-navarro-law-firm-law-001",
+    "name": "A Navarro Law Firm",
+    "practice": "family"
+  },
+  {
+    "id": "LAW-003",
+    "slug": "amaro-law-firm-college-station-law-003",
+    "name": "Amaro Law Firm - College Station",
+    "practice": "personal-injury"
+  },
+  {
+    "id": "LAW-005",
+    "slug": "angel-reyes-associates-law-005",
+    "name": "Angel Reyes & Associates",
+    "practice": "personal-injury"
+  },
+  {
+    "id": "LAW-068",
+    "slug": "brian-foley-law-brazos-county-law-068",
+    "name": "Brian Foley Law \u2014 Brazos County",
+    "practice": "criminal"
+  },
+  {
+    "id": "LAW-043",
+    "slug": "bruno-shimek-law-firm-law-043",
+    "name": "Bruno Shimek Law Firm",
+    "practice": "criminal"
+  },
+  {
+    "id": "LAW-008",
+    "slug": "calderon-legal-group-law-008",
+    "name": "Calderon Legal Group",
+    "practice": "personal-injury"
+  },
+  {
+    "id": "LAW-073",
+    "slug": "cofer-cofer-inc-law-073",
+    "name": "Cofer & Cofer Inc",
+    "practice": "family"
+  },
+  {
+    "id": "LAW-012",
+    "slug": "courtney-allen-family-law-law-012",
+    "name": "Courtney Allen Family Law",
+    "practice": "family"
+  },
+  {
+    "id": "LAW-016",
+    "slug": "davis-davis-lawyers-law-016",
+    "name": "Davis & Davis Lawyers",
+    "practice": "personal-injury"
+  },
+  {
+    "id": "LAW-018",
+    "slug": "flanigan-law-firm-law-018",
+    "name": "Flanigan Law Firm",
+    "practice": "criminal"
+  },
+  {
+    "id": "LAW-019",
+    "slug": "funkhouser-legal-law-019",
+    "name": "Funkhouser Legal",
+    "practice": "criminal"
+  },
+  {
+    "id": "LAW-020",
+    "slug": "garney-law-firm-pllc-law-020",
+    "name": "Garney Law Firm, PLLC",
+    "practice": "personal-injury"
+  },
+  {
+    "id": "LAW-021",
+    "slug": "gutierrez-accident-injury-lawyer-law-021",
+    "name": "Gutierrez Accident Injury Lawyer",
+    "practice": "personal-injury"
+  },
+  {
+    "id": "LAW-022",
+    "slug": "hernandez-law-firm-p-c-law-022",
+    "name": "Hernandez Law Firm, P.C.",
+    "practice": "personal-injury"
+  },
+  {
+    "id": "LAW-024",
+    "slug": "holt-hutchins-pllc-law-024",
+    "name": "Holt & Hutchins, PLLC",
+    "practice": "business"
+  },
+  {
+    "id": "LAW-026",
+    "slug": "j-fred-bayliss-pc-law-026",
+    "name": "J. Fred Bayliss, PC",
+    "practice": "real-estate"
+  },
+  {
+    "id": "LAW-077",
+    "slug": "jd4-law-law-077",
+    "name": "JD4 Law",
+    "practice": "personal-injury"
+  },
+  {
+    "id": "LAW-027",
+    "slug": "kyle-a-davis-attorney-at-law-law-027",
+    "name": "Kyle A. Davis Attorney At Law",
+    "practice": "criminal"
+  },
+  {
+    "id": "LAW-028",
+    "slug": "laura-leon-law-p-l-l-c-law-028",
+    "name": "Laura Leon Law, P.L.L.C.",
+    "practice": "immigration"
+  },
+  {
+    "id": "LAW-084",
+    "slug": "law-office-of-paula-e-silva-law-084",
+    "name": "Law Office of Paula E. Silva",
+    "practice": "criminal"
+  },
+  {
+    "id": "LAW-029",
+    "slug": "law-office-of-randy-michel-law-029",
+    "name": "Law Office of Randy Michel",
+    "practice": "family"
+  },
+  {
+    "id": "LAW-031",
+    "slug": "mancuso-law-firm-pllc-law-031",
+    "name": "Mancuso Law Firm, PLLC",
+    "practice": "family"
+  },
+  {
+    "id": "LAW-088",
+    "slug": "martinez-law-texas-pllc-law-088",
+    "name": "Martinez Law Texas PLLC",
+    "practice": "family"
+  },
+  {
+    "id": "LAW-032",
+    "slug": "matt-barton-law-firm-law-032",
+    "name": "Matt Barton Law Firm",
+    "practice": "criminal"
+  },
+  {
+    "id": "LAW-034",
+    "slug": "melvin-law-group-pllc-law-034",
+    "name": "Melvin Law Group PLLC",
+    "practice": "immigration"
+  },
+  {
+    "id": "LAW-090",
+    "slug": "moon-law-law-090",
+    "name": "Moon Law",
+    "practice": "real-estate"
+  },
+  {
+    "id": "LAW-094",
+    "slug": "o-connor-associates-law-094",
+    "name": "O'Connor & Associates",
+    "practice": "personal-injury"
+  },
+  {
+    "id": "LAW-036",
+    "slug": "reyes-blum-pllc-bryan-law-036",
+    "name": "Reyes Blum PLLC - Bryan",
+    "practice": "immigration"
+  },
+  {
+    "id": "LAW-037",
+    "slug": "rhodes-humble-llp-law-037",
+    "name": "Rhodes Humble LLP",
+    "practice": "personal-injury"
+  },
+  {
+    "id": "LAW-038",
+    "slug": "richard-d-talbert-p-c-attorneys-law-038",
+    "name": "Richard D. Talbert P.C. Attorneys",
+    "practice": "estate"
+  },
+  {
+    "id": "LAW-133",
+    "slug": "rushton-hoffman-law-law-133",
+    "name": "Rushton Hoffman Law",
+    "practice": "immigration"
+  },
+  {
+    "id": "LAW-040",
+    "slug": "sarah-wilkinson-law-law-040",
+    "name": "Sarah Wilkinson Law",
+    "practice": "criminal"
+  },
+  {
+    "id": "LAW-045",
+    "slug": "spiegelhauer-law-law-045",
+    "name": "Spiegelhauer Law",
+    "practice": "criminal"
+  },
+  {
+    "id": "LAW-046",
+    "slug": "stephen-gustitis-criminal-defense-attorney-law-046",
+    "name": "Stephen Gustitis, Criminal Defense Attorney",
+    "practice": "criminal"
+  },
+  {
+    "id": "LAW-048",
+    "slug": "stuart-f-lewis-law-office-law-048",
+    "name": "Stuart F Lewis Law Office",
+    "practice": "personal-injury"
+  },
+  {
+    "id": "LAW-051",
+    "slug": "the-ellison-firm-law-051",
+    "name": "The Ellison Firm",
+    "practice": "general"
+  },
+  {
+    "id": "LAW-112",
+    "slug": "the-greening-law-group-law-112",
+    "name": "The Greening Law Group",
+    "practice": "criminal"
+  },
+  {
+    "id": "LAW-113",
+    "slug": "the-law-office-of-craig-m-greaves-law-113",
+    "name": "The Law Office of Craig M. Greaves",
+    "practice": "criminal"
+  },
+  {
+    "id": "LAW-054",
+    "slug": "the-law-office-of-fred-a-medina-pllc-law-054",
+    "name": "The Law Office of Fred A Medina PLLC",
+    "practice": "estate"
+  },
+  {
+    "id": "LAW-053",
+    "slug": "the-law-office-of-rod-mitchell-pllc-law-053",
+    "name": "The Law Office Of Rod Mitchell, PLLC",
+    "practice": "estate"
+  },
+  {
+    "id": "LAW-055",
+    "slug": "the-law-offices-of-drew-gibson-and-associates-law-055",
+    "name": "The Law Offices Of Drew Gibson and Associates",
+    "practice": "general"
+  },
+  {
+    "id": "LAW-057",
+    "slug": "turnbull-legal-group-bryan-law-057",
+    "name": "Turnbull Legal Group \u2014 Bryan",
+    "practice": "criminal"
+  },
+  {
+    "id": "LAW-062",
+    "slug": "william-f-carter-attorney-at-law-law-062",
+    "name": "William F. Carter Attorney at Law",
+    "practice": "criminal"
+  }
+]
