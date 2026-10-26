@@ -50,3 +50,7 @@
  .recipient > p { font-size:20px; }
  .button { font-size:14px; }
 }
+/* A slightly stronger CTWP signature without increasing header clutter. */
+.sender img { width:84px; }
+.sender { font-size:14px; }
+@media(max-width:899px) { .sender img { width:72px; } .sender { font-size:12px; } }

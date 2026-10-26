@@ -1,12 +1,12 @@
 import Image from "next/image";
-import { PHONE_HREF } from "@/lib/site";
+import { LAW_OFFICE_HREF } from "./law-solutions";
 import styles from "./LegalHero.module.css";
 
 export function LegalHero({ businessName = "" }: { businessName?: string }) {
   return <section className={styles.hero} aria-labelledby="law-title">
     <header className={styles.header}>
       <div className={styles.sender}><span>From your<br />neighbors at</span><img src="/ctwp-mark.webp" alt="CTWP" width="111" height="90" /></div>
-      <a className={styles.call} href={PHONE_HREF}>Call Nick <span aria-hidden="true">↗</span></a>
+      <a className={styles.call} href={LAW_OFFICE_HREF}>Call CTWP <span aria-hidden="true">↗</span></a>
     </header>
     <div className={styles.layout}>
       <div className={styles.content}>

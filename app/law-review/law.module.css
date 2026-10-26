@@ -379,3 +379,22 @@
 @media(max-width:899px) {
  .lawPage .featureTabs button > .tabLabel { font-size:12px; }
 }
+/* Six solutions keep the approved three-column rhythm. */
+.lawPage .featureTabs { row-gap:6px; }
+.repBrand { display:flex; align-items:center; gap:15px; margin-bottom:24px; }
+.repBrand img { width:80px; height:auto; padding:5px; background:white; border-radius:5px; flex-shrink:0; }
+.repBrand > span { font-size:16px; line-height:1.4; }
+.repBrand small { font-size:12px; color:#c5d3de; }
+.repFocusTitle { font:500 19px/1.4 var(--sans); margin:0 0 12px !important; }
+.lawPage .repIntro > .repPromise { border-left:2px solid #c74756; padding-left:14px; margin-top:20px; font-size:15px; color:white; }
+.repOfficeLink { display:block; width:fit-content; font-size:12px; text-underline-offset:4px; padding:9px 0; color:inherit; }
+.lawPage .footer img { width:95px; }
+@media(max-width:899px) {
+ .lawPage .featureTabs button { min-height:82px; }
+ .repBrand { gap:12px; margin-bottom:22px; }
+ .repBrand img { width:70px; }
+ .repBrand > span { font-size:14px; }
+ .repBrand small { font-size:11px; }
+ .repFocusTitle { font-size:17px; margin-bottom:12px !important; }
+ .lawPage .repIntro > .repPromise { font-size:14px; line-height:1.6; }
+}
