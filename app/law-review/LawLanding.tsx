@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { PHONE_DISPLAY, PHONE_HREF, OFFICE_ADDRESS } from "@/lib/site";
 import styles from "./law.module.css";
+import { LegalHero } from "./LegalHero";
 
 const campaign = {
   law: {
@@ -84,7 +85,7 @@ export function LawLanding({ niche = "law" }: { niche?: "law" | "construction" }
 
   return <main className={styles.page}>
     <div className={styles.preview}>Layout review · temporary imagery · form preview</div>
-    <section className={styles.hero} aria-labelledby="law-title">
+    {niche === "law" ? <LegalHero /> : <section className={styles.hero} aria-labelledby="law-title">
       <header className={styles.header}>
         <a href="#" aria-label="CTWP home" className={styles.logo}><img src="/ctwp-mark.webp" alt="CTWP, Your Copier Company" width="111" height="63" /></a>
         <nav className={styles.nav}><a href="#needs-title">Built for your work</a><a href="#rep-title">Your local team</a></nav><div className={styles.location}>Bryan–College Station<a href={PHONE_HREF}>Let’s talk <Arrow /></a></div>
@@ -103,7 +104,7 @@ export function LawLanding({ niche = "law" }: { niche?: "law" | "construction" }
           <figcaption><span className={styles.paw}>Meet Leroy</span><span>CTWP’s company dog.<br />Your friendly introduction.</span></figcaption>
         </figure>
       </div>
-    </section>
+    </section>}
 
     <div className={styles.trustStrip}><span>Local people. Real conversations.</span><span>{niche === "law" ? "Kyocera equipment options" : "Wide-format equipment options"}</span><span>Equipment + service, considered together</span></div>
 
