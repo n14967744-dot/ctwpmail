@@ -2,7 +2,7 @@ import Image from "next/image";
 import { PHONE_HREF } from "@/lib/site";
 import styles from "./LegalHero.module.css";
 
-export function LegalHero({ businessName = "Your law firm" }: { businessName?: string }) {
+export function LegalHero({ businessName = "" }: { businessName?: string }) {
   return <section className={styles.hero} aria-labelledby="law-title">
     <header className={styles.header}>
       <a href="#" className={styles.logo} aria-label="CTWP home"><img src="/ctwp-mark.webp" alt="CTWP, Your Copier Company" width="111" height="90" /></a>
@@ -12,7 +12,7 @@ export function LegalHero({ businessName = "Your law firm" }: { businessName?: s
     <div className={styles.composition}>
       <div className={styles.copy}>
         <p className={styles.eyebrow}>From your neighbors at CTWP</p>
-        <p className={styles.recipient}>{businessName}</p>
+        <p className={styles.recipient}>{businessName ? <><span>Prepared for</span>{businessName}</> : "For law firms in Bryan–College Station"}</p>
         <h1 id="law-title">More time on the case.<br /><em>Less at the copier.</em></h1>
         <p className={styles.description}>Client packets. Scanned files. The next deadline.<br className={styles.mobileBreak} /> Let’s make the paperwork easier.</p>
       </div>
@@ -21,7 +21,7 @@ export function LegalHero({ businessName = "Your law firm" }: { businessName?: s
         <figcaption>Meet Leroy <span>· CTWP’s company dog</span></figcaption>
       </figure>
       <div className={styles.actions}>
-        <a className={styles.button} href="#office-review">Find the right fit for our firm <span aria-hidden="true">↗</span></a>
+        <a className={styles.button} href="#office-review">Find our firm’s fit <span aria-hidden="true">↗</span></a>
         <p>Start with what you know. We’ll help with the rest.</p>
       </div>
     </div>

@@ -201,10 +201,6 @@
  .faq summary { font-size:15px; }
 }
 @media (min-width:600px) and (max-width:899px) { .heroCopy { max-width:600px; } .heroArt { max-width:600px; } .needs,.offerSection,.reviewSection,.faq { padding-left:max(24px,calc((100vw - 550px)/2)); padding-right:max(24px,calc((100vw - 550px)/2)); } }
-.practicePicker { margin-top:36px; display:grid; grid-template-columns:1fr 1fr; gap:12px 35px; align-items:center; border-top:1px solid var(--ctwp-line); padding-top:26px; }
-.practicePicker label { font-size:15px; font-weight:600; }
-.practicePicker select { border:1px solid #bac7d6; border-radius:6px; background:white; color:var(--ctwp-navy); font:inherit; font-size:14px; padding:13px 15px; width:100%; }
-.practicePicker p { grid-column:1 / -1; color:#536173; font-size:14px; margin:0; }
 .colorSection { padding:75px max(48px,calc((100vw - 1200px)/2)); background:#edf1f6; }
 .colorHeading { max-width:750px; }
 .colorHeading h2 { margin:16px 0 22px; }
@@ -224,12 +220,11 @@
 .colorSample2 b { background:linear-gradient(130deg,#052d5e 40%,#618aaa 40% 65%,#bb1f33 65%); height:63px; border:0; }
 .colorSample2 i:nth-last-child(1),.colorSample2 i:nth-last-child(2) { display:none; }
 .colorBottom { border-top:1px solid #c7d2e0; padding-top:25px; display:grid; grid-template-columns:1.7fr 1fr; align-items:center; gap:38px; }
-.colorBottom p { font-size:14px; line-height:1.8; color:#536173; }
-.colorBottom a { font-size:14px; justify-self:end; }
+.colorBottom h3 { font:500 24px/1.25 var(--serif); margin:0 0 12px; }
+.colorBottom p { font-size:15px; line-height:1.7; color:#536173; }
+.colorBottom small { display:block; margin-top:13px; font-size:11px; line-height:1.6; color:#536173; }
+.colorBottom a { font-size:14px; justify-self:end; padding:15px 0; text-underline-offset:6px; }
 @media (max-width:899px) {
- .practicePicker { display:block; margin-top:24px; padding-top:20px; }
- .practicePicker label { display:block; font-size:13px; margin-bottom:12px; }
- .practicePicker p { font-size:12px; margin-top:12px; line-height:1.7; }
  .colorSection { padding:50px 24px; }
  .colorHeading > p:last-child { font-size:16px; }
  .colorGrid { display:block; margin:26px 0; }
@@ -244,3 +239,7 @@
  .colorBottom { display:block; }
  .colorBottom a { display:inline-flex; margin-top:20px; font-size:13px; }
 }
+
+.featurePanel:focus-visible { outline:3px solid var(--ctwp-red); outline-offset:4px; }
+.page :where(h2,h3) { text-wrap:balance; }
+@media (max-width:899px) { .featurePanel { flex-direction:column; } .featureTabs button { min-height:65px; } .colorBottom h3 { font-size:24px; } }
