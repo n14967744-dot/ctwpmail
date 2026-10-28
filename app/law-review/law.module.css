@@ -472,3 +472,11 @@
 .solutionsBrand { grid-column:1 / -1; margin-bottom:10px; }
 .solutionsBrand img { display:block; width:min(100%, 360px); height:auto; }
 @media(max-width:899px) { .solutionsBrand { margin-bottom:23px; } .solutionsBrand img { width:min(100%, 320px); } }
+
+/* A single summary and a clear next step for each solution. */
+.lawPage .featureCopy .solutionButton { margin-top:22px; min-height:52px; text-decoration:none; }
+.lawPage .solutionButton:focus-visible { outline:3px solid #102c46; outline-offset:4px; }
+@media(max-width:899px) {
+ .lawPage .featureCopy .solutionButton { display:flex; width:100%; margin-top:20px; padding:16px 18px; font-size:15px; }
+ .lawPage .featureCopy > p:not(.eyebrow) { font-size:16px; line-height:1.6; }
+}
