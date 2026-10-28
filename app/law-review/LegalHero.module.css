@@ -23,11 +23,11 @@
  .hero .firmName { font-size:22px; }
  .message { font-size:20px; line-height:1.45; margin:0 auto !important; max-width:36ch; }
  .art { width:100%; margin:17px 0 0; border-radius:0; }
- .art img { aspect-ratio:1.5; object-position:center 56%; }
+ .art img { height:clamp(170px,28svh,240px); aspect-ratio:auto; object-position:center 56%; }
  .art::after { inset:0; background:linear-gradient(180deg,#102c46 0%,transparent 16%,transparent 70%,#102c46 100%); }
  .art figcaption { left:24px; bottom:13px; font-size:10px; }
  .art figcaption strong { display:inline; font-size:12px; margin-right:4px; }
- .action { width:100%; padding:20px 24px 0; }
+ .action { width:100%; padding:8px 24px 0; }
  .note { text-align:center; font-size:11px; margin-top:10px !important; }
 }
 @container hero (max-width:899px) {
@@ -37,11 +37,11 @@
  .hero .firmName { font-size:22px; }
  .message { font-size:20px; line-height:1.45; margin:0 auto !important; max-width:36ch; }
  .art { width:100%; margin:17px 0 0; border-radius:0; }
- .art img { aspect-ratio:1.5; object-position:center 56%; }
+ .art img { height:clamp(170px,28svh,240px); aspect-ratio:auto; object-position:center 56%; }
  .art::after { inset:0; background:linear-gradient(180deg,#102c46 0%,transparent 16%,transparent 70%,#102c46 100%); }
  .art figcaption { left:24px; bottom:13px; font-size:10px; }
  .art figcaption strong { display:inline; font-size:12px; margin-right:4px; }
- .action { width:100%; padding:20px 24px 0; }
+ .action { width:100%; padding:8px 24px 0; }
  .note { text-align:center; font-size:11px; margin-top:10px !important; }
 }
 
