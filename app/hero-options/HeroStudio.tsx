@@ -18,6 +18,7 @@ export function HeroStudio() {
   const [direction, setDirection] = useState<CompareDirection>("selected");
   const [device, setDevice] = useState<"desktop" | "phone">("desktop");
   const [firm, setFirm] = useState("Your Law Firm");
+  const [phoneHeight, setPhoneHeight] = useState(740);
   const selected = options.find(option => option.id === direction)!;
   return <main className={styles.studio}>
     <div className={styles.toolbar}>
@@ -27,9 +28,10 @@ export function HeroStudio() {
         <label>Try a firm name<input value={firm} maxLength={160} onChange={event => setFirm(event.target.value)} /></label>
         <div className={styles.devices} role="group" aria-label="Preview width"><button aria-pressed={device === "desktop"} onClick={() => setDevice("desktop")}>Desktop</button><button aria-pressed={device === "phone"} onClick={() => setDevice("phone")}>Phone</button></div>
       </div>
+      {device === "phone" && direction === "selected" && <div className={styles.devices} role="group" aria-label="Phone height">{[568, 740, 844].map(height => <button key={height} aria-pressed={phoneHeight === height} onClick={() => setPhoneHeight(height)}>{height}px tall</button>)}</div>}
     </div>
     <div className={styles.caption} aria-live="polite"><strong>{selected.letter} · {selected.name}</strong><span>{selected.description}</span></div>
-    <div className={`${styles.screen} ${device === "phone" ? styles.phone : ""}`}>{direction === "selected" ? <ResponsiveLegalHero businessName={firm} /> : direction === "current" ? <LegalHero businessName={firm} /> : <LawHeroDirections direction={direction} businessName={firm} />}</div>
+    <div className={`${styles.screen} ${device === "phone" ? styles.phone : ""}`}>{direction === "selected" && device === "phone" ? <iframe title="Full law-firm page on a phone" src="/banks-banks-attorneys-at-law-p-c-law-006" style={{ display: "block", width: "100%", height: phoneHeight, border: 0 }} /> : direction === "selected" ? <ResponsiveLegalHero businessName={firm} /> : direction === "current" ? <LegalHero businessName={firm} /> : <LawHeroDirections direction={direction} businessName={firm} />}</div>
     <p className={styles.bottom}>Switch between Desktop and Phone to check your selected combination. Open a firm from the demo to try its form.</p>
   </main>;
 }

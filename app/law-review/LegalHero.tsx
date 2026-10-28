@@ -1,20 +1,13 @@
 import Image from "next/image";
-import { LAW_OFFICE_HREF } from "./law-solutions";
 import styles from "./LegalHero.module.css";
 import { legalHeroCopy } from "./hero-copy";
 
 export function LegalHero({ businessName = "", imageSrc = "/review/leroy-mail-original.webp", headingId = "law-title", ctaHref = "#office-review" }: { businessName?: string; imageSrc?: string; headingId?: string; ctaHref?: string }) {
   return <section className={styles.hero} aria-labelledby={headingId}>
-    <header className={styles.header}>
-      <div className={styles.sender}><span>From your<br />neighbors at</span><img src="/ctwp-mark.webp" alt="CTWP" width="111" height="90" /></div>
-      <a className={styles.call} href={LAW_OFFICE_HREF}>Call CTWP <span aria-hidden="true">↗</span></a>
-    </header>
     <div className={styles.layout}>
       <div className={styles.content}>
-        <div className={styles.recipient}><span>{businessName ? "Prepared for" : "Right here in Bryan–College Station"}</span>{businessName && <p>{businessName}</p>}</div>
-        <h1 id={headingId}>{legalHeroCopy.headline}<br /><em>{legalHeroCopy.emphasis}</em></h1>
-        <p className={styles.description}>{legalHeroCopy.description}</p>
-        <p className={styles.offer}>{legalHeroCopy.offer}</p>
+        <div className={styles.recipient}><span>Prepared for</span><h1 className={styles.firmName} id={headingId}>{businessName || "Your Law Firm"}</h1></div>
+        <p className={styles.message}>{legalHeroCopy.message}</p>
       </div>
       <figure className={styles.art}>
         <Image src={imageSrc} width={1448} height={1086} sizes="(max-width: 899px) 100vw, 55vw" priority alt="Leroy beside a copier in the law-office campaign artwork" />

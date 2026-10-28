@@ -20,7 +20,7 @@ function Action({ text = "Start your equipment review", href = "/law-test" }: { 
 export function LawHeroDirections({ direction, businessName, ctaHref = "/law-test", headingId, imageSrc = "/review/leroy-mail-original.webp" }: { direction: HeroDirection; businessName: string; ctaHref?: string; headingId?: string; imageSrc?: string }) {
   const firm = businessName.trim() || "Your Law Firm";
   return <section className={`${styles.hero} ${styles[direction]}`} aria-labelledby={headingId} aria-label={headingId ? undefined : `${direction} hero preview`}>
-    <Header />
+    {direction !== "leroy" && <Header />}
     {direction === "split" && <>
       <div className={styles.splitBody}>
         <div className={styles.splitCopy}>
@@ -58,10 +58,8 @@ export function LawHeroDirections({ direction, businessName, ctaHref = "/law-tes
           <figcaption>Consider this a friendly introduction.</figcaption>
         </figure>
         <div className={styles.leroyCopy}>
-          <p className={styles.forFirm}>Prepared for <strong>{firm}</strong></p>
-          <h1 id={headingId}>{legalHeroCopy.headline}<br /><em>{legalHeroCopy.emphasis}</em></h1>
-          <p className={styles.description}>{legalHeroCopy.description}</p>
-          <p className={styles.offer}>{legalHeroCopy.offer}</p>
+          <div className={styles.forFirm}>Prepared for<h1 className={styles.firmName} id={headingId}>{firm}</h1></div>
+          <p className={styles.message}>{legalHeroCopy.message}</p>
           <Action text={legalHeroCopy.action} href={ctaHref} />
           <a className={styles.secondary} href={LAW_OFFICE_HREF}>Or talk with the Bryan team <span aria-hidden="true">↗</span></a>
         </div>
