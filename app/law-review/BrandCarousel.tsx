@@ -1,6 +1,3 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import styles from "./BrandCarousel.module.css";
 
 const brands = [
@@ -13,22 +10,10 @@ const brands = [
 ];
 
 export function BrandCarousel() {
-  const [paused, setPaused] = useState(false);
-  const [reducedMotion, setReducedMotion] = useState(false);
-  useEffect(() => {
-    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const update = () => setReducedMotion(motion.matches);
-    update(); motion.addEventListener("change", update);
-    return () => motion.removeEventListener("change", update);
-  }, []);
   return <div className={styles.carousel} role="region" aria-label="Brands CTWP carries">
-    <div className={styles.heading}><h3>Brands we carry</h3>{!reducedMotion && <button type="button" className={styles.control} aria-label={paused ? "Play brand slideshow" : "Pause brand slideshow"} onClick={() => setPaused(p => !p)}><span aria-hidden="true">{paused ? "▶" : "Ⅱ"}</span></button>}</div>
-    <div className={styles.viewport}>
-      <div className={styles.track} style={{ animationPlayState: paused ? "paused" : undefined }}>
-        {[0, 1].map(copy => <div className={styles.group} key={copy} aria-hidden={copy === 1 ? true : undefined}>
-          {brands.map(brand => <div className={styles.brand} key={brand.name}><img src={brand.src} alt={copy === 0 ? brand.name : ""} width="180" height="80" /></div>)}
-        </div>)}
-      </div>
+    <div className={styles.heading}><h3>Brands we carry</h3></div>
+    <div className={styles.group}>
+      {brands.map(brand => <div className={styles.brand} key={brand.name}><img src={brand.src} alt={brand.name} width="180" height="80" /></div>)}
     </div>
   </div>;
 }
