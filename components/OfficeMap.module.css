@@ -1,0 +1,17 @@
+.section { padding: clamp(48px, 7vw, 96px) max(24px, calc((100% - 1180px) / 2)); color: #052d5e; background: #f2f6fa; }
+.heading { max-width: 680px; margin-bottom: 28px; }
+.eyebrow { margin: 0 0 12px; color: #bb1f33; font-weight: 700; font-size: .8rem; letter-spacing: .1em; text-transform: uppercase; }
+.heading h2 { margin: 0 0 16px; font-size: clamp(2rem, 4vw, 3.3rem); line-height: 1.13; letter-spacing: -.035em; }
+.heading > p:last-child { line-height: 1.7; color: #4a5c6e; }
+.card { background: white; border: 1px solid #dbe3eb; border-radius: 18px; overflow: hidden; display: grid; grid-template-columns: 1.5fr 1fr; }
+.card iframe { width: 100%; min-height: 370px; height: 100%; border: 0; }
+.body { padding: 32px; display: flex; flex-direction: column; justify-content: center; gap: 26px; }
+.body strong { display: block; margin-bottom: 8px; }
+.body address { font-style: normal; line-height: 1.7; }
+.body p { margin: 6px 0 0; line-height: 1.6; }
+.origin { font-weight: 700; overflow-wrap: anywhere; }
+.origin span { display: block; color: #526477; font-size: .88rem; font-weight: 400; margin-top: 5px; }
+.body a { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 15px 18px; border: 1px solid #052d5e; border-radius: 8px; text-decoration: none; color: #052d5e; font-weight: 700; }
+.body a:hover { background: #edf3f8; }
+.body a:focus-visible { outline: 3px solid #bb1f33; outline-offset: 4px; }
+@media (max-width: 720px) { .card { grid-template-columns: 1fr; } .card iframe { min-height: 290px; } .body { padding: 24px; gap: 20px; } }

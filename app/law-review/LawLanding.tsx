@@ -6,6 +6,9 @@ import { PHONE_DISPLAY, PHONE_HREF, OFFICE_ADDRESS } from "@/lib/site";
 import styles from "./law.module.css";
 import { LegalHero } from "./LegalHero";
 import { BrandCarousel } from "./BrandCarousel";
+import { OfficeMap } from "@/components/OfficeMap";
+import { lawTestAddress, type LawTestRecipient } from "@/lib/law-test-types";
+import { lawTestRun, lawTestSource } from "@/lib/law-test-client";
 import { additionalSolutions, practiceRepFocus, LAW_OFFICE_PHONE, LAW_OFFICE_HREF } from "./law-solutions";
 import { lawPractices, resolveLawPractice, type LawPractice } from "./law-content";
 
@@ -71,7 +74,7 @@ function SolutionIcon({ index }: { index: number }) {
 
 function Arrow() { return <span aria-hidden="true">↗</span>; }
 
-export function LawLanding({ niche = "law", businessName = "", initialPractice = "general" }: { niche?: "law" | "construction"; businessName?: string; initialPractice?: LawPractice }) {
+export function LawLanding({ niche = "law", businessName = "", initialPractice = "general", testRecipient }: { niche?: "law" | "construction"; businessName?: string; initialPractice?: LawPractice; testRecipient?: LawTestRecipient }) {
   const content = campaign[niche];
   const [activeNeed, setActiveNeed] = useState(0);
   const [practice, setPractice] = useState<string>(niche === "law" ? initialPractice : "General contracting");
@@ -97,14 +100,35 @@ export function LawLanding({ niche = "law", businessName = "", initialPractice =
   const [contactType, setContactType] = useState<"email" | "tel">("email");
   const [complete, setComplete] = useState(false);
   const [error, setError] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [receipt, setReceipt] = useState("");
+  const submissionId = useRef("");
   const stepHeading = useRef<HTMLHeadingElement>(null);
   const update = (key: keyof Answers, value: string) => { setAnswers(a => ({ ...a, [key]: value })); setError(""); };
   const changeStep = (next: number) => { setStep(next); setError(""); requestAnimationFrame(() => stepHeading.current?.focus()); };
   const toggle = (value: string) => setSelected(a => value === "Not sure yet" ? (a.includes(value) ? [] : [value]) : a.includes(value) ? a.filter(x => x !== value) : [...a.filter(x => x !== "Not sure yet"), value]);
-  const finish = () => {
+  const finish = async () => {
+    if (saving) return;
     if (!answers.business.trim()) { setError("Please add your business name."); return; }
     if (!answers.name.trim()) { setError("Please add your name."); return; }
     if (contactType === "email" ? !/^\S+@\S+\.\S+$/.test(answers.contact.trim()) : answers.contact.replace(/\D/g, "").length < 10) { setError(contactType === "email" ? "Please add a valid email address." : "Please add a phone number with at least 10 digits."); return; }
+    if (testRecipient) {
+      setSaving(true);
+      setError("");
+      submissionId.current ||= crypto.randomUUID();
+      try {
+        const response = await fetch("/api/law-test", {
+          method: "POST", headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: submissionId.current, runId: lawTestRun(), slug: testRecipient.slug, event: "form_submit", source: lawTestSource(), answers, priorities: selected, contactType }),
+        });
+        const result = await response.json();
+        if (!response.ok || !result.ok) throw new Error(result.error || "Your test was not saved. Please try again.");
+        setReceipt(result.receipt);
+      } catch (cause) {
+        setError(cause instanceof Error ? cause.message : "Your test was not saved. Please try again.");
+        return;
+      } finally { setSaving(false); }
+    }
     setComplete(true);
     requestAnimationFrame(() => stepHeading.current?.focus());
   };
@@ -166,6 +190,8 @@ export function LawLanding({ niche = "law", businessName = "", initialPractice =
 
     <section className={styles.repSection} aria-labelledby="rep-title"><div className={styles.repPortrait}><img src="/leroy.png" alt="Real photo of Leroy at the CTWP office" loading="lazy" /><span>Leroy handles the introduction.<br />{repName} handles the conversation.</span></div><div className={styles.repIntro}><div className={styles.repBrand}><img src="/ctwp-mark.webp" alt="CTWP" width="111" height="90" /><span>Your local copier company<br /><small>Bryan–College Station</small></span></div><h2 id="rep-title">Meet {repName}.<br /><em>Let’s talk about your practice.</em></h2><h3 className={styles.repFocusTitle}>{niche === "law" ? repFocus.title : "Your workflow comes first."}</h3><p>{niche === "law" ? repFocus.copy : "Tell me what’s working, what isn’t, and what you’d rather spend less time on. I’ll help you make sense of the options."}</p><p className={styles.repPromise}>My focus: fewer unnecessary steps, a setup that fits, and a clear view of where you could save.</p><p className={styles.signature}>{repName}<span>Your CTWP contact · Bryan–College Station</span></p><a className={styles.textLink} href="#office-review">Start a review with {repName} <Arrow /></a><a className={styles.repOfficeLink} href={officeHref}>Call {niche === "law" ? "the Bryan office" : "CTWP"} · {officePhone}</a></div></section>
 
+    {niche === "law" && <OfficeMap name={businessName} address={testRecipient ? lawTestAddress(testRecipient) : ""} />}
+
     <section className={styles.reviewSection} id="office-review" aria-labelledby="review-title">
       <div className={styles.reviewIntro}><p className={styles.eyebrow}>Your equipment review</p><h2 id="review-title">Start with<br /><em>what you know.</em></h2><p>No model numbers handy? No problem. A little about your office is enough to begin.</p><ol className={styles.howItWorks}><li>Share a few details.</li><li>{repName} reviews your needs.</li><li>Talk through suitable options.</li></ol></div>
       <div className={styles.formCard}>
@@ -191,15 +217,15 @@ export function LawLanding({ niche = "law", businessName = "", initialPractice =
             <label className={styles.field}><span>Your name</span><input autoComplete="name" value={answers.name} onChange={e => update("name", e.target.value)} maxLength={120} /></label>
             <fieldset className={styles.contactChoice}><legend>How would you prefer to hear from us?</legend>{(["email", "tel"] as const).map(t => <label key={t}><input type="radio" name="contact-method" checked={contactType === t} onChange={() => { setContactType(t); update("contact", ""); }} />{t === "email" ? "Email" : "Phone"}</label>)}</fieldset>
             <label className={styles.field}><span>{contactType === "email" ? "Email address" : "Phone number"}</span><input type={contactType} autoComplete={contactType} value={answers.contact} onChange={e => update("contact", e.target.value)} maxLength={160} /></label>
-            <p className={styles.formNote}>This preview lets you try the questions. Your answers stay on this page and aren’t sent to CTWP.</p>
+            <p className={styles.formNote}>{testRecipient ? "Use sample contact details. This saves a test submission only; no calls, emails, or CRM updates are triggered." : "This preview lets you try the questions. Your answers stay on this page and aren’t sent to CTWP."}</p>
           </div>}
           {error && <p className={styles.error} role="alert">{error}</p>}
-          <div className={styles.formActions}>{step > 0 && <button className={styles.back} onClick={() => changeStep(step - 1)}>Back</button>}<button className={styles.primary} onClick={() => step < 2 ? changeStep(step + 1) : finish()}>{step < 2 ? "Continue" : "Review my details"}<Arrow /></button></div>
-          {step === 0 && <p className={styles.formNote}>Not sure? Continue with what you know. This form is a preview; nothing is sent.</p>}
+          <div className={styles.formActions}>{step > 0 && <button className={styles.back} disabled={saving} onClick={() => changeStep(step - 1)}>Back</button>}<button className={styles.primary} disabled={saving} onClick={() => step < 2 ? changeStep(step + 1) : finish()}>{saving ? "Saving test…" : step < 2 ? "Continue" : testRecipient ? "Save test submission" : "Review my details"}<Arrow /></button></div>
+          {step === 0 && <p className={styles.formNote}>{testRecipient ? "Test mode. Continue with what you know, then use sample contact details." : "Not sure? Continue with what you know. This form is a preview; nothing is sent."}</p>}
         </> : <div className={styles.summary}>
-          <p className={styles.eyebrow}>Preview complete</p><h3 ref={stepHeading} tabIndex={-1} className={styles.stepTitle}>Here’s the starting point.</h3><p>This is the information your CTWP rep would review. Nothing has been sent.</p>
+          <p className={styles.eyebrow}>{receipt ? "Test saved" : "Preview complete"}</p><h3 ref={stepHeading} tabIndex={-1} className={styles.stepTitle}>{receipt ? "Your test submission is saved." : "Here’s the starting point."}</h3><p role="status">{receipt ? `Linked to ${testRecipient?.name} (${testRecipient?.id}). No outreach was sent. Test reference: ${receipt}` : "This is the information your CTWP rep would review. Nothing has been sent."}</p>
           <dl><dt>{content.businessLabel}</dt><dd>{answers.business}</dd><dt>Practice / trade</dt><dd>{currentPractice}</dd><dt>Priorities</dt><dd>{selected.join(", ") || "Not sure yet"}</dd><dt>Current equipment</dt><dd>{answers.equipment}{answers.model ? ` · ${answers.model}` : ""}</dd><dt>Print workload / color</dt><dd>{answers.volume} / {answers.color}</dd>{niche === "construction" && <><dt>Drawing width</dt><dd>{answers.paper}</dd></>}<dt>Approximate cost</dt><dd>{answers.cost || "Not sure"}</dd><dt>Agreement</dt><dd>{answers.agreement}{answers.agreement === "Yes" && answers.end ? ` · ends ${answers.end}` : ""}</dd><dt>Contact</dt><dd>{answers.name}<br />{answers.contact}</dd></dl>
-          <button className={styles.back} onClick={() => { setComplete(false); changeStep(2); }}>Edit my answers</button>
+          <button className={styles.back} onClick={() => { submissionId.current = ""; setReceipt(""); setComplete(false); changeStep(2); }}>Edit my answers</button>
         </div>}
       </div>
     </section>

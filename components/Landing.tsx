@@ -1,8 +1,9 @@
 import { Header } from "./Header";
 import { QuoteForm } from "./QuoteForm";
 import { ServiceButton } from "./ServiceButton";
+import { officeMapLinks } from "@/lib/office-map";
 import {
-  IMAGES, OFFICE_ADDRESS, OFFICE_HOURS, OFFICE_MAPS_QUERY, PHONE_DISPLAY, PHONE_HREF,
+  IMAGES, OFFICE_ADDRESS, OFFICE_HOURS, PHONE_DISPLAY, PHONE_HREF,
   fullAddress, possessive, shortName, type Business,
 } from "@/lib/site";
 
@@ -36,11 +37,7 @@ export function Landing({ business }: { business: Business }) {
   const name = business.name.trim();
   const short = shortName(name);
   const start = fullAddress(business);
-  const office = encodeURIComponent(OFFICE_MAPS_QUERY);
-  const mapSrc = start
-    ? `https://maps.google.com/maps?saddr=${encodeURIComponent(start)}&daddr=${office}&output=embed`
-    : `https://maps.google.com/maps?q=${office}&z=15&output=embed`;
-  const directions = `https://www.google.com/maps/dir/?api=1${start ? `&origin=${encodeURIComponent(start)}` : ""}&destination=${office}`;
+  const { embed: mapSrc, directions } = officeMapLinks(start);
 
   return (
     <div id="top">
