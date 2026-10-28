@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { LAW_OFFICE_HREF } from "@/app/law-review/law-solutions";
 import styles from "./LawHeroDirections.module.css";
+import { legalHeroCopy } from "@/app/law-review/hero-copy";
 
 export type HeroDirection = "split" | "editorial" | "leroy";
 
@@ -57,10 +58,11 @@ export function LawHeroDirections({ direction, businessName, ctaHref = "/law-tes
           <figcaption>Consider this a friendly introduction.</figcaption>
         </figure>
         <div className={styles.leroyCopy}>
-          <p className={styles.forFirm}>Hello, <strong>{firm}.</strong></p>
-          <h1 id={headingId}>Good people.<br /><em>Better printing.</em></h1>
-          <p className={styles.description}>A local team to help your firm find the right equipment—and keep it working.</p>
-          <Action text="Meet your next setup" href={ctaHref} />
+          <p className={styles.forFirm}>Prepared for <strong>{firm}</strong></p>
+          <h1 id={headingId}>{legalHeroCopy.headline}<br /><em>{legalHeroCopy.emphasis}</em></h1>
+          <p className={styles.description}>{legalHeroCopy.description}</p>
+          <p className={styles.offer}>{legalHeroCopy.offer}</p>
+          <Action text={legalHeroCopy.action} href={ctaHref} />
           <a className={styles.secondary} href={LAW_OFFICE_HREF}>Or talk with the Bryan team <span aria-hidden="true">↗</span></a>
         </div>
       </div>

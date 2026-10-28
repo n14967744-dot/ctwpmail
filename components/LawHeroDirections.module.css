@@ -50,9 +50,10 @@
 .leroyCopy { display:flex; flex-direction:column; justify-content:center; padding:45px 11%; }
 .leroyCopy .forFirm { color:#bfccdc; }
 .leroyCopy .forFirm strong { color:#fff; margin-top:5px; }
-.leroyCopy h1 { font-family:var(--sans); font-size:clamp(40px,4.5cqw,59px); line-height:1.1; }
+.leroyCopy h1 { font-family:var(--serif); font-size:clamp(38px,4cqw,54px); line-height:1.1; }
 .leroyCopy h1 em { color:#d6e3ef; }
-.leroyCopy .description { color:#c8d5e1; font-size:16px; }
+.leroyCopy .description { color:#c8d5e1; font-size:16px; margin-bottom:15px; }
+.offer { color:#fff; font-size:14px; line-height:1.6; margin:0 0 24px; max-width:38ch; }
 .leroyCopy .cta { align-self:flex-start; gap:22px; }
 .secondary { color:#d4e0eb; margin-top:20px; text-decoration:none; font-size:12px; line-height:1.6; }
 .secondary:hover { text-decoration:underline; }
