@@ -2,7 +2,7 @@ import posthog from "posthog-js";
 
 const key = process.env.NEXT_PUBLIC_POSTHOG_KEY;
 // Design-only form previews must not create prospect events or recordings.
-const isLawDesignReview = typeof window !== "undefined" && /^\/(?:law-review|law-test|construction-review)(?:\/|$)/.test(window.location.pathname);
+const isLawDesignReview = typeof window !== "undefined" && /^\/(?:law-review|law-test|hero-options|construction-review)(?:\/|$)/.test(window.location.pathname);
 
 if (key && typeof window !== "undefined" && !isLawDesignReview) {
   posthog.init(key, {
