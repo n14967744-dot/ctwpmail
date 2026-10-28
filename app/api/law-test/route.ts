@@ -8,7 +8,9 @@ const failure = (error: string, status = 400) => NextResponse.json({ ok: false, 
 
 export async function POST(request: NextRequest) {
   const origin = request.headers.get("origin");
-  if (!origin || origin !== request.nextUrl.origin) return failure("This test must be submitted from its CTWP page.", 403);
+  let sameOrigin = false;
+  try { const parsed = new URL(origin || ""); sameOrigin = ["https:", "http:"].includes(parsed.protocol) && parsed.host === request.headers.get("host"); } catch {}
+  if (!sameOrigin) return failure("This test must be submitted from its CTWP page.", 403);
   if (!request.headers.get("content-type")?.includes("application/json")) return failure("Send a JSON request.", 415);
   const raw = await request.text();
   if (raw.length > 12000) return failure("This test request is too large.", 413);
