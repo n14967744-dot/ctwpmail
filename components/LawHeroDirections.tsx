@@ -6,7 +6,7 @@ export type HeroDirection = "split" | "editorial" | "leroy";
 
 function Header() {
   return <header className={styles.header}>
-    <a href="/law-test" aria-label="CTWP law-firm demo"><img src="/ctwp-mark.webp" alt="CTWP — Your Copier Company" width="111" height="90" /></a>
+    <a href="#" aria-label="CTWP home"><img src="/ctwp-mark.webp" alt="CTWP — Your Copier Company" width="111" height="90" /></a>
     <span className={styles.local}>Your local copier company<span>Bryan–College Station</span></span>
     <a className={styles.call} href={LAW_OFFICE_HREF}>Talk to CTWP <span aria-hidden="true">↗</span></a>
   </header>;

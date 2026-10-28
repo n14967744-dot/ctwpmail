@@ -122,10 +122,10 @@ export function LawLanding({ niche = "law", businessName = "", initialPractice =
           body: JSON.stringify({ id: submissionId.current, runId: lawTestRun(), slug: testRecipient.slug, event: "form_submit", source: lawTestSource(), answers, priorities: selected, contactType }),
         });
         const result = await response.json();
-        if (!response.ok || !result.ok) throw new Error(result.error || "Your test was not saved. Please try again.");
+        if (!response.ok || !result.ok) throw new Error(result.error || "Your details were not saved. Please try again.");
         setReceipt(result.receipt);
       } catch (cause) {
-        setError(cause instanceof Error ? cause.message : "Your test was not saved. Please try again.");
+        setError(cause instanceof Error ? cause.message : "Your details were not saved. Please try again.");
         return;
       } finally { setSaving(false); }
     }
@@ -217,13 +217,13 @@ export function LawLanding({ niche = "law", businessName = "", initialPractice =
             <label className={styles.field}><span>Your name</span><input autoComplete="name" value={answers.name} onChange={e => update("name", e.target.value)} maxLength={120} /></label>
             <fieldset className={styles.contactChoice}><legend>How would you prefer to hear from us?</legend>{(["email", "tel"] as const).map(t => <label key={t}><input type="radio" name="contact-method" checked={contactType === t} onChange={() => { setContactType(t); update("contact", ""); }} />{t === "email" ? "Email" : "Phone"}</label>)}</fieldset>
             <label className={styles.field}><span>{contactType === "email" ? "Email address" : "Phone number"}</span><input type={contactType} autoComplete={contactType} value={answers.contact} onChange={e => update("contact", e.target.value)} maxLength={160} /></label>
-            <p className={styles.formNote}>{testRecipient ? "Use sample contact details. This saves a test submission only; no calls, emails, or CRM updates are triggered." : "This preview lets you try the questions. Your answers stay on this page and aren’t sent to CTWP."}</p>
+            <p className={styles.formNote}>{testRecipient ? "Your details are saved securely with your equipment review." : "This preview lets you try the questions. Your answers stay on this page and aren’t sent to CTWP."}</p>
           </div>}
           {error && <p className={styles.error} role="alert">{error}</p>}
-          <div className={styles.formActions}>{step > 0 && <button className={styles.back} disabled={saving} onClick={() => changeStep(step - 1)}>Back</button>}<button className={styles.primary} disabled={saving} onClick={() => step < 2 ? changeStep(step + 1) : finish()}>{saving ? "Saving test…" : step < 2 ? "Continue" : testRecipient ? "Save test submission" : "Review my details"}<Arrow /></button></div>
-          {step === 0 && <p className={styles.formNote}>{testRecipient ? "Test mode. Continue with what you know, then use sample contact details." : "Not sure? Continue with what you know. This form is a preview; nothing is sent."}</p>}
+          <div className={styles.formActions}>{step > 0 && <button className={styles.back} disabled={saving} onClick={() => changeStep(step - 1)}>Back</button>}<button className={styles.primary} disabled={saving} onClick={() => step < 2 ? changeStep(step + 1) : finish()}>{saving ? "Saving…" : step < 2 ? "Continue" : testRecipient ? "Send my equipment review" : "Review my details"}<Arrow /></button></div>
+          {step === 0 && <p className={styles.formNote}>{testRecipient ? "Not sure? Continue with what you know. We can fill in the details together." : "Not sure? Continue with what you know. This form is a preview; nothing is sent."}</p>}
         </> : <div className={styles.summary}>
-          <p className={styles.eyebrow}>{receipt ? "Test saved" : "Preview complete"}</p><h3 ref={stepHeading} tabIndex={-1} className={styles.stepTitle}>{receipt ? "Your test submission is saved." : "Here’s the starting point."}</h3><p role="status">{receipt ? `Linked to ${testRecipient?.name} (${testRecipient?.id}). No outreach was sent. Test reference: ${receipt}` : "This is the information your CTWP rep would review. Nothing has been sent."}</p>
+          <p className={styles.eyebrow}>{receipt ? "Details received" : "Preview complete"}</p><h3 ref={stepHeading} tabIndex={-1} className={styles.stepTitle}>{receipt ? "Your equipment review is saved." : "Here’s the starting point."}</h3><p role="status">{receipt ? `Your details have been saved for ${testRecipient?.name}. Reference: ${receipt}` : "This is the information your CTWP rep would review. Nothing has been sent."}</p>
           <dl><dt>{content.businessLabel}</dt><dd>{answers.business}</dd><dt>Practice / trade</dt><dd>{currentPractice}</dd><dt>Priorities</dt><dd>{selected.join(", ") || "Not sure yet"}</dd><dt>Current equipment</dt><dd>{answers.equipment}{answers.model ? ` · ${answers.model}` : ""}</dd><dt>Print workload / color</dt><dd>{answers.volume} / {answers.color}</dd>{niche === "construction" && <><dt>Drawing width</dt><dd>{answers.paper}</dd></>}<dt>Approximate cost</dt><dd>{answers.cost || "Not sure"}</dd><dt>Agreement</dt><dd>{answers.agreement}{answers.agreement === "Yes" && answers.end ? ` · ends ${answers.end}` : ""}</dd><dt>Contact</dt><dd>{answers.name}<br />{answers.contact}</dd></dl>
           <button className={styles.back} onClick={() => { submissionId.current = ""; setReceipt(""); setComplete(false); changeStep(2); }}>Edit my answers</button>
         </div>}
