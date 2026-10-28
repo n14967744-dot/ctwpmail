@@ -1,0 +1,5 @@
+.responsiveHero { min-width:0; }
+.mobile { display:none; }
+.desktop { display:block; }
+@media(max-width:899px) { .mobile { display:block; } .desktop { display:none; } }
+@container hero (max-width:899px) { .mobile { display:block; } .desktop { display:none; } }

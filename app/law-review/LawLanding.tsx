@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { PHONE_DISPLAY, PHONE_HREF, OFFICE_ADDRESS } from "@/lib/site";
 import styles from "./law.module.css";
-import { LegalHero } from "./LegalHero";
+import { ResponsiveLegalHero } from "@/components/ResponsiveLegalHero";
 import { BrandCarousel } from "./BrandCarousel";
 import { OfficeMap } from "@/components/OfficeMap";
 import { lawTestAddress, type LawTestRecipient } from "@/lib/law-test-types";
@@ -135,7 +135,7 @@ export function LawLanding({ niche = "law", businessName = "", initialPractice =
   const selectField = (key: keyof Answers, label: string, options: string[]) => <label className={styles.field}><span>{label}</span><select value={answers[key]} onChange={e => update(key, e.target.value)}>{options.map(o => <option key={o}>{o}</option>)}</select></label>;
 
   return <main className={`${styles.page} ${niche === "law" ? styles.lawPage : ""}`}>
-    {niche === "law" ? <LegalHero businessName={businessName} /> : <section className={styles.hero} aria-labelledby="law-title">
+    {niche === "law" ? <ResponsiveLegalHero businessName={businessName} /> : <section className={styles.hero} aria-labelledby="law-title">
       <header className={styles.header}>
         <a href="#" aria-label="CTWP home" className={styles.logo}><img src="/ctwp-mark.webp" alt="CTWP, Your Copier Company" width="111" height="63" /></a>
         <nav className={styles.nav}><a href="#needs-title">Built for your work</a><a href="#rep-title">Your local team</a></nav><div className={styles.location}>Bryan–College Station<a href={PHONE_HREF}>Let’s talk <Arrow /></a></div>
