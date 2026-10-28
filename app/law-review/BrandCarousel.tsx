@@ -22,7 +22,7 @@ export function BrandCarousel() {
     return () => motion.removeEventListener("change", update);
   }, []);
   return <div className={styles.carousel} role="region" aria-label="Brands CTWP carries">
-    <div className={styles.heading}><h3>Brands we carry</h3>{!reducedMotion && <button type="button" className={styles.control} aria-label={paused ? "Play brand slideshow" : "Pause brand slideshow"} onClick={() => setPaused(p => !p)}><span aria-hidden="true">{paused ? "▶" : "Ⅱ"}</span>{paused ? "Play" : "Pause"}</button>}</div>
+    <div className={styles.heading}><h3>Brands we carry</h3>{!reducedMotion && <button type="button" className={styles.control} aria-label={paused ? "Play brand slideshow" : "Pause brand slideshow"} onClick={() => setPaused(p => !p)}><span aria-hidden="true">{paused ? "▶" : "Ⅱ"}</span></button>}</div>
     <div className={styles.viewport}>
       <div className={styles.track} style={{ animationPlayState: paused ? "paused" : undefined }}>
         {[0, 1].map(copy => <div className={styles.group} key={copy} aria-hidden={copy === 1 ? true : undefined}>

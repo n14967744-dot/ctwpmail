@@ -468,3 +468,7 @@
  .companyCopy > p { font-size:16px; line-height:1.65; }
  .companyBrandRow { padding-top:22px; }
 }
+
+.solutionsBrand { grid-column:1 / -1; margin-bottom:10px; }
+.solutionsBrand img { display:block; width:min(100%, 360px); height:auto; }
+@media(max-width:899px) { .solutionsBrand { margin-bottom:23px; } .solutionsBrand img { width:min(100%, 320px); } }
