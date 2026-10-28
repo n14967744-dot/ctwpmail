@@ -157,7 +157,15 @@ export function LawLanding({ niche = "law", businessName = "", initialPractice =
 
     {niche === "law" ? <section className={styles.companyIntro} aria-labelledby="company-title">
       <div className={styles.companyIdentity}><img src="/ctwp-mark.webp" alt="CTWP — Your Copier Company" width="111" height="90" /><p>Serving Texas<br />since 1979</p></div>
-      <div className={styles.companyCopy}><h2 id="company-title">A Texas equipment dealer.<br />A local team behind you.</h2><p>Copiers, printers, and people you can call. Our Bryan–College Station team helps your firm choose the right equipment—and keeps supporting you with service, supplies, and training.</p></div><div className={styles.companyBrandRow}><BrandCarousel /></div>
+      <div className={styles.companyCopy}><h2 id="company-title">Office equipment sales and service.<br />Serving Texas for over 45 years.</h2><p>For more than 45 years, CTWP has provided Texas businesses with office equipment sales and service. As one of the state’s largest independently operated copier dealers, we offer copiers, printers, mailing equipment, and more—with a Bryan–College Station team providing local service and support.</p></div><div className={styles.customerRow} aria-label="Some of the organizations we serve">
+        <h3>Some of the organizations we serve</h3>
+        <div className={styles.customerLogos}>
+          <figure><img src="/customers/tamu.png" alt="Texas A&M University" width="240" height="120" /><figcaption>Texas A&amp;M departments</figcaption></figure>
+          <figure><img src="/customers/bryan-isd.png" alt="Bryan ISD" width="240" height="120" /><figcaption>Bryan ISD</figcaption></figure>
+          <figure><img src="/customers/college-station.png" alt="City of College Station" width="240" height="120" /><figcaption>City of College Station</figcaption></figure>
+          <figure><img src="/customers/bcs-chamber.png" alt="Bryan–College Station Chamber of Commerce" width="240" height="120" /><figcaption>B-CS Chamber of Commerce</figcaption></figure>
+        </div>
+      </div><div className={styles.companyBrandRow}><BrandCarousel /></div>
     </section> : <div className={styles.trustStrip}><span>Bryan–College Station</span><span>Wide-format equipment options</span><span>A setup that fits your office</span></div>}
 
     <section className={styles.needs} aria-labelledby="needs-title">

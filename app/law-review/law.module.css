@@ -480,3 +480,15 @@
  .lawPage .featureCopy .solutionButton { display:flex; width:100%; margin-top:20px; padding:16px 18px; font-size:15px; }
  .lawPage .featureCopy > p:not(.eyebrow) { font-size:16px; line-height:1.6; }
 }
+
+.customerRow { grid-column:1 / -1; border-top:1px solid #dce3e8; padding-top:26px; min-width:0; }
+.customerRow h3 { margin:0 0 22px; font:600 21px/1.35 var(--sans); color:#102c46; }
+.customerLogos { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:24px; align-items:start; }
+.customerLogos figure { margin:0; text-align:center; min-width:0; }
+.customerLogos img { width:100%; max-width:190px; height:96px; object-fit:contain; }
+.customerLogos figcaption { margin-top:12px; font-size:12px; line-height:1.4; color:#526172; }
+@media(max-width:899px) {
+ .customerRow h3 { font-size:19px; }
+ .customerLogos { grid-template-columns:repeat(2,minmax(0,1fr)); gap:24px 18px; }
+ .customerLogos img { height:80px; }
+}
