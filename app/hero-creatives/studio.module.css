@@ -1,0 +1,17 @@
+.studio { min-height:100vh; background:#e9edf0; padding:38px 24px 72px; color:#173348; }
+.intro { max-width:1240px; margin:0 auto 42px; }
+.intro>a { font-size:14px; text-decoration:underline; text-underline-offset:4px; }
+.intro h1 { margin:22px 0 12px; font-size:clamp(30px,4vw,48px); line-height:1.1; letter-spacing:-.035em; }
+.intro>p { max-width:700px; line-height:1.6; }
+.devices { display:flex; gap:8px; margin:22px 0 12px; }
+.devices button { padding:10px 22px; border:1px solid #a8b8c3; border-radius:6px; background:white; color:#173348; cursor:pointer; font:inherit; }
+.devices button[aria-pressed=true] { background:#173348; color:white; border-color:#173348; }
+.intro .note { font-size:13px; color:#526575; }
+.intro nav { display:flex; flex-wrap:wrap; gap:12px 24px; margin-top:22px; font-size:14px; text-decoration:underline; text-underline-offset:4px; }
+.option { max-width:1240px; margin:0 auto 52px; scroll-margin-top:20px; }
+.caption { margin-bottom:16px; }
+.caption h2 { margin:0 0 6px; font-size:23px; letter-spacing:-.02em; }
+.caption p { margin:0; color:#526575; font-size:14px; line-height:1.5; }
+.screen { width:100%; max-width:1240px; margin:0 auto; container-name:hero; container-type:inline-size; box-shadow:0 12px 32px #17334818; overflow:hidden; border-radius:8px; }
+.phone { max-width:390px; }
+@media(max-width:600px) { .studio { padding:24px 12px 40px; } .intro { padding:0 8px; } .caption { padding:0 8px; } .caption h2 { font-size:21px; } }

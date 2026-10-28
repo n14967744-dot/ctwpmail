@@ -16,7 +16,7 @@ function Action({ text = "Start your equipment review", href = "/law-test" }: { 
   return <a className={styles.cta} href={href}>{text}<span aria-hidden="true">↗</span></a>;
 }
 
-export function LawHeroDirections({ direction, businessName, ctaHref = "/law-test", headingId }: { direction: HeroDirection; businessName: string; ctaHref?: string; headingId?: string }) {
+export function LawHeroDirections({ direction, businessName, ctaHref = "/law-test", headingId, imageSrc = "/review/leroy-mail-original.webp" }: { direction: HeroDirection; businessName: string; ctaHref?: string; headingId?: string; imageSrc?: string }) {
   const firm = businessName.trim() || "Your Law Firm";
   return <section className={`${styles.hero} ${styles[direction]}`} aria-labelledby={headingId} aria-label={headingId ? undefined : `${direction} hero preview`}>
     <Header />
@@ -30,7 +30,7 @@ export function LawHeroDirections({ direction, businessName, ctaHref = "/law-tes
           <p className={styles.fine}>Start with what you know. Ryan will help with the rest.</p>
         </div>
         <figure className={styles.splitArt}>
-          <Image src="/review/leroy-mail-original.webp" alt="Leroy beside a copier in the CTWP law-office campaign artwork" width={1448} height={1086} sizes="(max-width: 650px) 100vw, 55vw" priority />
+          <Image src={imageSrc} alt="Leroy beside a copier in the CTWP law-office campaign artwork" width={1448} height={1086} sizes="(max-width: 650px) 100vw, 55vw" priority />
           <figcaption><span>Meet Leroy.</span> Your introduction to the team.</figcaption>
         </figure>
       </div>
@@ -53,7 +53,7 @@ export function LawHeroDirections({ direction, businessName, ctaHref = "/law-tes
     {direction === "leroy" && <>
       <div className={styles.leroyBody}>
         <figure className={styles.leroyArt}>
-          <Image src="/review/leroy-mail-original.webp" alt="Leroy welcomes your firm beside CTWP office equipment" width={1448} height={1086} sizes="(max-width: 899px) 100vw, 55vw" priority />
+          <Image src={imageSrc} alt="Leroy welcomes your firm beside CTWP office equipment" width={1448} height={1086} sizes="(max-width: 899px) 100vw, 55vw" priority />
           <figcaption>Consider this a friendly introduction.</figcaption>
         </figure>
         <div className={styles.leroyCopy}>
