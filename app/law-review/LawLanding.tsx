@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import { PHONE_DISPLAY, PHONE_HREF, OFFICE_ADDRESS } from "@/lib/site";
 import styles from "./law.module.css";
-import { MobileReviewAction } from "@/components/MobileReviewAction";
 import { ResponsiveLegalHero } from "@/components/ResponsiveLegalHero";
 import { BrandCarousel } from "./BrandCarousel";
 import { OfficeMap } from "@/components/OfficeMap";
@@ -233,6 +232,5 @@ export function LawLanding({ niche = "law", businessName = "", initialPractice =
 
     <section className={styles.faq}><p className={styles.eyebrow}>A few things you might be wondering</p><h2>Before you get started.</h2><details><summary>What if we’re still in a lease?</summary><p>Include the end date if you know it. Your rep will review timing and any remaining obligations before recommending a change.</p></details><details><summary>Do I need our model number or exact page counts?</summary><p>No. Start with what you know. A photo of the equipment or a recent bill can help your rep fill in the details later.</p></details><details><summary>What happens after we share our details?</summary><p>{repName} reviews what you’ve shared, follows up on any gaps, and talks through suitable options. Equipment, availability, and pricing are confirmed before a proposal is prepared.</p></details></section>
     <footer className={styles.footer}><img src="/ctwp-mark.webp" alt="CTWP" width="105" height="60" /><p>Your neighbors in Bryan–College Station.</p><address>{OFFICE_ADDRESS}</address><a href={officeHref}>{officePhone}</a><small>{content.note}</small></footer>
-    {niche === "law" && <MobileReviewAction />}
   </main>;
 }

@@ -59,7 +59,7 @@ export function LawHeroDirections({ direction, businessName, ctaHref = "/law-tes
         </figure>
         <div className={styles.leroyCopy}>
           <div className={styles.forFirm}>Prepared for<h1 className={styles.firmName} id={headingId}>{firm}</h1></div>
-          <p className={styles.message}>{legalHeroCopy.message}</p>
+          <p className={styles.message}>{legalHeroCopy.message(businessName)}</p>
           <Action text={legalHeroCopy.action} href={ctaHref} />
           <a className={styles.secondary} href={LAW_OFFICE_HREF}>Or talk with the Bryan team <span aria-hidden="true">↗</span></a>
         </div>
