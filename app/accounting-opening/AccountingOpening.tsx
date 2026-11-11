@@ -32,7 +32,7 @@ export default function AccountingOpening() {
     <a className={s.skip} href="#main">Skip to content</a>
     <header className={s.header}>
       <a href="https://www.ctwp.com/" className={s.brand} aria-label="CTWP — Your local copier company"><img src="/accounting-opening/ctwp-logo.png" alt="CTWP — Your Copier Company" width="400" height="80" /></a>
-      <div className={s.headerRight}><span className={s.local}>Your Bryan–College Station team</span><a href="tel:+19797792998" className={s.phone}>979 779 2998 <span aria-hidden="true">↗</span></a></div>
+      <div className={s.headerRight}><span className={s.local}>Your Bryan–College Station team</span><a href="tel:+19797792998" className={s.phone}>979 779 2998 <Arrow /></a></div>
     </header>
 
     <main id="main">
@@ -51,8 +51,8 @@ export default function AccountingOpening() {
       <section id="how-we-help" className={s.help} aria-labelledby="help-title">
         <div className={s.helpIntro} data-reveal>
           <p className={s.eyebrow}>FOR YOUR ACCOUNTING OFFICE</p>
-          <h2 id="help-title">Make the<br />paperwork<br /><span>part easier.</span></h2>
-          <p className={s.helpLead}>From the first client document<br />to the final report.</p>
+          <h2 id="help-title">Make the<br /> paperwork<br /> <span>part easier.</span></h2>
+          <p className={s.helpLead}>From the first client document<br /> to the final report.</p>
           <a className={s.textLink} href="tel:+19797792998">Talk with our local team <Arrow /></a>
         </div>
         <div className={s.workflows} data-reveal>
