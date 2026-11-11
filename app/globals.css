@@ -186,7 +186,7 @@ h1, h2, h3, p { margin: 0; }
 .acct .heroLead strong { font-weight: 600; }
 .acct .heroImg { height: 300px; max-height: none; bottom: 84px; object-position: 38% 100%; }
 .acct .heroSpacer { flex: none; min-height: 0; height: 236px; }
-.heroCta { position: relative; padding: 0 22px 24px; text-align: center; }
+.heroCta { position: relative; padding: 0 22px 30px; text-align: center; }
 .heroCta .btn { min-width: min(100%, 290px); }
 .heroAlt { margin-top: 14px; font-size: 17px; font-weight: 600; }
 .heroAlt a { color: #fff; text-underline-offset: 4px; }

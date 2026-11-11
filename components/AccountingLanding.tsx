@@ -60,7 +60,6 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
           <div className="heroSpacer" />
           <div className="heroCta">
             <a href="#quote" data-track="Quote button" className="btn btnRed btnBig">{copy.hero.primary}</a>
-            <p className="heroAlt"><a href={BRYAN_PHONE.href} data-track="Call (hero)">{copy.hero.secondary}</a></p>
           </div>
         </section>
 
