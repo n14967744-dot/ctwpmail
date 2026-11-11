@@ -17,9 +17,7 @@ const BRYAN_PHONE = { display: "(979) 779-2998", href: "tel:+19797792998" };
 /* Page order: hero, how we help, About CTWP, local service, quote form. The footer is switched off. */
 const SHOW_FOOTER = false;
 
-/** Driving distance from the business to the CTWP office. Worked out once per business and stored;
-    the review pages pass a sample. Without it the section falls back to a general heading. */
-export type Travel = { miles: string; minutes: string };
+
 
 const MENU: [string, string][] = [
   ["#solutions", "How we help"],
@@ -33,7 +31,7 @@ const MENU: [string, string][] = [
 const HELP_IMAGES: (string | null)[] = [null, null, null];
 const HELP_IMAGE_NOTES = ["Scanning client documents", "Finished client packets", "Reviewing printing costs"];
 
-export function AccountingLanding({ business, copy, travel }: { business: Business; copy: AccountingCopy; travel?: Travel }) {
+export function AccountingLanding({ business, copy }: { business: Business; copy: AccountingCopy }) {
   const name = business.name.trim().replace(/\.$/, "");
   const start = fullAddress(business);
   const office = encodeURIComponent(OFFICE_MAPS_QUERY);
@@ -117,11 +115,9 @@ export function AccountingLanding({ business, copy, travel }: { business: Busine
                 className="map"
               />
               <div className="mapBody">
-                {travel && <p className="mapMiles"><strong>{travel.miles} miles</strong> from your office, about {travel.minutes} minutes.</p>}
                 <p className="visit">{copy.local.visit}</p>
                 <div className="addr">
                   <strong>{OFFICE_ADDRESS}</strong>
-                  <span>{OFFICE_HOURS}</span>
                 </div>
                 <a href={directions} target="_blank" rel="noopener" data-track="Directions" className="btn btnOutline btnFull">Get directions</a>
               </div>

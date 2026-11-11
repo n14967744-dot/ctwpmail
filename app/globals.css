@@ -255,9 +255,21 @@ h1, h2, h3, p { margin: 0; }
 .acctCards h3 { margin-top: 12px; font: 600 24px/1.2 var(--sans); letter-spacing: -.02em; color: #002454; text-wrap: balance; }
 .acctBody { margin-top: 10px; font-size: 17.5px; line-height: 1.6; color: rgba(0,36,84,.78); }
 
-/* Local service uses the dentist page's styles; this is the one added line */
-.mapMiles { font-size: 17px; color: var(--muted); margin-bottom: 10px; }
-.mapMiles strong { color: var(--red); font-weight: 700; }
+/* Phone header on the accounting page: no menu button, a bigger logo and a bigger call button */
+@media (max-width: 899px) {
+  .acct { --header-h: 100px; }
+  .acct .hamburger { display: none; }
+  .acct .bar { padding: 0 14px; gap: 10px; }
+  .acct .logo { height: 90px; }
+  .acct .callPill { min-height: 60px; padding: 10px 20px 10px 16px; gap: 10px; }
+  .acct .callPill svg { width: 24px; height: 24px; }
+  .acct .callText small { font-size: 14px; }
+  .acct .callText strong { font-size: 19px; }
+  .acct .quoteChip.show { min-height: 54px; padding: 0 18px; font-size: 17px; }
+  .acct .header:has(.quoteChip.show) .logo { height: 64px; }
+  .acct .header:has(.quoteChip.show) .callPill { min-height: 54px; padding: 0 18px; }
+  .acct .header:has(.quoteChip.show) .callText::after { font-size: 17px; }
+}
 
 /* Quote form, with the badges just above it */
 .acctQuote { background: #fff; padding: 0 22px 64px; }
