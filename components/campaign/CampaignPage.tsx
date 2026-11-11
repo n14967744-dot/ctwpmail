@@ -1,26 +1,20 @@
+import { Header } from "@/components/Header";
 import { CampaignForm } from "./CampaignForm";
-import { display, hand } from "./fonts";
 import {
   ABOUT, BADGES, BRANDS, FORM, HERO, LEROY, LOCAL, NICHES, OFFICE, ORGS, TECHS, nicheKeyFor,
   type NicheContent,
 } from "@/lib/campaign/content";
 import type { CampaignBusiness } from "@/lib/campaign/business";
+import { possessive, shortName } from "@/lib/site";
 import s from "./campaign.module.css";
 
-/* The landing page continues the mail piece: "Prepared for", the business name set large,
-   Leroy and his commission slip, then the detail set like a letter on good paper. */
+/* Hero: the existing dentist hero, unchanged in design (it uses the site's global hero styles).
+   Everything below it: CTWP's own colors from the logo (navy, red, white, black), photos from ctwp.com,
+   the Texas and U.S. flags, and the navy-to-red rule CTWP uses under its headings. */
 
 type Ctx = { b: CampaignBusiness; c: NicheContent };
 
-const NUMERALS = ["I", "II", "III", "IV"];
-
-/** Splits "Banks & Banks, Attorneys at Law, P.C." into the name set large and the line under it. */
-function splitName(name: string): { main: string; suffix: string | null } {
-  const clean = name.trim().replace(/[.,]+$/, (m) => (m.includes(".") ? "." : ""));
-  const m = clean.match(/^(.*?),?\s+((?:Attorneys?(?:\s+(?:and|&)\s+Counselors)?\s+at\s+Law|Law\s+Offices?|CPAs?|P\.?L\.?L\.?C|L\.?L\.?P|L\.?L\.?C|P\.?C|Inc)\b.*)$/i);
-  if (m && m[1].length >= 3) return { main: m[1].replace(/,$/, ""), suffix: m[2] };
-  return { main: clean.replace(/\.$/, ""), suffix: null };
-}
+const WORK_PHOTOS = ["/preview/photos/work-1.webp", "/preview/photos/work-2.webp", "/preview/photos/work-3.webp"];
 
 function mapLinks(origin: string | null) {
   const dest = encodeURIComponent(OFFICE.mapsQuery);
@@ -33,17 +27,23 @@ function mapLinks(origin: string | null) {
   };
 }
 
-function Paw() {
+function Star({ size = 18 }: { size?: number }) {
   return (
-    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden>
-      <ellipse cx="6" cy="10" rx="2" ry="2.6" /><ellipse cx="10" cy="6.2" rx="2" ry="2.6" /><ellipse cx="14" cy="6.2" rx="2" ry="2.6" /><ellipse cx="18" cy="10" rx="2" ry="2.6" />
-      <path d="M12 11c-3 0-5.5 2.6-5.5 5 0 1.700 1.300 2.600 2.900 2.600 1 0 1.700-.5 2.600-.5s1.600.5 2.600.5c1.600 0 2.900-.9 2.900-2.600 0-2.400-2.500-5-5.500-5z" />
+    <svg viewBox="0 0 24 24" width={size} height={size} fill="currentColor" aria-hidden>
+      <path d="M12 2l2.9 6.6 7.1.7-5.4 4.8 1.6 7L12 17.4l-6.2 3.7 1.6-7L2 9.3l7.1-.7z" />
     </svg>
   );
 }
 
-function Label({ children, light = false }: { children: React.ReactNode; light?: boolean }) {
-  return <p className={`${s.label} ${light ? s.labelLight : ""}`}><span>{children}</span></p>;
+/** Heading with CTWP's navy-to-red rule under it. */
+function Title({ kicker, children, light = false, center = false }: { kicker?: string; children: React.ReactNode; light?: boolean; center?: boolean }) {
+  return (
+    <div className={`${s.title} ${light ? s.titleLight : ""} ${center ? s.titleCenter : ""}`}>
+      {kicker && <p className={s.kicker}>{kicker}</p>}
+      <h2>{children}</h2>
+      <span className={s.rule} aria-hidden />
+    </div>
+  );
 }
 
 function PreviewBar({ b, c }: Ctx) {
@@ -51,75 +51,44 @@ function PreviewBar({ b, c }: Ctx) {
   return <div className={s.previewBar}>{notes.join(" · ")}</div>;
 }
 
-function Masthead() {
-  return (
-    <header className={s.masthead}>
-      <a href="#top" className={s.wordmark} aria-label="CTWP, your local copier company">
-        <img src="/ctwp-mark.webp" alt="" />
-        <span>Your local copier company</span>
-      </a>
-      <a href={OFFICE.phoneHref} className={s.mastPhone}>{OFFICE.phoneDisplay}</a>
-    </header>
-  );
-}
+/* ---------- hero: the dentist page's hero ---------- */
 
 function Hero({ b, c }: Ctx) {
-  const { main, suffix } = splitName(b.name);
-  const place = c.place.split(" ")[0];
+  const name = b.name.trim().replace(/\.$/, "");
   return (
-    <section id="top" className={s.hero}>
-      <div className={s.heroInner}>
-        <div className={s.heroHead}>
-          <Label light>Prepared for</Label>
-          {b.logoUrl && <span className={s.heroLogo}><img src={b.logoUrl} alt="" /></span>}
-          <h1 className={main.length > 22 ? s.nameLong : ""}>{main}</h1>
-          {suffix && <p className={s.nameSuffix}>{suffix}</p>}
-        </div>
-
-        <figure className={s.plate}>
-          <img src={c.hero.image} alt={c.hero.imageAlt} />
-          <figcaption className={s.slip}>
-            <span className={s.slipHead}><Paw />Leroy’s commission</span>
-            <span className={s.slipRow}>Payment requested: <em>treats</em></span>
-            <span className={s.slipRow}>Status: <em>pending</em></span>
-          </figcaption>
-        </figure>
-
-        <div className={s.heroFoot}>
-          <p className={s.heroLine}>{HERO.leroyLine} <em>{HERO.leroyPunch}</em></p>
-          <a href="#quote" className={s.cta}>Explore your {place}’s options <span aria-hidden>→</span></a>
-          <a href={OFFICE.phoneHref} className={s.heroLink}>{HERO.secondary}</a>
-        </div>
+    <section id="hero" className="hero">
+      <img src={c.hero.image} alt={c.hero.imageAlt} className="heroImg" />
+      <div className="heroShade" />
+      <div className="heroInner">
+        <p className="eyebrow">{HERO.eyebrow}</p>
+        <h1>{name}.</h1>
+        <p className="heroLead">{c.hero.headline}</p>
+        <a href="#quote" className="btn btnRed btnBig">Start {possessive(shortName(name))} quote</a>
       </div>
+      <div className="heroSpacer" />
     </section>
   );
 }
 
-function Lede({ c }: Ctx) {
-  return (
-    <section className={s.lede}>
-      <div className={s.measure}>
-        <Label>{c.kicker}</Label>
-        <h2>{c.hero.headline}</h2>
-        <p className={s.ledeBody}>{c.hero.lead}</p>
-      </div>
-    </section>
-  );
-}
+/* ---------- below the hero ---------- */
 
 function Help({ c }: Ctx) {
   return (
-    <section className={s.paper}>
+    <section id="solutions" className={s.section}>
       <div className={s.wrap}>
-        <div className={s.sectionHead}>
-          <h2>{c.help.heading}</h2>
-          <p className={s.sectionIntro}>{c.help.intro}</p>
-        </div>
-        <ol className={s.articles}>
+        <Title kicker={c.kicker}>{c.help.heading}</Title>
+        <p className={s.intro}>{c.hero.lead}</p>
+        <ol className={s.work}>
           {c.help.items.map((it, i) => (
             <li key={it.title}>
-              <span className={s.numeral} aria-hidden>{NUMERALS[i]}</span>
-              <div><h3>{it.title}</h3><p>{it.body}</p></div>
+              <figure>
+                <img src={WORK_PHOTOS[i]} alt="" loading="lazy" />
+                <span className={s.workNo} aria-hidden>{i + 1}</span>
+              </figure>
+              <div>
+                <h3>{it.title}</h3>
+                <p>{it.body}</p>
+              </div>
             </li>
           ))}
         </ol>
@@ -128,34 +97,45 @@ function Help({ c }: Ctx) {
   );
 }
 
-function Credentials() {
+function Texas() {
   return (
-    <section className={s.ink}>
-      <div className={s.wrap}>
-        <Label light>{ABOUT.kicker}</Label>
-        <h2 className={s.inkTitle}>{ABOUT.heading}</h2>
-        <p className={s.inkBody}>{ABOUT.body}</p>
+    <section className={s.texas}>
+      <img src="/preview/photos/flags.webp" alt="The Texas flag and the United States flag flying together" className={s.texasImg} loading="lazy" />
+      <div className={s.texasShade} />
+      <div className={`${s.wrap} ${s.texasInner}`}>
+        <img src="/preview/badges/enx-elite-dealer-2025.jpg" alt="ENX Magazine Elite Dealer 2025" className={s.texasBadge} loading="lazy" />
+        <Title kicker={ABOUT.kicker} light>{ABOUT.heading}</Title>
+        <p className={s.texasBody}>{ABOUT.body}</p>
+        <ul className={s.stats}>
+          {ABOUT.stats.map((st) => <li key={st.label}><strong>{st.value}</strong><span>{st.label}</span></li>)}
+        </ul>
+        <p className={s.motto}><Star size={16} />{ABOUT.motto}</p>
+      </div>
+    </section>
+  );
+}
 
-        <dl className={s.ledger}>
-          {ABOUT.stats.map((st) => (
-            <div key={st.label}><dt>{st.label}</dt><dd>{st.value}</dd></div>
-          ))}
-        </dl>
-
-        <div className={s.creds}>
-          <div>
-            <h3 className={s.inkSub}>{TECHS.heading}</h3>
-            <ul className={s.ruled}>
-              {TECHS.points.map((p) => <li key={p}>{p}</li>)}
-            </ul>
-          </div>
-          <ul className={s.plaques}>
-            {BADGES.map((bd) => (
-              <li key={bd.caption}><img src={bd.src} alt={bd.alt} loading="lazy" /><span>{bd.caption}</span></li>
-            ))}
+function Service() {
+  return (
+    <section id="service" className={s.section}>
+      <div className={`${s.wrap} ${s.split}`}>
+        <figure className={s.photoFrame}>
+          <img src="/preview/photos/technician.webp" alt="A CTWP technician servicing a copier" loading="lazy" />
+          <figcaption><strong>20+</strong>years with CTWP for many of our techs</figcaption>
+        </figure>
+        <div>
+          <Title kicker={TECHS.kicker}>{TECHS.heading}</Title>
+          <ul className={s.stars}>
+            {TECHS.points.map((p) => <li key={p}><Star />{p}</li>)}
           </ul>
         </div>
-        <p className={s.mottoLine}>{ABOUT.motto}</p>
+      </div>
+      <div className={s.wrap}>
+        <ul className={s.badges}>
+          {BADGES.map((bd) => (
+            <li key={bd.caption}><img src={bd.src} alt={bd.alt} loading="lazy" /><span>{bd.caption}</span></li>
+          ))}
+        </ul>
       </div>
     </section>
   );
@@ -171,7 +151,7 @@ function Marquee({ label, items, reverse = false }: { label: string; items: { sr
   );
   return (
     <div className={s.marqueeBlock}>
-      <Label>{label}</Label>
+      <p className={s.marqueeLabel}>{label}</p>
       <div className={`${s.marquee} ${reverse ? s.marqueeReverse : ""}`}>
         <div className={s.marqueeTrack}>{row(false)}{row(true)}{row(true)}</div>
       </div>
@@ -183,6 +163,7 @@ function Logos() {
   return (
     <section className={s.logos}>
       <Marquee label="Some of the organizations we serve" items={ORGS} />
+      <div className={s.lineup}><img src="/preview/photos/lineup.webp" alt="A wide-format printer, a multifunction copier and a desktop printer" loading="lazy" /></div>
       <Marquee label="Brands we carry" items={BRANDS} reverse />
     </section>
   );
@@ -191,37 +172,36 @@ function Logos() {
 function Local({ b, c }: Ctx) {
   const links = mapLinks(b.address);
   return (
-    <section className={s.paper}>
+    <section id="rep" className={s.local}>
       <div className={s.wrap}>
-        <div className={s.sectionHead}>
-          <Label>{LOCAL.kicker}</Label>
-          <h2>{LOCAL.heading}</h2>
-          <p className={s.sectionIntro}>{LOCAL.body}</p>
-        </div>
+        <Title kicker={LOCAL.kicker} light>{LOCAL.heading}</Title>
+        <p className={s.localBody}>{LOCAL.body}</p>
 
-        <div className={s.localGrid}>
-          <div className={s.mapPlate}>
-            <iframe src={links.embed} title={b.address ? `Directions from ${b.name} to CTWP in Bryan` : "CTWP Bryan office map"} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
-          </div>
-          <div className={s.itinerary}>
-            <ol>
+        <div className={s.mapCard}>
+          <iframe src={links.embed} title={b.address ? `Directions from ${b.name} to CTWP in Bryan` : "CTWP Bryan office map"} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+          <div className={s.mapBody}>
+            <ol className={s.route}>
               {b.address && <li><span>From your {c.place}</span><strong>{b.name}</strong><em>{b.address}</em></li>}
-              <li><span>To ours</span><strong>CTWP · Bryan office</strong><em>{OFFICE.address}<br />{OFFICE.hours}</em></li>
+              <li><span>To ours</span><strong>CTWP · Bryan office</strong><em>{OFFICE.address} · {OFFICE.hours}</em></li>
             </ol>
-            <a href={links.directions} target="_blank" rel="noopener noreferrer" className={s.textLink}>{b.address ? `Directions from your ${c.place}` : "Get directions"} <span aria-hidden>→</span></a>
-
-            <div className={s.cards}>
-              <div className={s.card}><span className={s.cardMono} aria-hidden>N</span><strong>Nick</strong><em>CTWP · Bryan</em></div>
-              <div className={s.card}><span className={s.cardMono} aria-hidden>R</span><strong>Ryan</strong><em>CTWP · Bryan</em></div>
-            </div>
-            <a href={OFFICE.phoneHref} className={s.textLink}>Call {OFFICE.phoneDisplay} <span aria-hidden>→</span></a>
+            <a href={links.directions} target="_blank" rel="noopener noreferrer" className="btn btnOutline btnFull">{b.address ? `Directions from your ${c.place}` : "Get directions"}</a>
           </div>
         </div>
 
-        <figure className={s.pull}>
-          <blockquote>{LOCAL.quote}</blockquote>
-          <figcaption>{LOCAL.quoteBy}</figcaption>
-        </figure>
+        <div className={s.localRow}>
+          <div className={s.team}>
+            <p className={s.teamLabel}>Your local team</p>
+            <div className={s.people}>
+              <div><span aria-hidden>N</span><strong>Nick</strong></div>
+              <div><span aria-hidden>R</span><strong>Ryan</strong></div>
+            </div>
+            <a href={OFFICE.phoneHref} className="btn btnRed btnFull">Call {OFFICE.phoneDisplay}</a>
+          </div>
+          <figure className={s.quote}>
+            <blockquote>{LOCAL.quote}</blockquote>
+            <figcaption>{LOCAL.quoteBy}</figcaption>
+          </figure>
+        </div>
       </div>
     </section>
   );
@@ -230,14 +210,13 @@ function Local({ b, c }: Ctx) {
 function Leroy() {
   return (
     <section className={s.leroy}>
-      <div className={s.leroyInner}>
-        <figure className={s.snapshot}>
-          <img src="/leroy.png" alt="Leroy, a small black and tan dog wearing a blue bandana" loading="lazy" />
-          <figcaption>Leroy, on the job</figcaption>
+      <div className={`${s.wrap} ${s.split}`}>
+        <figure className={s.leroyPhoto}>
+          <img src="/preview/photos/leroy-at-ctwp.webp" alt="Leroy, in a gold bow tie, sitting on a copier at the CTWP office" loading="lazy" />
         </figure>
         <div>
-          <h2>{LEROY.heading}</h2>
-          <p>{LEROY.body}</p>
+          <Title kicker="The office dog">{LEROY.heading}</Title>
+          <p className={s.intro}>{LEROY.body}</p>
         </div>
       </div>
     </section>
@@ -245,16 +224,17 @@ function Leroy() {
 }
 
 function Quote({ b, c }: Ctx) {
-  const { main } = splitName(b.name);
+  const name = b.name.trim().replace(/\.$/, "");
   return (
     <section id="quote" className={s.quoteSection}>
-      <div className={s.sheet}>
-        <Label>{FORM.kicker}</Label>
-        <h2>Let’s find the right fit for {main}.</h2>
-        <p className={s.sheetIntro}>{FORM.intro}</p>
+      <span className={s.stripe} aria-hidden />
+      <div className={`${s.wrap} ${s.narrow}`}>
+        <Title kicker={FORM.kicker} center>Let’s find the right fit for {name}.</Title>
+        <p className={`${s.intro} ${s.introCenter}`}>{FORM.intro}</p>
         <CampaignForm business={b.name} timing={c.timing} emailHint={c.emailHint} />
-        <aside className={s.aside}>
-          <strong>{LOCAL.callout.title}</strong> {LOCAL.callout.body}
+        <aside className={s.callout}>
+          <strong>{LOCAL.callout.title}</strong>
+          <span>{LOCAL.callout.body}</span>
         </aside>
       </div>
     </section>
@@ -264,11 +244,12 @@ function Quote({ b, c }: Ctx) {
 function Footer() {
   return (
     <footer className={s.footer}>
-      <p className={s.footMark}>C T W P</p>
+      <span className={s.stripe} aria-hidden />
+      <img src="/preview/ctwp-tagline.png" alt="CTWP, Your Copier Company" className={s.footLogo} />
       <p className={s.footLead}>Your neighbors in Bryan–College Station.</p>
       <p>{OFFICE.address}</p>
       <p><a href={OFFICE.phoneHref}>{OFFICE.phoneDisplay}</a> · {OFFICE.hours}</p>
-      <p className={s.copy}>Copiers, printers and local service · Est. 1979</p>
+      <p className={s.copy}>Copiers, printers and local service · Serving Texas since 1979</p>
     </footer>
   );
 }
@@ -277,14 +258,15 @@ export function CampaignPage({ business: b }: { business: CampaignBusiness }) {
   const c: NicheContent = NICHES[nicheKeyFor(b.niche, b.subgroup)];
   const ctx: Ctx = { b, c };
   return (
-    <div className={`${s.page} ${display.variable} ${hand.variable}`}>
+    <div id="top" className={s.page}>
       <PreviewBar {...ctx} />
-      <Masthead />
+      <Header />
       <main>
         <Hero {...ctx} />
-        <Lede {...ctx} />
+        <span className={s.stripe} aria-hidden />
         <Help {...ctx} />
-        <Credentials />
+        <Texas />
+        <Service />
         <Logos />
         <Local {...ctx} />
         <Leroy />
