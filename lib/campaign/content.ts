@@ -12,8 +12,9 @@ export const OFFICE = {
 };
 
 export const HERO = {
-  primary: "Start my quote",
   secondary: "Talk with our Bryan team",
+  leroyLine: "Leroy is waiting on his commission.",
+  leroyPunch: "Paid in treats.",
 };
 
 export const ABOUT = {
@@ -117,6 +118,7 @@ export type NicheContent = {
 };
 
 const OFFICE_IMAGE = { image: "/preview/leroy-office.webp", imageAlt: "Leroy, CTWP’s office dog, standing beside a copier in an office" };
+const LAW_IMAGE = { image: "/preview/leroy-law.webp", imageAlt: "Leroy, CTWP’s office dog, sitting at a desk in a law office beside a copier" };
 const COSTS_ITEM = {
   icon: "chart" as const,
   title: "Get a clearer picture of printing costs.",
@@ -175,7 +177,7 @@ const legal: NicheContent = {
   hero: {
     headline: "Less time on the paperwork. More time on the case.",
     lead: "CTWP is offering your firm a personalized review to explore lower printing costs, easier scanning, and stronger document security—with equipment options or local service for your current copier.",
-    ...OFFICE_IMAGE,
+    ...LAW_IMAGE,
   },
   help: {
     heading: "Built around how a firm handles paper.",
