@@ -13,6 +13,7 @@ export default function Page() {
   return (
     <AccountingLanding
       copy={ACCOUNTING}
+      travel={{ miles: "2.4", minutes: "7" }}
       business={{ slug: "example-accounting-group", name: "Example Accounting Group", niche: "accounting", address: "3000 Briarcrest Dr", city: "Bryan", zip: "77802" }}
     />
   );

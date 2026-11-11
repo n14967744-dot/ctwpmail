@@ -4,7 +4,7 @@
 export type AccountingCopy = {
   hero: { headline: string; lead: string; primary: string; secondary: string };
   help: { kicker: string; heading: string; intro: string; items: { icon: "scan" | "packet" | "costs"; title: string; body: string }[] };
-  local: { kicker: string; heading: string; body: string; calloutTitle: string; calloutBody: string; calloutButton: string };
+  local: { kicker: string; heading: string; body: string; visit: string; calloutTitle: string; calloutBody: string; calloutButton: string };
   form: { heading: string; intro: string; helpQuestion: string; help: string[]; timingQuestion: string; timing: string[]; submit: string; fine: string };
 };
 
@@ -43,7 +43,8 @@ export const ACCOUNTING: AccountingCopy = {
     kicker: "Right here in Bryan",
     heading: "Local support for the work you do every day.",
     body: "Your CTWP team is here in Bryan–College Station to help with equipment options, setup and ongoing service. Tell us what’s working, what’s slowing you down and what you’d like to improve.",
-    calloutTitle: "Happy with your current copier?",
+    visit: "Come by, meet the team and see the copiers in person.",
+    calloutTitle: "Already have a copier?",
     calloutBody: "Tell us the make and model. We can check whether service and support are available for your equipment.",
     calloutButton: "Ask about service",
   },

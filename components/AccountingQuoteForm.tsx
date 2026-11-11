@@ -5,12 +5,12 @@ import { SERVICE_OPTION, type AccountingCopy } from "@/lib/accounting";
 
 /* Review build: this form does not save or send anything yet. */
 
-export function AskServiceButton({ label }: { label: string }) {
+export function AskServiceButton({ label, className = "btn btnRed btnFull" }: { label: string; className?: string }) {
   return (
     <button
       type="button"
       data-track="Ask about service"
-      className="btn btnRed btnFull"
+      className={className}
       onClick={() => {
         window.dispatchEvent(new CustomEvent("ctwp:service"));
         document.getElementById("quote")?.scrollIntoView({ behavior: "smooth", block: "start" });
