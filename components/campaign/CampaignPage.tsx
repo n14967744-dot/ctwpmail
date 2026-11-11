@@ -8,9 +8,8 @@ import type { CampaignBusiness } from "@/lib/campaign/business";
 import { possessive, shortName } from "@/lib/site";
 import s from "./campaign.module.css";
 
-/* Hero: the existing dentist hero, unchanged in design (it uses the site's global hero styles).
-   Everything below it: CTWP's own colors from the logo (navy, red, white, black), photos from ctwp.com,
-   the Texas and U.S. flags, and the navy-to-red rule CTWP uses under its headings. */
+/* CTWP's own colors from the logo (navy, red, white, black), the Texas flag's star and stripes,
+   photos from ctwp.com, and the navy-to-red rule CTWP uses under its headings. */
 
 type Ctx = { b: CampaignBusiness; c: NicheContent };
 
@@ -51,44 +50,58 @@ function PreviewBar({ b, c }: Ctx) {
   return <div className={s.previewBar}>{notes.join(" · ")}</div>;
 }
 
-/* ---------- hero: the dentist page's hero ---------- */
+/* ---------- first half: hero and how we help ---------- */
 
 function Hero({ b, c }: Ctx) {
   const name = b.name.trim().replace(/\.$/, "");
   return (
-    <section id="hero" className="hero">
-      <img src={c.hero.image} alt={c.hero.imageAlt} className="heroImg" />
-      <div className="heroShade" />
-      <div className="heroInner">
-        <p className="eyebrow">{HERO.eyebrow}</p>
-        <h1>{name}.</h1>
-        <p className="heroLead">{c.hero.headline}</p>
-        <a href="#quote" className="btn btnRed btnBig">Start {possessive(shortName(name))} quote</a>
+    <section id="hero" className={s.hero}>
+      <svg className={s.heroStar} viewBox="0 0 24 24" aria-hidden><path d="M12 2l2.9 6.6 7.1.7-5.4 4.8 1.6 7L12 17.4l-6.2 3.7 1.6-7L2 9.3l7.1-.7z" /></svg>
+      <span className={s.heroBand} aria-hidden />
+      <div className={s.heroInner}>
+        <div className={s.heroText}>
+          <p className={s.tag}><Star size={14} />{HERO.eyebrow}</p>
+          {b.logoUrl && <span className={s.heroLogo}><img src={b.logoUrl} alt="" /></span>}
+          <h1 className={name.length > 24 ? s.nameLong : ""}>{name}.</h1>
+          <p className={s.heroLead}>{c.hero.headline}</p>
+          <div className={s.heroCtas}>
+            <a href="#quote" className={s.heroBtn}>Start {possessive(shortName(name))} quote <span aria-hidden>→</span></a>
+            <p className={s.heroNote}><Star size={13} />Free quote within 24 hours</p>
+          </div>
+        </div>
+
+        <figure className={s.heroArt}>
+          <img src={c.hero.image} alt={c.hero.imageAlt} className={s.heroPhoto} />
+          <img src="/preview/badges/enx-elite-dealer-2025.jpg" alt="ENX Magazine Elite Dealer 2025" className={s.heroBadge} />
+          <figcaption className={s.heroTile}><strong>45+</strong>years serving Texas</figcaption>
+        </figure>
       </div>
-      <div className="heroSpacer" />
+      <ul className={s.heroFacts}>
+        <li>In Bryan since 1979</li>
+        <li>7 Texas locations</li>
+        <li>Factory-trained technicians</li>
+      </ul>
     </section>
   );
 }
-
-/* ---------- below the hero ---------- */
 
 function Help({ c }: Ctx) {
   return (
     <section id="solutions" className={s.section}>
       <div className={s.wrap}>
-        <Title kicker={c.kicker}>{c.help.heading}</Title>
-        <p className={s.intro}>{c.hero.lead}</p>
+        <div className={s.helpHead}>
+          <Title kicker={c.kicker}>{c.help.heading}</Title>
+          <p className={s.intro}>{c.hero.lead}</p>
+        </div>
         <ol className={s.work}>
           {c.help.items.map((it, i) => (
             <li key={it.title}>
               <figure>
                 <img src={WORK_PHOTOS[i]} alt="" loading="lazy" />
-                <span className={s.workNo} aria-hidden>{i + 1}</span>
+                <span className={s.workNo} aria-hidden>0{i + 1}</span>
+                <figcaption><h3>{it.title}</h3></figcaption>
               </figure>
-              <div>
-                <h3>{it.title}</h3>
-                <p>{it.body}</p>
-              </div>
+              <p>{it.body}</p>
             </li>
           ))}
         </ol>
@@ -96,6 +109,10 @@ function Help({ c }: Ctx) {
     </section>
   );
 }
+
+/* ---------- second half: parked while the first half is being designed ---------- */
+
+const SHOW_SECOND_HALF = false;
 
 function Texas() {
   return (
@@ -263,13 +280,8 @@ export function CampaignPage({ business: b }: { business: CampaignBusiness }) {
       <Header />
       <main>
         <Hero {...ctx} />
-        <span className={s.stripe} aria-hidden />
         <Help {...ctx} />
-        <Texas />
-        <Service />
-        <Logos />
-        <Local {...ctx} />
-        <Leroy />
+        {SHOW_SECOND_HALF && <><Texas /><Service /><Logos /><Local {...ctx} /><Leroy /></>}
         <Quote {...ctx} />
       </main>
       <Footer />
