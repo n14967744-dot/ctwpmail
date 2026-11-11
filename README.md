@@ -28,6 +28,17 @@ https://ctwpmail-c77xy5s36-n14967744-2024.vercel.app/banks-banks-attorneys-at-la
 - The named alias is pinned manually, not an automatic branch tracking alias. After an approved lawyer release, verify the personalized page and reassign the named alias to the intended READY deployment.
 - This is a preview with existing Vercel access protection. The named alias may require Vercel sign-in; it is not established as a public mail campaign URL. Access settings were not changed.
 
+## Campaign page under review (branch `design/accounting-options`)
+
+One page for every business in the mail campaign. Not on `main` and not live.
+
+- **Address:** `/<slug>`. The slug picks the business; the business's niche picks the wording and picture.
+- **Layouts:** add `?v=a`, `?v=b` or `?v=c` while the three layouts are being compared. Default is `c`.
+- **Examples:** `/preview` lists a made-up business for each niche.
+- **Wording:** `lib/campaign/content.ts`. Shared sections are at the top; what changes by niche is under `NICHES`. Entries marked `draft` still need review.
+- **Business lookup:** `lib/campaign/business.ts` calls the database function in `supabase/migrations/20261111_campaign_business_lookup.sql`. That function is proposed and has not been applied, so only the example businesses resolve for now.
+- **Form:** sends nothing yet.
+
 ## Working on these sites
 
 1. For lawyer changes, start from `feature/law-test-private` and verify the personalized lawyer page above.

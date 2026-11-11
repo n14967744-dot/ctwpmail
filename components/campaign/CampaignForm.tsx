@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { FORM } from "./content";
-import s from "./preview.module.css";
+import { FORM } from "@/lib/campaign/content";
+import s from "./campaign.module.css";
 
 function Chips({ legend, hint, options, value, onPick, multi = false }: {
   legend: string; hint?: string; options: readonly string[]; value: string[]; onPick: (v: string) => void; multi?: boolean;
@@ -23,7 +23,7 @@ function Chips({ legend, hint, options, value, onPick, multi = false }: {
 }
 
 /* Preview only: nothing is saved or sent from this form. */
-export function PreviewForm({ business }: { business: string }) {
+export function CampaignForm({ business, timing: timingOptions, emailHint }: { business: string; timing: string[]; emailHint: string }) {
   const [help, setHelp] = useState<string[]>([]);
   const [timing, setTiming] = useState<string[]>([]);
   const [lease, setLease] = useState<string[]>([]);
@@ -46,7 +46,7 @@ export function PreviewForm({ business }: { business: string }) {
   return (
     <form className={s.form} onSubmit={(e) => { e.preventDefault(); setDone(true); }}>
       <Chips legend="What would you like help with?" hint="Pick any" options={FORM.help} value={help} onPick={toggle} multi />
-      <Chips legend="When are you looking to make a change?" options={FORM.timing} value={timing} onPick={(o) => setTiming([o])} />
+      <Chips legend="When are you looking to make a change?" options={timingOptions} value={timing} onPick={(o) => setTiming([o])} />
       <Chips legend="When does your current copier lease end?" options={FORM.lease} value={lease} onPick={(o) => setLease([o])} />
 
       <div className={s.fields}>
@@ -70,7 +70,7 @@ export function PreviewForm({ business }: { business: string }) {
             required
             type={method === "email" ? "email" : "tel"}
             autoComplete={method === "email" ? "email" : "tel"}
-            placeholder={method === "email" ? "you@yourfirm.com" : "(979) 555-0123"}
+            placeholder={method === "email" ? emailHint : "(979) 555-0123"}
             aria-label={method === "email" ? "Email address" : "Phone number"}
           />
         </div>

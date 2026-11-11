@@ -1,13 +1,12 @@
-import { notFound } from "next/navigation";
-import { Preview } from "../Preview";
-import { VARIANTS, type Variant } from "../content";
+import { redirect } from "next/navigation";
+import { VARIANTS } from "@/lib/campaign/content";
 
+/* The first preview links pointed here. They now open the accounting example on the real page. */
 export function generateStaticParams() {
   return Object.keys(VARIANTS).map((variant) => ({ variant }));
 }
 
 export default async function Page({ params }: { params: Promise<{ variant: string }> }) {
   const { variant } = await params;
-  if (!(variant in VARIANTS)) notFound();
-  return <Preview variant={variant as Variant} />;
+  redirect(`/example-accounting-group?v=${variant in VARIANTS ? variant : "c"}`);
 }

@@ -1,39 +1,34 @@
 import { Suspense } from "react";
-import { headers } from "next/headers";
-import { after } from "next/server";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { Landing } from "@/components/Landing";
-import { getBusiness, recordView } from "@/lib/leads";
-import { isBotOrPrefetch, scanCount, sendAlert } from "@/lib/alert";
+import { CampaignPage } from "@/components/campaign/CampaignPage";
+import { getCampaignBusiness } from "@/lib/campaign/business";
+import { DEFAULT_VARIANT, VARIANTS, type Variant } from "@/lib/campaign/content";
 
-type SP = Promise<Record<string, string | string[] | undefined>>;
+/* One page for every business in the mail campaign.
+   The slug in the address picks the business; the business's niche picks the copy and picture.
+   While designs are under review, ?v=a, ?v=b or ?v=c picks the layout. */
 
-async function Personal({ params, searchParams }: { params: Promise<{ slug: string }>; searchParams: SP }) {
+export const metadata: Metadata = {
+  title: "CTWP | Your local copier company",
+  robots: { index: false, follow: false },
+};
+
+type Params = Promise<{ slug: string }>;
+type Search = Promise<Record<string, string | string[] | undefined>>;
+
+async function Personal({ params, searchParams }: { params: Params; searchParams: Search }) {
   const { slug } = await params;
   const query = await searchParams;
-  const first = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value) ?? "";
-  const isQr = (value: string | string[] | undefined) => first(value).toLowerCase() === "qr";
-  const source: "qr" | "direct" = isQr(query.src) || isQr(query.utm_medium) ? "qr" : "direct";
-  const business = await getBusiness(slug);
+  const pick = (Array.isArray(query.v) ? query.v[0] : query.v ?? "").toLowerCase();
+  const variant: Variant = pick in VARIANTS ? (pick as Variant) : DEFAULT_VARIANT;
+
+  const business = await getCampaignBusiness(slug);
   if (!business) notFound();
-  const h = await headers();
-  if (!isBotOrPrefetch(h)) {
-    await recordView(business.slug);
-    after(async () => {
-      await sendAlert({
-        event: "scan",
-        business: business.name,
-        slug: business.slug,
-        source,
-        scan_count: await scanCount(business.slug),
-        time_iso: new Date().toISOString(),
-      });
-    });
-  }
-  return <Landing business={business} />;
+  return <CampaignPage business={business} variant={variant} />;
 }
 
-export default function Page({ params, searchParams }: { params: Promise<{ slug: string }>; searchParams: SP }) {
+export default function Page({ params, searchParams }: { params: Params; searchParams: Search }) {
   return (
     <Suspense fallback={<div style={{ minHeight: "100svh" }} />}>
       <Personal params={params} searchParams={searchParams} />

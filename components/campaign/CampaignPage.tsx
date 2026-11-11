@@ -1,14 +1,23 @@
 import Link from "next/link";
-import { PreviewForm } from "./PreviewForm";
+import { CampaignForm } from "./CampaignForm";
 import {
-  ABOUT, BADGES, BRANDS, FORM, HELP, HERO, LEROY, LOCAL, OFFICE, ORGS, SAMPLE, TECHS, VARIANTS, type Variant,
-} from "./content";
-import s from "./preview.module.css";
+  ABOUT, BADGES, BRANDS, FORM, HERO, LEROY, LOCAL, NICHES, OFFICE, ORGS, TECHS, VARIANTS, nicheKeyFor,
+  type NicheContent, type Variant,
+} from "@/lib/campaign/content";
+import type { CampaignBusiness } from "@/lib/campaign/business";
+import { display } from "./fonts";
+import s from "./campaign.module.css";
+
+type Ctx = { v: Variant; b: CampaignBusiness; c: NicheContent };
 
 const ICONS = {
   scan: <><path d="M4 8V6a2 2 0 012-2h2M16 4h2a2 2 0 012 2v2M20 16v2a2 2 0 01-2 2h-2M8 20H6a2 2 0 01-2-2v-2" /><path d="M8 9h8M8 12h8M8 15h5" /></>,
   clock: <><circle cx="12" cy="12" r="8.5" /><path d="M12 7.5V12l3 2" /></>,
   chart: <><path d="M4 20V4M4 20h16" /><path d="M8 16v-4M12 16V8M16 16v-6" /></>,
+  lock: <><rect x="5" y="10.5" width="14" height="10" rx="2.5" /><path d="M8 10.5V8a4 4 0 018 0v2.5M12 14.5v2.5" /></>,
+  packet: <><path d="M7 3h8l4 4v12a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z" /><path d="M15 3v4h4M9 12h6M9 16h6" /></>,
+  color: <><circle cx="9" cy="10" r="5" /><circle cx="15" cy="10" r="5" /><circle cx="12" cy="15" r="5" /></>,
+  plans: <><path d="M4 5h13l3 3v11H4z" /><path d="M8 15l3-4 2 2.5 3-4.5" /></>,
   check: <path d="M5 12.5l4.5 4.5L19 7.5" />,
   pin: <><path d="M12 21s7-6.2 7-11.5A7 7 0 005 9.5C5 14.8 12 21 12 21z" /><circle cx="12" cy="9.5" r="2.5" /></>,
   phone: <path d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2a1 1 0 011-.25 11.4 11.4 0 003.6.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1z" />,
@@ -22,24 +31,27 @@ function Icon({ name, size = 24, fill = false }: { name: keyof typeof ICONS; siz
   );
 }
 
-function mapLinks(origin: string) {
+function mapLinks(origin: string | null) {
   const dest = encodeURIComponent(OFFICE.mapsQuery);
-  const start = encodeURIComponent(origin);
+  const start = origin ? encodeURIComponent(origin) : "";
   return {
-    embed: `https://maps.google.com/maps?saddr=${start}&daddr=${dest}&output=embed`,
-    directions: `https://www.google.com/maps/dir/?api=1&origin=${start}&destination=${dest}`,
+    embed: start
+      ? `https://maps.google.com/maps?saddr=${start}&daddr=${dest}&output=embed`
+      : `https://maps.google.com/maps?q=${dest}&z=15&output=embed`,
+    directions: `https://www.google.com/maps/dir/?api=1${start ? `&origin=${start}` : ""}&destination=${dest}`,
   };
 }
 
 /* ---------- shared pieces ---------- */
 
-function PreviewBar({ v }: { v: Variant }) {
+function PreviewBar({ v, b, c }: Ctx) {
+  const notes = ["Design preview", c.label, b.sample && "sample business", c.status === "draft" && "draft wording", "form sends nothing"].filter(Boolean);
   return (
     <div className={s.previewBar}>
-      <span>Design preview · sample business · form sends nothing</span>
+      <span>{notes.join(" · ")}</span>
       <nav aria-label="Versions">
         {(Object.keys(VARIANTS) as Variant[]).map((k) => (
-          <Link key={k} href={`/preview/accounting/${k}`} className={k === v ? s.previewOn : ""} aria-current={k === v ? "page" : undefined}>
+          <Link key={k} href={`/${b.slug}?v=${k}`} className={k === v ? s.previewOn : ""} aria-current={k === v ? "page" : undefined}>
             {VARIANTS[k].label}
           </Link>
         ))}
@@ -131,20 +143,20 @@ function TechList() {
   );
 }
 
-function MapCard() {
-  const links = mapLinks(SAMPLE.address);
+function MapCard({ b, c }: Ctx) {
+  const links = mapLinks(b.address);
   return (
     <div className={s.mapCard}>
       <div className={s.mapFrame}>
-        <iframe src={links.embed} title={`Directions from ${SAMPLE.name} to CTWP in Bryan`} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
-        <span className={s.distance}><Icon name="pin" size={16} />{SAMPLE.distance}</span>
+        <iframe src={links.embed} title={b.address ? `Directions from ${b.name} to CTWP in Bryan` : "CTWP Bryan office map"} loading="lazy" referrerPolicy="no-referrer-when-downgrade" />
+        <span className={s.distance}><Icon name="pin" size={16} />{b.address ? `From your ${c.place} to ours` : "CTWP · Bryan office"}</span>
       </div>
       <div className={s.mapBody}>
         <ol className={s.route}>
-          <li><span>From</span><strong>{SAMPLE.name}</strong><em>{SAMPLE.address}</em></li>
+          {b.address && <li><span>From</span><strong>{b.name}</strong><em>{b.address}</em></li>}
           <li><span>To</span><strong>CTWP · Bryan office</strong><em>{OFFICE.address} · {OFFICE.hours}</em></li>
         </ol>
-        <a href={links.directions} target="_blank" rel="noopener noreferrer" className={`${s.btn} ${s.btnOutline} ${s.btnFull}`}>Directions from your office</a>
+        <a href={links.directions} target="_blank" rel="noopener noreferrer" className={`${s.btn} ${s.btnOutline} ${s.btnFull}`}>{b.address ? `Directions from your ${c.place}` : "Get directions"}</a>
       </div>
     </div>
   );
@@ -184,12 +196,16 @@ function Callout() {
 
 /* ---------- sections ---------- */
 
-function Hero({ v }: { v: Variant }) {
+function Hero({ v, b, c }: Ctx) {
   const text = (
     <div className={s.heroText}>
-      <p className={s.prepared}>Prepared for <strong>{SAMPLE.name}</strong></p>
-      <h1>{HERO.headline}</h1>
-      <p className={s.heroLead}>{HERO.lead}</p>
+      <p className={s.prepared}>
+        Prepared for
+        {b.logoUrl && <span className={s.preparedLogo}><img src={b.logoUrl} alt="" /></span>}
+        <strong>{b.name}</strong>
+      </p>
+      <h1>{c.hero.headline}</h1>
+      <p className={s.heroLead}>{c.hero.lead}</p>
       <div className={s.heroCtas}>
         <a href="#quote" className={`${s.btn} ${s.btnRed} ${s.btnBig}`}>{HERO.primary}</a>
         <a href={OFFICE.phoneHref} className={s.heroLink}>{HERO.secondary} <span aria-hidden>→</span></a>
@@ -198,25 +214,25 @@ function Hero({ v }: { v: Variant }) {
   );
   const image = (
     <div className={s.heroArt}>
-      <img src="/preview/leroy-office.webp" alt="Leroy, CTWP’s office dog, standing beside a copier in an office" />
+      <img src={c.hero.image} alt={c.hero.imageAlt} />
       {v === "a" && <p className={s.heroCaption}><strong>Meet Leroy.</strong> Your friendly introduction to CTWP.</p>}
       {v === "b" && <>
         <span className={s.heroTile}><strong>45+</strong>Years of service</span>
         <img src="/preview/badges/enx-elite-dealer-2025.jpg" alt="ENX Magazine Elite Dealer 2025" className={s.heroBadge} />
       </>}
-      {v === "c" && <span className={s.heroChip}><Icon name="pin" size={16} />{SAMPLE.distance}</span>}
+      {v === "c" && <span className={s.heroChip}><Icon name="pin" size={16} />Your local copier company, here in Bryan</span>}
     </div>
   );
   return <section id="top" className={s.hero}><div className={s.heroInner}>{text}{image}</div></section>;
 }
 
-function Help({ v }: { v: Variant }) {
+function Help({ v, c }: Ctx) {
   return (
     <section className={`${s.section} ${s.tintA}`}>
       <div className={s.wrap}>
-        <Heading kicker={HELP.kicker} title={HELP.heading} sub={HELP.intro} />
+        <Heading kicker={c.kicker} title={c.help.heading} sub={c.help.intro} />
         <ol className={s.helpList}>
-          {HELP.items.map((it, i) => (
+          {c.help.items.map((it, i) => (
             <li key={it.title} className={s.helpItem}>
               <span className={s.helpMark}>{v === "b" ? `0${i + 1}` : <Icon name={v === "c" ? "check" : it.icon} size={v === "c" ? 20 : 26} />}</span>
               <div><h3>{it.title}</h3><p>{it.body}</p></div>
@@ -301,13 +317,14 @@ function Logos() {
   );
 }
 
-function Local({ v }: { v: Variant }) {
+function Local(ctx: Ctx) {
+  const { v } = ctx;
   return (
     <section className={`${s.section} ${s.tintB}`}>
       <div className={s.wrap}>
         <Heading kicker={LOCAL.kicker} title={LOCAL.heading} sub={LOCAL.body} />
         <div className={s.localGrid}>
-          <MapCard />
+          <MapCard {...ctx} />
           <div className={s.localSide}>
             <Team />
             <Testimonial />
@@ -331,13 +348,13 @@ function Leroy() {
   );
 }
 
-function Quote({ v }: { v: Variant }) {
+function Quote({ v, b, c }: Ctx) {
   return (
     <section id="quote" className={`${s.section} ${s.quoteSection}`}>
       <div className={`${s.wrap} ${s.narrow}`}>
-        <Heading kicker={FORM.kicker} title={`Let’s find the right fit for ${SAMPLE.name}.`} sub={FORM.intro} />
+        <Heading kicker={FORM.kicker} title={`Let’s find the right fit for ${b.name.replace(/[.,]+$/, "")}.`} sub={FORM.intro} />
         {v === "c" && <Callout />}
-        <PreviewForm business={SAMPLE.name} />
+        <CampaignForm business={b.name} timing={c.timing} emailHint={c.emailHint} />
       </div>
     </section>
   );
@@ -368,16 +385,18 @@ function StickyCta() {
 
 /* ---------- page ---------- */
 
-export function Preview({ variant: v }: { variant: Variant }) {
+export function CampaignPage({ business: b, variant: v }: { business: CampaignBusiness; variant: Variant }) {
+  const c: NicheContent = NICHES[nicheKeyFor(b.niche, b.subgroup)];
+  const ctx: Ctx = { v, b, c };
   return (
-    <div className={`${s.page} ${s[v]}`}>
-      <PreviewBar v={v} />
+    <div className={`${s.page} ${s[v]} ${display.variable}`}>
+      <PreviewBar {...ctx} />
       <Header />
       <main>
-        <Hero v={v} />
-        {v === "a" && <><Help v={v} /><About v={v} /><Proof v={v} /><Logos /><Local v={v} /><Leroy /><Quote v={v} /></>}
-        {v === "b" && <><StatsBand /><Help v={v} /><Proof v={v} /><Logos /><Local v={v} /><Leroy /><Quote v={v} /></>}
-        {v === "c" && <><TrustStrip /><Local v={v} /><Help v={v} /><About v={v} /><Logos /><Proof v={v} /><Leroy /><Quote v={v} /></>}
+        <Hero {...ctx} />
+        {v === "a" && <><Help {...ctx} /><About v={v} /><Proof v={v} /><Logos /><Local {...ctx} /><Leroy /><Quote {...ctx} /></>}
+        {v === "b" && <><StatsBand /><Help {...ctx} /><Proof v={v} /><Logos /><Local {...ctx} /><Leroy /><Quote {...ctx} /></>}
+        {v === "c" && <><TrustStrip /><Local {...ctx} /><Help {...ctx} /><About v={v} /><Logos /><Proof v={v} /><Leroy /><Quote {...ctx} /></>}
       </main>
       <Footer />
       {v === "c" && <StickyCta />}
