@@ -3,14 +3,14 @@
 import { useEffect, useState } from "react";
 import { IMAGES, PHONE_DISPLAY, PHONE_HREF } from "@/lib/site";
 
-const LINKS = [
+const LINKS: [string, string][] = [
   ["#solutions", "What we do"],
   ["#service", "Service & visit us"],
   ["#rep", "Your local rep"],
   ["#quote", "Get my quote"],
 ];
 
-export function Header() {
+export function Header({ links = LINKS }: { links?: [string, string][] }) {
   const [pastHero, setPastHero] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -56,7 +56,7 @@ export function Header() {
       </div>
       {open && (
         <nav className="menuPanel" onClick={() => setOpen(false)}>
-          {LINKS.map(([href, label]) => (
+          {links.map(([href, label]) => (
             <a key={href} href={href}>{label}</a>
           ))}
           <a href={PHONE_HREF} data-track="Call (menu)" className="menuCall">Call {PHONE_DISPLAY}</a>

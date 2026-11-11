@@ -173,3 +173,11 @@ h1, h2, h3, p { margin: 0; }
   .heroLead { font-size: 22px; }
   .section { padding: 96px 0; }
 }
+
+/* Accounting page additions (same design as the dentist page) */
+.heroLead strong { font-weight: 600; }
+.heroSupport { font-size: 17px; line-height: 1.5; margin: -12px 0 26px; max-width: 34ch; opacity: .9; }
+.heroAlt { margin-top: 16px; font-size: 17px; font-weight: 600; }
+.heroAlt a { color: #fff; text-underline-offset: 4px; }
+.sub.wide { max-width: 46ch; }
+.offerSmall { display: block; margin-top: 10px; font-family: var(--sans); font-size: 18px; line-height: 1.5; opacity: .9; }
