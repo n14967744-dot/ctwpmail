@@ -37,6 +37,9 @@ export function AccountingLanding({ business, copy, travel }: { business: Busine
   const name = business.name.trim().replace(/\.$/, "");
   const start = fullAddress(business);
   const office = encodeURIComponent(OFFICE_MAPS_QUERY);
+  const mapSrc = start
+    ? `https://maps.google.com/maps?saddr=${encodeURIComponent(start)}&daddr=${office}&output=embed`
+    : `https://maps.google.com/maps?q=${office}&z=15&output=embed`;
   const directions = `https://www.google.com/maps/dir/?api=1${start ? `&origin=${encodeURIComponent(start)}` : ""}&destination=${office}`;
 
   return (
@@ -98,60 +101,37 @@ export function AccountingLanding({ business, copy, travel }: { business: Busine
           </div>
         </section>
 
-        <section id="service" className="acctLocal">
-          <div className="acctWrap">
-            <div className="acctHead">
-              <p className="acctKicker">{copy.local.kicker}</p>
-              {travel ? (
-                <h2><span className="acctMiles">{travel.miles} miles</span> from your office.</h2>
-              ) : (
-                <h2>{copy.local.heading}</h2>
-              )}
-              <span className="acctRule" aria-hidden />
-              <p className="acctIntro">
-                {travel ? `About ${travel.minutes} minutes from ${name} to our door. ` : ""}{copy.local.visit}
-              </p>
-            </div>
+        {/* Local service: the dentist page's section, same layout and styles. */}
+        <section id="service" className="section white">
+          <div className="wrap">
+            <p className="kicker">{copy.local.kicker}</p>
+            <h2>{copy.local.heading}</h2>
+            <p className="sub">{copy.local.body}</p>
 
-            <div className="acctLocalGrid">
-              <figure className="acctMap">
-                {/* Stand-in route graphic. To be replaced by a real map image for each business. */}
-                <svg viewBox="0 0 360 250" role="img" aria-label={`Route from ${name} to the CTWP office in Bryan`}>
-                  <rect width="360" height="250" fill="#002454" />
-                  <g stroke="#fff" strokeOpacity=".09" strokeWidth="10" strokeLinecap="round">
-                    <path d="M-10 60 L370 28" /><path d="M-10 150 L370 118" /><path d="M-10 236 L370 204" />
-                    <path d="M52 -10 L74 260" /><path d="M150 -10 L172 260" /><path d="M252 -10 L274 260" /><path d="M330 -10 L352 260" />
-                  </g>
-                  <g stroke="#fff" strokeOpacity=".06" strokeWidth="4">
-                    <path d="M-10 104 L370 72" /><path d="M-10 194 L370 162" /><path d="M100 -10 L122 260" /><path d="M202 -10 L224 260" />
-                  </g>
-                  <path d="M66 198 L160 190 L154 122 L262 113 L257 58 L300 54" fill="none" stroke="#fff" strokeWidth="9" strokeLinecap="round" strokeLinejoin="round" />
-                  <path d="M66 198 L160 190 L154 122 L262 113 L257 58 L300 54" fill="none" stroke="#b41830" strokeWidth="4.5" strokeLinecap="round" strokeLinejoin="round" />
-                  <circle cx="66" cy="198" r="11" fill="#fff" /><circle cx="66" cy="198" r="5" fill="#002454" />
-                  <path d="M300 56 C286 38 282 30 282 22 a18 18 0 0 1 36 0 C318 30 314 38 300 56z" fill="#b41830" stroke="#fff" strokeWidth="2.5" />
-                  <path d="M300 11.5l2.8 6 6.6.7-5 4.4 1.5 6.4-5.900-3.400-5.900 3.400 1.500-6.400-5-4.400 6.600-.7z" fill="#fff" />
-                </svg>
-                <span className="acctTag you">Your office</span>
-                <span className="acctTag us">CTWP</span>
-                {travel && <span className="acctChip">{travel.miles} mi · {travel.minutes} min</span>}
-              </figure>
-
-              <div className="acctVisit">
-                <ol className="acctRoute">
-                  {start && <li><span>From</span><strong>{name}</strong><em>{start}</em></li>}
-                  <li><span>To</span><strong>CTWP · Bryan office</strong><em>{OFFICE_ADDRESS}</em><em>{OFFICE_HOURS} · walk-ins welcome</em></li>
-                </ol>
-                <a href={directions} target="_blank" rel="noopener" data-track="Directions" className="acctBtn">Get directions</a>
+            <div className="mapCard">
+              <iframe
+                src={mapSrc}
+                title={start ? `Directions from ${name} to CTWP` : "CTWP office map"}
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade"
+                className="map"
+              />
+              <div className="mapBody">
+                {travel && <p className="mapMiles"><strong>{travel.miles} miles</strong> from your office, about {travel.minutes} minutes.</p>}
+                <p className="visit">{copy.local.visit}</p>
+                <div className="addr">
+                  <strong>{OFFICE_ADDRESS}</strong>
+                  <span>{OFFICE_HOURS}</span>
+                </div>
+                <a href={directions} target="_blank" rel="noopener" data-track="Directions" className="btn btnOutline btnFull">Get directions</a>
               </div>
             </div>
 
-            <aside className="acctService">
-              <div>
-                <h3>{copy.local.calloutTitle}</h3>
-                <p>{copy.local.calloutBody}</p>
-              </div>
-              <AskServiceButton label={copy.local.calloutButton} className="acctBtn solid" />
-            </aside>
+            <div className="offer">
+              <p className="offerTag">{copy.local.calloutTag}</p>
+              <p className="offerText">{copy.local.calloutTitle} {copy.local.calloutBody}</p>
+              <AskServiceButton label={copy.local.calloutButton} />
+            </div>
           </div>
         </section>
 
