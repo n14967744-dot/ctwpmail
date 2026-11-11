@@ -30,20 +30,6 @@ const MENU: [string, string][] = [
 const HELP_IMAGES: (string | null)[] = [null, null, null];
 const HELP_IMAGE_NOTES = ["Scanning client documents", "Finished client packets", "Reviewing printing costs"];
 
-const I = {
-  scan: <><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" /><path d="M12 10.5v5M9.5 13l2.5 2.5 2.5-2.5" /></>,
-  packet: <><path d="M7 3h8l4 4v12a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z" /><path d="M15 3v4h4M9 12h6M9 16h6" /></>,
-  costs: <><path d="M4 20V4M4 20h16" /><path d="M8 16v-4M12 16V8M16 16v-6" /></>,
-};
-
-function Icon({ name }: { name: keyof typeof I }) {
-  return (
-    <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-      {I[name]}
-    </svg>
-  );
-}
-
 export function AccountingLanding({ business, copy }: { business: Business; copy: AccountingCopy }) {
   const name = business.name.trim().replace(/\.$/, "");
   const start = fullAddress(business);
@@ -73,10 +59,12 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
 
         <section id="solutions" className="acctHelp">
           <div className="acctWrap">
-            <p className="acctKicker">{copy.help.kicker}</p>
-            <h2>{copy.help.heading}</h2>
-            <span className="acctRule" aria-hidden />
-            <p className="acctIntro">{copy.help.intro}</p>
+            <div className="acctHead">
+              <p className="acctKicker">{copy.help.kicker}</p>
+              <h2>{copy.help.heading}</h2>
+              <span className="acctRule" aria-hidden />
+              <p className="acctIntro">{copy.help.intro}</p>
+            </div>
             <ol className="acctCards">
               {copy.help.items.map((it, i) => (
                 <li key={it.title}>
@@ -84,10 +72,10 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
                     {HELP_IMAGES[i]
                       ? <img src={HELP_IMAGES[i] as string} alt="" loading="lazy" />
                       : <div className="acctPh"><strong>Image {i + 1} goes here</strong><span>{HELP_IMAGE_NOTES[i]}</span><span>1536 × 1024</span></div>}
-                    <span className="acctIcon"><Icon name={it.icon} /></span>
                   </figure>
+                  <p className="acctNo" aria-hidden>0{i + 1}</p>
                   <h3>{it.title}</h3>
-                  <p>{it.body}</p>
+                  <p className="acctBody">{it.body}</p>
                 </li>
               ))}
             </ol>
