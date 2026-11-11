@@ -31,3 +31,7 @@ Approved hero is preserved. The workflow section now pairs its three benefits wi
 Visual thesis: tactile office work in warm walnut, navy and natural daylight. Content plan: a short shared heading followed by one focused workflow image and its matching explanation. Interaction thesis: retained scroll reveals and accordions, plus a restrained image crossfade with reduced-motion support.
 
 Generated assets: `workflow-scanning.webp`, `workflow-packets.webp`, `workflow-costs.webp` under `public/accounting-opening/`. Built-in image generation produced illustrative work scenes; these do not depict identified CTWP staff or real client records. Prompts specified warm editorial photography, natural hands, charcoal copiers, no readable client data, no pricing or claims, and crop-safe central subjects.
+
+## Second-section style alignment — 2026-11-11
+
+The user approved the hero and asked for a more consistent second-section style. The benefits section now uses the same Outfit 600 heading weight, -0.04em headline tracking, centered hierarchy, navy typography and red rounded action treatment as the hero. The former gray-green emphasis, numbering, small repeated subtitles and tiny image/capability captions are removed. Body copy is larger, imagery has softened corners, and the section uses a clean white background. The approved header/hero markup, hero CSS, generated images, animations and quote behavior are preserved.

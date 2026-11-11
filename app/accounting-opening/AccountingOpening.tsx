@@ -55,7 +55,7 @@ export default function AccountingOpening() {
       <section id="how-we-help" className={s.help} aria-labelledby="help-title">
         <div className={s.helpIntro} data-reveal>
           <p className={s.eyebrow}>FOR YOUR ACCOUNTING OFFICE</p>
-          <h2 id="help-title">Make the paperwork <span>part easier.</span></h2>
+          <h2 id="help-title">Make the paperwork<br /> part easier.</h2>
           <p className={s.helpLead}>From the first client document to the final report.</p>
         </div>
         <div className={s.helpContent}>
@@ -63,16 +63,15 @@ export default function AccountingOpening() {
           <div className={s.workflowImageFrame}>
             {needs.map((need, index) => <img key={need.image} src={`/accounting-opening/${need.image}`} alt={active === index || (active === null && index === 0) ? need.alt : ''} aria-hidden={index !== (active ?? 0)} width="1448" height="1086" loading="lazy" decoding="async" className={`${s.workflowImage} ${index === (active ?? 0) ? s.workflowImageVisible : ''}`} />)}
           </div>
-          <p className={s.imageCaption}><span aria-hidden="true">0{(active ?? 0) + 1}</span>{needs[active ?? 0].caption}</p>
         </div>
         <div className={s.workflows} data-reveal>
           {needs.map((need, index) => <article className={`${s.workflow} ${active === index ? s.active : ''}`} key={need.title}>
             <h3><button className={s.workflowTrigger} aria-expanded={active === index} aria-controls={`workflow-${index}`} id={`trigger-${index}`} onClick={() => setActive(active === index ? null : index)}>
-              <span className={s.number}>0{index + 1}</span><span>{need.title}<small>{need.short}</small></span><span className={s.plus} aria-hidden="true">{active === index ? '−' : '+'}</span>
+              <span>{need.title}</span><span className={s.plus} aria-hidden="true">{active === index ? '−' : '+'}</span>
             </button></h3>
             <div id={`workflow-${index}`} role="region" aria-labelledby={`trigger-${index}`} className={s.workflowBody} hidden={active !== index}>
               <img className={s.mobileWorkflowImage} src={`/accounting-opening/${need.image}`} alt={need.alt} width="1448" height="1086" loading="lazy" decoding="async" />
-              <p>{need.body}</p><p className={s.details}>{need.note}</p><button className={s.textLink} onClick={() => openQuote(need.choice)}>Let’s talk about this <Arrow /></button>
+              <p>{need.body}</p><button className={s.textLink} onClick={() => openQuote(need.choice)}>Let’s talk about this <Arrow /></button>
             </div>
           </article>)}
           <div className={s.existing}><p>Already have a copier you like?</p><button onClick={() => openQuote('Service for existing equipment')}>Ask us about service <Arrow /></button><small>We’ll confirm support for your make and model.</small></div>
