@@ -39,16 +39,15 @@ export const ACCOUNTING: AccountingCopy = {
       },
     ],
   },
-  /* Heading, body and visit line are the dentist page's wording. */
   local: {
-    kicker: "Right here in Bryan",
-    heading: "Local service, real people.",
-    body: "Our own technicians are right here in Bryan. When your copier jams, you call us and someone actually shows up.",
-    visit: "Stop by anytime. See the copiers in person and meet the techs and reps who’ll take care of you.",
-    calloutTag: "Service plan",
+    kicker: "",
+    heading: "Your local copier company.",
+    body: "Our sales and service teams work from our office on East Villa Maria Road in Bryan. You are always welcome to visit.",
+    visit: "",
+    calloutTag: "",
     calloutTitle: "Already have a copier?",
-    calloutBody: "Tell us the make and model. We can check whether service and support are available for your equipment.",
-    calloutButton: "Ask about service",
+    calloutBody: "",
+    calloutButton: "Ask us about service.",
   },
   form: {
     /* {business} is replaced with the business name. */
@@ -98,8 +97,8 @@ export const TAX: AccountingCopy = {
 /* About CTWP and customers: the same for accounting and tax. Facts are from ctwp.com. */
 export const ABOUT = {
   kicker: "About CTWP",
-  heading: "Your local copier company.",
-  body: "Bryan’s copier company since 1979. We sell, lease and service copiers and printers, with our own technicians based right here in town.",
+  heading: "Serving Bryan–College Station since 1979.",
+  body: "We sell, lease and service copiers and printers, with our own technicians based right here in town.",
   badgesLabel: "Recognized for service",
   badges: [
     { src: "/accounting/badges/enx-elite-dealer-2025.jpg", alt: "ENX Magazine Elite Dealer 2025" },

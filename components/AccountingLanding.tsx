@@ -99,35 +99,24 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
           </div>
         </section>
 
-        {/* Local service: the dentist page's section, same layout and styles. */}
-        <section id="service" className="section white">
-          <div className="wrap">
-            <p className="kicker">{copy.local.kicker}</p>
+        <section id="service" className="acctLocal">
+          <div className="acctHead">
             <h2>{copy.local.heading}</h2>
-            <p className="sub">{copy.local.body}</p>
-
-            <div className="mapCard">
-              <iframe
-                src={mapSrc}
-                title={start ? `Directions from ${name} to CTWP` : "CTWP office map"}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="map"
-              />
-              <div className="mapBody">
-                <p className="visit">{copy.local.visit}</p>
-                <div className="addr">
-                  <strong>{OFFICE_ADDRESS}</strong>
-                </div>
-                <a href={directions} target="_blank" rel="noopener" data-track="Directions" className="btn btnOutline btnFull">Get directions</a>
-              </div>
-            </div>
-
-            <div className="offer">
-              <p className="offerTag">{copy.local.calloutTag}</p>
-              <p className="offerText">{copy.local.calloutTitle} {copy.local.calloutBody}</p>
-              <AskServiceButton label={copy.local.calloutButton} />
-            </div>
+            <span className="acctRule" aria-hidden />
+            <p className="acctIntro">{copy.local.body}</p>
+          </div>
+          <div className="acctMapWrap">
+            <iframe
+              src={mapSrc}
+              title={start ? `Directions from ${name} to CTWP` : "CTWP office map"}
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+            />
+          </div>
+          <div className="acctLocalFoot">
+            <p className="acctMapLabel"><strong>CTWP</strong>{OFFICE_ADDRESS}</p>
+            <a href={directions} target="_blank" rel="noopener" data-track="Directions" className="acctBtn">Get directions</a>
+            <p className="acctServiceLine">{copy.local.calloutTitle} <AskServiceButton label={copy.local.calloutButton} className="acctLink" /></p>
           </div>
         </section>
 
