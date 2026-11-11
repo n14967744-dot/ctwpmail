@@ -23,3 +23,11 @@ Content plan: compact CTWP logo and local phone, Prepared for + firm name, two-l
 Interaction thesis: retain staggered text entrance, gentle image arrival, scroll reveals, button feedback and the existing preview quote flow. Respect reduced motion.
 
 New asset: `public/accounting-opening/leroy-office-v2.webp`, generated from the two real Leroy photos and the user's composition reference. Scene prompt: natural small Leroy, blue bandana, all four paws on a blue rug; prominent correctly scaled charcoal copier; walnut accounting office and deep navy wall; no text/UI. Built-in image generation was used.
+
+## Second-section imagery — 2026-11-11
+
+Approved hero is preserved. The workflow section now pairs its three benefits with distinct original editorial images: loading documents into an ADF, preparing finished client packets, and comparing copier/service costs. On desktop the large photograph crossfades with the selected accordion; on mobile each open benefit contains its own image. No automatic carousel, new dependency, tracking or submission behavior is introduced. The quote interaction remains the preview flow.
+
+Visual thesis: tactile office work in warm walnut, navy and natural daylight. Content plan: a short shared heading followed by one focused workflow image and its matching explanation. Interaction thesis: retained scroll reveals and accordions, plus a restrained image crossfade with reduced-motion support.
+
+Generated assets: `workflow-scanning.webp`, `workflow-packets.webp`, `workflow-costs.webp` under `public/accounting-opening/`. Built-in image generation produced illustrative work scenes; these do not depict identified CTWP staff or real client records. Prompts specified warm editorial photography, natural hands, charcoal copiers, no readable client data, no pricing or claims, and crop-safe central subjects.
