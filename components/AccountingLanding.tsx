@@ -1,7 +1,7 @@
 import { Header } from "./Header";
 import { AccountingQuoteForm, AskServiceButton } from "./AccountingQuoteForm";
 import {
-  IMAGES, OFFICE_ADDRESS, OFFICE_HOURS, OFFICE_MAPS_QUERY, PHONE_DISPLAY, PHONE_HREF,
+  IMAGES, OFFICE_ADDRESS, OFFICE_HOURS, OFFICE_MAPS_QUERY,
   fullAddress, type Business,
 } from "@/lib/site";
 import type { AccountingCopy } from "@/lib/accounting";
@@ -10,6 +10,9 @@ import type { AccountingCopy } from "@/lib/accounting";
    Same design as the dentist page (components/Landing.tsx); the wording comes from lib/accounting.ts. */
 
 const HERO_IMAGE = "/accounting/hero.webp";
+
+/* The Bryan office line published on ctwp.com/bryan. */
+const BRYAN_PHONE = { display: "(979) 779-2998", href: "tel:+19797792998" };
 
 /* Only the header and hero are being worked on right now. The sections below the hero are kept
    in this file and switched off; set this to true to bring them back. */
@@ -43,8 +46,8 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
   const directions = `https://www.google.com/maps/dir/?api=1${start ? `&origin=${encodeURIComponent(start)}` : ""}&destination=${office}`;
 
   return (
-    <div id="top">
-      <Header links={MENU} />
+    <div id="top" className="acct">
+      <Header links={MENU} phone={BRYAN_PHONE} quietCall />
       <main>
         <section id="hero" className="hero">
           <img src={HERO_IMAGE} alt="Leroy, CTWP's office dog, beside a copier in an office" className="heroImg" />
@@ -53,9 +56,8 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
             <p className="eyebrow">Prepared for</p>
             <h1>{name}.</h1>
             <p className="heroLead"><strong>{copy.hero.headline}</strong></p>
-            <p className="heroSupport">{copy.hero.lead}</p>
             <a href="#quote" data-track="Quote button" className="btn btnRed btnBig">{copy.hero.primary}</a>
-            <p className="heroAlt"><a href={PHONE_HREF} data-track="Call (hero)">{copy.hero.secondary}</a></p>
+            <p className="heroAlt"><a href={BRYAN_PHONE.href} data-track="Call (hero)">{copy.hero.secondary}</a></p>
           </div>
           <div className="heroSpacer" />
         </section>
@@ -66,6 +68,7 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
             <p className="kicker">{copy.help.kicker}</p>
             <h2>{copy.help.heading}</h2>
             <p className="sub">{copy.help.intro}</p>
+            <p className="sub wide">{copy.hero.lead}</p>
             <div className="cards">
               {copy.help.items.map((it) => (
                 <article key={it.title} className="card">
@@ -125,7 +128,7 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
         <div className="wrap">
           <img src={IMAGES.logoWide} alt="CTWP, Your Copier Company" className="footLogo" />
           <p>{OFFICE_ADDRESS}</p>
-          <p><a href={PHONE_HREF} data-track="Call (footer)">{PHONE_DISPLAY}</a> · {OFFICE_HOURS}</p>
+          <p><a href={BRYAN_PHONE.href} data-track="Call (footer)">{BRYAN_PHONE.display}</a> · {OFFICE_HOURS}</p>
           <p className="copy">Serving Texas offices since 1979.</p>
         </div>
       </footer>}

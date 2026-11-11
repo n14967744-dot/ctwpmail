@@ -10,7 +10,15 @@ const LINKS: [string, string][] = [
   ["#quote", "Get my quote"],
 ];
 
-export function Header({ links = LINKS }: { links?: [string, string][] }) {
+type HeaderProps = {
+  links?: [string, string][];
+  /** Phone shown in the call button. Defaults to the number used on the dentist page. */
+  phone?: { display: string; href: string };
+  /** A quieter call button, for pages where the hero button should be the only red one. */
+  quietCall?: boolean;
+};
+
+export function Header({ links = LINKS, phone = { display: PHONE_DISPLAY, href: PHONE_HREF }, quietCall = false }: HeaderProps) {
   const [pastHero, setPastHero] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -43,13 +51,13 @@ export function Header({ links = LINKS }: { links?: [string, string][] }) {
           <a href="#quote" data-track="Quote chip" className={`quoteChip ${pastHero ? "show" : ""}`} tabIndex={pastHero ? 0 : -1} aria-hidden={!pastHero}>
             Get my quote
           </a>
-          <a href={PHONE_HREF} data-track="Call (header)" className="callPill" aria-label={`Call us at ${PHONE_DISPLAY}`}>
+          <a href={phone.href} data-track="Call (header)" className={`callPill ${quietCall ? "quiet" : ""}`} aria-label={`Call us at ${phone.display}`}>
             <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden>
               <path d="M6.6 10.8a15.1 15.1 0 006.6 6.6l2.2-2.2a1 1 0 011-.25 11.4 11.4 0 003.6.57 1 1 0 011 1V20a1 1 0 01-1 1A17 17 0 013 4a1 1 0 011-1h3.5a1 1 0 011 1c0 1.25.2 2.45.57 3.57a1 1 0 01-.25 1z" />
             </svg>
             <span className="callText">
               <small>Call us</small>
-              <strong>{PHONE_DISPLAY}</strong>
+              <strong>{phone.display}</strong>
             </span>
           </a>
         </div>
@@ -59,7 +67,7 @@ export function Header({ links = LINKS }: { links?: [string, string][] }) {
           {links.map(([href, label]) => (
             <a key={href} href={href}>{label}</a>
           ))}
-          <a href={PHONE_HREF} data-track="Call (menu)" className="menuCall">Call {PHONE_DISPLAY}</a>
+          <a href={phone.href} data-track="Call (menu)" className="menuCall">Call {phone.display}</a>
         </nav>
       )}
     </header>
