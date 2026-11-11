@@ -14,13 +14,16 @@ const HERO_IMAGE = "/accounting/hero.webp";
 /* The Bryan office line published on ctwp.com/bryan. */
 const BRYAN_PHONE = { display: "(979) 779-2998", href: "tel:+19797792998" };
 
-/* Only the header and hero are being worked on right now. The sections below the hero are kept
-   in this file and switched off; set this to true to bring them back. */
-const SHOW_REST = false;
+/* Page order: hero, how we help, one About CTWP section, quote form.
+   The local-service section and the footer are kept in this file and switched off. */
+const SHOW_LOCAL = false;
+const SHOW_FOOTER = false;
 
-const MENU: [string, string][] = SHOW_REST
-  ? [["#solutions", "How we help"], ["#service", "Local service"], ["#quote", "Start my quote"]]
-  : [];
+const MENU: [string, string][] = [
+  ["#solutions", "How we help"],
+  ["#about", "About CTWP"],
+  ["#quote", "Start my quote"],
+];
 
 const I = {
   scan: <><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" /><path d="M12 10.5v5M9.5 13l2.5 2.5 2.5-2.5" /></>,
@@ -63,6 +66,24 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
           </div>
         </section>
 
+        <section id="solutions" className="acctHelp">
+          <div className="acctWrap">
+            <p className="acctKicker">{copy.help.kicker}</p>
+            <h2>{copy.help.heading}</h2>
+            <span className="acctRule" aria-hidden />
+            <p className="acctIntro">{copy.help.intro}</p>
+            <ol className="acctCards">
+              {copy.help.items.map((it) => (
+                <li key={it.title}>
+                  <span className="acctIcon"><Icon name={it.icon} /></span>
+                  <h3>{it.title}</h3>
+                  <p>{it.body}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+
         <section id="about" className="about">
           <div className="aboutFlag">
             <img src="/accounting/flags.webp" alt="The Texas flag and the United States flag flying together" loading="lazy" />
@@ -72,96 +93,51 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
             <h2>{ABOUT.heading}</h2>
             <span className="aboutRule" aria-hidden />
             <p className="aboutBody">{ABOUT.body}</p>
-          </div>
-        </section>
-
-        <section id="customers" className="clients">
-          <svg className="clientsStar" viewBox="0 0 24 24" aria-hidden><path d="M12 2l2.9 6.6 7.1.7-5.4 4.8 1.6 7L12 17.4l-6.2 3.7 1.6-7L2 9.3l7.1-.7z" /></svg>
-          <div className="clientsInner">
-            <p className="clientsKicker">{CUSTOMERS.kicker}</p>
-            <h2>{CUSTOMERS.headingA}<br /><em>{CUSTOMERS.headingB}</em></h2>
-            <p className="clientsBody">{CUSTOMERS.body}</p>
-            <ul className="clientsGrid">
-              {CUSTOMERS.logos.map((c) => (
-                <li key={c.name} className={c.wide ? "wide" : ""}>
-                  <span><img src={c.src} alt="" loading="lazy" /></span>
-                  <strong>{c.name}</strong>
-                </li>
-              ))}
+            <p className="aboutLife">{CUSTOMERS.line}</p>
+            <ul className="aboutLogos">
+              {CUSTOMERS.logos.map((c) => <li key={c.name}><img src={c.src} alt={c.name} loading="lazy" /></li>)}
             </ul>
           </div>
         </section>
 
-        <section className="proof" aria-label={ABOUT.badgesLabel}>
-          <p className="proofLabel">{ABOUT.badgesLabel}</p>
-          <ul>
-            {ABOUT.badges.map((b) => <li key={b.alt}><img src={b.src} alt={b.alt} loading="lazy" /></li>)}
-          </ul>
-        </section>
-
-        {SHOW_REST && <>
-        <section id="solutions" className="section cream">
-          <div className="wrap">
-            <p className="kicker">{copy.help.kicker}</p>
-            <h2>{copy.help.heading}</h2>
-            <p className="sub">{copy.help.intro}</p>
-            <p className="sub wide">{copy.hero.lead}</p>
-            <div className="cards">
-              {copy.help.items.map((it) => (
-                <article key={it.title} className="card">
-                  <span className="cardIcon"><Icon name={it.icon} /></span>
-                  <h3>{it.title}</h3>
-                  <p>{it.body}</p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </section>
-
-        <section id="service" className="section white">
-          <div className="wrap">
-            <p className="kicker">{copy.local.kicker}</p>
-            <h2>{copy.local.heading}</h2>
-            <p className="sub wide">{copy.local.body}</p>
-
-            <div className="mapCard">
-              <iframe
-                src={mapSrc}
-                title={start ? `Directions from ${name} to CTWP` : "CTWP office map"}
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="map"
-              />
-              <div className="mapBody">
-                <div className="addr">
-                  <strong>{OFFICE_ADDRESS}</strong>
-                  <span>{OFFICE_HOURS}</span>
+        {SHOW_LOCAL && (
+          <section id="service" className="section white">
+            <div className="wrap">
+              <p className="kicker">{copy.local.kicker}</p>
+              <h2>{copy.local.heading}</h2>
+              <p className="sub wide">{copy.local.body}</p>
+              <div className="mapCard">
+                <iframe src={mapSrc} title={start ? `Directions from ${name} to CTWP` : "CTWP office map"} loading="lazy" referrerPolicy="no-referrer-when-downgrade" className="map" />
+                <div className="mapBody">
+                  <div className="addr"><strong>{OFFICE_ADDRESS}</strong><span>{OFFICE_HOURS}</span></div>
+                  <a href={directions} target="_blank" rel="noopener" data-track="Directions" className="btn btnOutline btnFull">Get directions</a>
                 </div>
-                <a href={directions} target="_blank" rel="noopener" data-track="Directions" className="btn btnOutline btnFull">Get directions</a>
+              </div>
+              <div className="offer">
+                <p className="offerText">{copy.local.calloutTitle}<span className="offerSmall">{copy.local.calloutBody}</span></p>
+                <AskServiceButton label={copy.local.calloutButton} />
               </div>
             </div>
+          </section>
+        )}
 
-            <div className="offer">
-              <p className="offerText">
-                {copy.local.calloutTitle}
-                <span className="offerSmall">{copy.local.calloutBody}</span>
-              </p>
-              <AskServiceButton label={copy.local.calloutButton} />
-            </div>
+        <section id="quote" className="acctQuote">
+          <div className="acctProof">
+            <p>{ABOUT.badgesLabel}</p>
+            <ul>
+              {ABOUT.badges.map((b) => <li key={b.alt}><img src={b.src} alt={b.alt} loading="lazy" /></li>)}
+            </ul>
           </div>
-        </section>
-
-        <section id="quote" className="section cream">
-          <div className="wrap narrow">
+          <div className="acctWrap narrow">
             <h2>{copy.form.heading.replace("{business}", name)}</h2>
-            <p className="sub wide">{copy.form.intro}</p>
+            <span className="acctRule center" aria-hidden />
+            <p className="acctIntro center">{copy.form.intro}</p>
             <AccountingQuoteForm business={name} copy={copy.form} />
           </div>
         </section>
-        </>}
       </main>
 
-      {SHOW_REST && <footer className="footer">
+      {SHOW_FOOTER && <footer className="footer">
         <div className="wrap">
           <img src={IMAGES.logoWide} alt="CTWP, Your Copier Company" className="footLogo" />
           <p>{OFFICE_ADDRESS}</p>

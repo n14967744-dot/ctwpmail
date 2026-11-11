@@ -107,12 +107,9 @@ export const ABOUT = {
 };
 
 export const CUSTOMERS = {
-  kicker: "Who we serve",
-  headingA: "Customers",
-  headingB: "for Life.",
-  body: "It’s how CTWP has done business since day one. A few of the organizations around Bryan–College Station that count on us:",
+  line: "We believe in Customers for Life.",
   logos: [
-    { src: "/accounting/customers/tamu.png", name: "Texas A&M University", wide: true },
+    { src: "/accounting/customers/tamu.png", name: "Texas A&M University" },
     { src: "/accounting/customers/bryan-isd.png", name: "Bryan ISD" },
     { src: "/accounting/customers/college-station.png", name: "City of College Station" },
     { src: "/accounting/customers/bcs-chamber.png", name: "B/CS Chamber of Commerce" },
