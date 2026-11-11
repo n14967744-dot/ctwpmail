@@ -9,6 +9,7 @@ const needs = [
   { title: 'Know what printing really costs.', short: 'See the full picture before you decide.', body: 'Equipment payments, page charges, toner and service all add up. We’ll help you compare the total cost and explore a setup that makes sense for your office.', note: 'Equipment · Supplies · Service', choice: 'Reviewing printing costs' },
 ];
 const Arrow = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h15M13 5l7 7-7 7" stroke="currentColor" strokeWidth="1.6" /></svg>;
+const Phone = () => <svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7.4 3 2.2 5.1-2.2 1.8a15.5 15.5 0 0 0 6.7 6.7l1.8-2.2 5.1 2.2v3.2c0 .7-.6 1.2-1.3 1.2A16.7 16.7 0 0 1 3 4.3C3 3.6 3.5 3 4.2 3h3.2Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" /></svg>;
 
 export default function AccountingOpening() {
   const [active, setActive] = useState<number | null>(0);
@@ -31,21 +32,24 @@ export default function AccountingOpening() {
   return <div className={s.page} ref={root}>
     <a className={s.skip} href="#main">Skip to content</a>
     <header className={s.header}>
-      <a href="https://www.ctwp.com/" className={s.brand} aria-label="CTWP — Your local copier company"><img src="/accounting-opening/ctwp-logo.png" alt="CTWP — Your Copier Company" width="400" height="80" /></a>
-      <div className={s.headerRight}><span className={s.local}>Your Bryan–College Station team</span><a href="tel:+19797792998" className={s.phone}>979 779 2998 <Arrow /></a></div>
+      <a href="https://www.ctwp.com/" className={s.brand} aria-label="CTWP — Your local copier company"><img src="/ctwp-mark.webp" alt="CTWP" width="409" height="356" /><span>Your local<br />copier company.</span></a>
+      <div className={s.headerRight}><span className={s.local}>Bryan–College Station</span><a href="tel:+19797792998" className={s.phone} aria-label="Call CTWP at 979 779 2998"><Phone /><span><small>Call us</small><strong>(979) 779-2998</strong></span></a></div>
     </header>
 
     <main id="main">
       <section className={s.hero} aria-labelledby="hero-title">
-        <img className={s.heroImage} src="/accounting-opening/leroy-office.webp" alt="Happy Leroy, CTWP’s office dog, beside a commercial copier in an accounting-office scene" width="1536" height="1024" fetchPriority="high" />
         <div className={s.heroInner}>
-          <div className={s.personalized}><p>Prepared for</p><img src="/accounting-opening/seidel-schroeder.png" alt="Seidel Schroeder" width="1800" height="600" /></div>
-          <h1 id="hero-title">Less paperwork.<br /><span>More client time.</span></h1>
-          <p className={s.intro}>Printing, scanning and local support.<br />Built around the way your office works.</p>
-          <button className={s.primary} onClick={() => openQuote()}>Start my quote <Arrow /></button>
+          <p className={s.prepared}>Prepared for</p>
+          <h1 id="hero-title">Seidel Schroeder.</h1>
+          <p className={s.intro}>Less time handling paperwork.<br /><span>More time serving clients.</span></p>
+        </div>
+        <div className={s.heroScene}>
+          <img className={s.heroImage} src="/accounting-opening/leroy-office-v2.webp" alt="Leroy in his blue bandana, standing on the office rug beside a commercial copier" width="1536" height="1024" fetchPriority="high" />
+        </div>
+        <div className={s.heroAction}>
+          <button className={`${s.primary} ${s.heroQuote}`} onClick={() => openQuote()}>Start my quote <Arrow /></button>
           <a className={s.explore} href="#how-we-help">See how we can help <span aria-hidden="true">↓</span></a>
         </div>
-        <div className={s.heroCaption}><span className={s.captionLine} />A friendly introduction from Leroy.</div>
       </section>
 
       <section id="how-we-help" className={s.help} aria-labelledby="help-title">
