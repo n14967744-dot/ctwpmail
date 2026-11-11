@@ -25,6 +25,11 @@ const MENU: [string, string][] = [
   ["#quote", "Start my quote"],
 ];
 
+/* Photos for the three "how we help" cards, in order. Use landscape 3:2 images (1536 x 1024).
+   Put each file in public/accounting/ and set its path here; null shows a placeholder box. */
+const HELP_IMAGES: (string | null)[] = [null, null, null];
+const HELP_IMAGE_NOTES = ["Scanning client documents", "Finished client packets", "Reviewing printing costs"];
+
 const I = {
   scan: <><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" /><path d="M12 10.5v5M9.5 13l2.5 2.5 2.5-2.5" /></>,
   packet: <><path d="M7 3h8l4 4v12a2 2 0 01-2 2H7a2 2 0 01-2-2V5a2 2 0 012-2z" /><path d="M15 3v4h4M9 12h6M9 16h6" /></>,
@@ -73,9 +78,14 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
             <span className="acctRule" aria-hidden />
             <p className="acctIntro">{copy.help.intro}</p>
             <ol className="acctCards">
-              {copy.help.items.map((it) => (
+              {copy.help.items.map((it, i) => (
                 <li key={it.title}>
-                  <span className="acctIcon"><Icon name={it.icon} /></span>
+                  <figure className="acctPhoto">
+                    {HELP_IMAGES[i]
+                      ? <img src={HELP_IMAGES[i] as string} alt="" loading="lazy" />
+                      : <div className="acctPh"><strong>Image {i + 1} goes here</strong><span>{HELP_IMAGE_NOTES[i]}</span><span>1536 × 1024</span></div>}
+                    <span className="acctIcon"><Icon name={it.icon} /></span>
+                  </figure>
                   <h3>{it.title}</h3>
                   <p>{it.body}</p>
                 </li>
