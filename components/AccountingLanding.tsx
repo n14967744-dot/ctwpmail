@@ -4,7 +4,7 @@ import {
   IMAGES, OFFICE_ADDRESS, OFFICE_HOURS, OFFICE_MAPS_QUERY,
   fullAddress, type Business,
 } from "@/lib/site";
-import { ABOUT, type AccountingCopy } from "@/lib/accounting";
+import { ABOUT, CUSTOMERS, type AccountingCopy } from "@/lib/accounting";
 
 /* Accounting and tax preparation version of the landing page.
    Same design as the dentist page (components/Landing.tsx); the wording comes from lib/accounting.ts. */
@@ -72,9 +72,26 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
             <h2>{ABOUT.heading}</h2>
             <span className="aboutRule" aria-hidden />
             <p className="aboutBody">{ABOUT.body}</p>
-            <p className="aboutMotto">{ABOUT.motto}</p>
           </div>
         </section>
+
+        <section id="customers" className="clients">
+          <svg className="clientsStar" viewBox="0 0 24 24" aria-hidden><path d="M12 2l2.9 6.6 7.1.7-5.4 4.8 1.6 7L12 17.4l-6.2 3.7 1.6-7L2 9.3l7.1-.7z" /></svg>
+          <div className="clientsInner">
+            <p className="clientsKicker">{CUSTOMERS.kicker}</p>
+            <h2>{CUSTOMERS.headingA}<br /><em>{CUSTOMERS.headingB}</em></h2>
+            <p className="clientsBody">{CUSTOMERS.body}</p>
+            <ul className="clientsGrid">
+              {CUSTOMERS.logos.map((c) => (
+                <li key={c.name} className={c.wide ? "wide" : ""}>
+                  <span><img src={c.src} alt="" loading="lazy" /></span>
+                  <strong>{c.name}</strong>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </section>
+
         <section className="proof" aria-label={ABOUT.badgesLabel}>
           <p className="proofLabel">{ABOUT.badgesLabel}</p>
           <ul>

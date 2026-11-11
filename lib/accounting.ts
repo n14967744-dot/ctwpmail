@@ -92,17 +92,29 @@ export const TAX: AccountingCopy = {
   },
 };
 
-/* About CTWP: the same for accounting and tax. Facts are from ctwp.com. */
+/* About CTWP and customers: the same for accounting and tax. Facts are from ctwp.com. */
 export const ABOUT = {
   kicker: "About CTWP",
   heading: "Your local copier company.",
-  body: "CTWP opened its doors on January 8, 1979, and the Bryan branch opened later that same year. Today it is one of the largest independently operated copier dealers in Texas, with a team based right here in Bryan–College Station.",
-  motto: "CTWP believes in “Customers for Life.”",
+  body: "Bryan’s copier company since 1979. We sell, lease and service copiers and printers, with our own technicians based right here in town.",
   badgesLabel: "Recognized for service",
   badges: [
     { src: "/accounting/badges/enx-elite-dealer-2025.jpg", alt: "ENX Magazine Elite Dealer 2025" },
     { src: "/accounting/badges/km-pro-tech-2025.jpg", alt: "Konica Minolta Pro-Tech Service Center 2025" },
     { src: "/accounting/badges/xerox-platinum.png", alt: "Xerox Platinum Authorized Dealer" },
     { src: "/accounting/badges/bta-navy.png", alt: "A long time member of the Business Technology Association" },
+  ],
+};
+
+export const CUSTOMERS = {
+  kicker: "Who we serve",
+  headingA: "Customers",
+  headingB: "for Life.",
+  body: "It’s how CTWP has done business since day one. A few of the organizations around Bryan–College Station that count on us:",
+  logos: [
+    { src: "/accounting/customers/tamu.png", name: "Texas A&M University", wide: true },
+    { src: "/accounting/customers/bryan-isd.png", name: "Bryan ISD" },
+    { src: "/accounting/customers/college-station.png", name: "City of College Station" },
+    { src: "/accounting/customers/bcs-chamber.png", name: "B/CS Chamber of Commerce" },
   ],
 };
