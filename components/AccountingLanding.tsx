@@ -4,7 +4,7 @@ import {
   IMAGES, OFFICE_ADDRESS, OFFICE_HOURS, OFFICE_MAPS_QUERY,
   fullAddress, type Business,
 } from "@/lib/site";
-import type { AccountingCopy } from "@/lib/accounting";
+import { ABOUT, type AccountingCopy } from "@/lib/accounting";
 
 /* Accounting and tax preparation version of the landing page.
    Same design as the dentist page (components/Landing.tsx); the wording comes from lib/accounting.ts. */
@@ -61,6 +61,25 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
           <div className="heroCta">
             <a href="#quote" data-track="Quote button" className="btn btnRed btnBig">{copy.hero.primary}</a>
           </div>
+        </section>
+
+        <section id="about" className="about">
+          <div className="aboutFlag">
+            <img src="/accounting/flags.webp" alt="The Texas flag and the United States flag flying together" loading="lazy" />
+          </div>
+          <div className="aboutText">
+            <p className="aboutKicker">{ABOUT.kicker}</p>
+            <h2>{ABOUT.heading}</h2>
+            <span className="aboutRule" aria-hidden />
+            <p className="aboutBody">{ABOUT.body}</p>
+            <p className="aboutMotto">{ABOUT.motto}</p>
+          </div>
+        </section>
+        <section className="proof" aria-label={ABOUT.badgesLabel}>
+          <p className="proofLabel">{ABOUT.badgesLabel}</p>
+          <ul>
+            {ABOUT.badges.map((b) => <li key={b.alt}><img src={b.src} alt={b.alt} loading="lazy" /></li>)}
+          </ul>
         </section>
 
         {SHOW_REST && <>

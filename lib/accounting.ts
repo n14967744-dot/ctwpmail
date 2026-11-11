@@ -91,3 +91,18 @@ export const TAX: AccountingCopy = {
     ],
   },
 };
+
+/* About CTWP: the same for accounting and tax. Facts are from ctwp.com. */
+export const ABOUT = {
+  kicker: "About CTWP",
+  heading: "Your local copier company.",
+  body: "CTWP opened its doors on January 8, 1979, and the Bryan branch opened later that same year. Today it is one of the largest independently operated copier dealers in Texas, with a team based right here in Bryan–College Station.",
+  motto: "CTWP believes in “Customers for Life.”",
+  badgesLabel: "Recognized for service",
+  badges: [
+    { src: "/accounting/badges/enx-elite-dealer-2025.jpg", alt: "ENX Magazine Elite Dealer 2025" },
+    { src: "/accounting/badges/km-pro-tech-2025.jpg", alt: "Konica Minolta Pro-Tech Service Center 2025" },
+    { src: "/accounting/badges/xerox-platinum.png", alt: "Xerox Platinum Authorized Dealer" },
+    { src: "/accounting/badges/bta-navy.png", alt: "A long time member of the Business Technology Association" },
+  ],
+};

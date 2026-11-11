@@ -205,3 +205,30 @@ h1, h2, h3, p { margin: 0; }
   .heroCta { width: 100%; max-width: 1120px; margin: 0 auto; padding: 28px 40px 60px; text-align: left; }
   .heroCta .btn { min-width: 0; }
 }
+
+/* About CTWP: flag band, then the badge row */
+.about { background: #002454; color: #fff; }
+.aboutFlag { position: relative; }
+.aboutFlag img { display: block; width: 100%; height: 250px; object-fit: cover; object-position: 24% 40%; }
+.aboutFlag::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 6px; background: linear-gradient(90deg, #fff 0 34%, #b41830 34% 100%); }
+.aboutFlag::after { content: ""; position: absolute; inset: auto 0 0 0; height: 90px; background: linear-gradient(180deg, rgba(0,36,84,0), #002454); }
+.aboutText { max-width: 640px; margin: 0 auto; padding: 6px 24px 52px; text-align: center; }
+.aboutKicker { font-size: 15px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; opacity: .95; margin-bottom: 10px; }
+.about h2 { font: 700 clamp(34px, 9.6vw, 56px)/1.04 var(--sans); letter-spacing: -.03em; text-wrap: balance; }
+.aboutRule { display: block; width: 96px; height: 5px; margin: 18px auto 0; border-radius: 3px; background: linear-gradient(90deg, #fff 0 30%, #b41830 30% 100%); }
+.aboutBody { margin-top: 20px; font-size: 19px; line-height: 1.55; opacity: .92; }
+.aboutMotto { margin-top: 20px; font-size: 20px; font-weight: 600; }
+.proof { background: #fff; padding: 34px 18px 38px; text-align: center; border-bottom: 6px solid #b41830; }
+.proofLabel { font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #002454; margin-bottom: 18px; }
+.proof ul { list-style: none; margin: 0 auto; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; align-items: center; max-width: 620px; }
+.proof img { width: 100%; height: 78px; object-fit: contain; margin: 0 auto; }
+@media (min-width: 900px) {
+  .about { display: grid; grid-template-columns: 1fr 1fr; align-items: stretch; }
+  .aboutFlag img { height: 100%; min-height: 460px; object-position: 30% 40%; }
+  .aboutFlag::after { inset: 0 0 0 auto; width: 140px; height: auto; background: linear-gradient(90deg, rgba(0,36,84,0), #002454); }
+  .aboutText { margin: 0; padding: 72px 56px; text-align: left; align-self: center; }
+  .aboutRule { margin-left: 0; }
+  .proof { padding: 48px 24px 52px; }
+  .proof ul { max-width: 760px; gap: 40px; }
+  .proof img { height: 104px; }
+}
