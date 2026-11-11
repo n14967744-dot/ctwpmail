@@ -1,14 +1,12 @@
-import Link from "next/link";
 import { CampaignForm } from "./CampaignForm";
 import {
-  ABOUT, BADGES, BRANDS, FORM, HERO, LEROY, LOCAL, NICHES, OFFICE, ORGS, TECHS, VARIANTS, nicheKeyFor,
-  type NicheContent, type Variant,
+  ABOUT, BADGES, BRANDS, FORM, HERO, LEROY, LOCAL, NICHES, OFFICE, ORGS, TECHS, nicheKeyFor,
+  type NicheContent,
 } from "@/lib/campaign/content";
 import type { CampaignBusiness } from "@/lib/campaign/business";
-import { display } from "./fonts";
 import s from "./campaign.module.css";
 
-type Ctx = { v: Variant; b: CampaignBusiness; c: NicheContent };
+type Ctx = { b: CampaignBusiness; c: NicheContent };
 
 const ICONS = {
   scan: <><path d="M4 8V6a2 2 0 012-2h2M16 4h2a2 2 0 012 2v2M20 16v2a2 2 0 01-2 2h-2M8 20H6a2 2 0 01-2-2v-2" /><path d="M8 9h8M8 12h8M8 15h5" /></>,
@@ -44,20 +42,9 @@ function mapLinks(origin: string | null) {
 
 /* ---------- shared pieces ---------- */
 
-function PreviewBar({ v, b, c }: Ctx) {
+function PreviewBar({ b, c }: Ctx) {
   const notes = ["Design preview", c.label, b.sample && "sample business", c.status === "draft" && "draft wording", "form sends nothing"].filter(Boolean);
-  return (
-    <div className={s.previewBar}>
-      <span>{notes.join(" · ")}</span>
-      <nav aria-label="Versions">
-        {(Object.keys(VARIANTS) as Variant[]).map((k) => (
-          <Link key={k} href={`/${b.slug}?v=${k}`} className={k === v ? s.previewOn : ""} aria-current={k === v ? "page" : undefined}>
-            {VARIANTS[k].label}
-          </Link>
-        ))}
-      </nav>
-    </div>
-  );
+  return <div className={s.previewBar}>{notes.join(" · ")}</div>;
 }
 
 function Header() {
@@ -82,7 +69,6 @@ function Heading({ kicker, title, sub, center = false }: { kicker?: string; titl
     <div className={`${s.heading} ${center ? s.center : ""}`}>
       {kicker && <p className={s.kicker}>{kicker}</p>}
       <h2>{title}</h2>
-      <span className={s.rule} aria-hidden />
       {sub && <p className={s.sub}>{sub}</p>}
     </div>
   );
@@ -110,10 +96,10 @@ function Marquee({ label, items, reverse = false }: { label: string; items: { sr
   );
 }
 
-function Stats({ dark = false, skipFirst = false }: { dark?: boolean; skipFirst?: boolean }) {
+function Stats() {
   return (
-    <ul className={`${s.stats} ${dark ? s.statsDark : ""}`}>
-      {ABOUT.stats.slice(skipFirst ? 1 : 0).map((st) => (
+    <ul className={s.stats}>
+      {ABOUT.stats.map((st) => (
         <li key={st.label}><strong>{st.value}</strong><span>{st.label}</span></li>
       ))}
     </ul>
@@ -196,45 +182,41 @@ function Callout() {
 
 /* ---------- sections ---------- */
 
-function Hero({ v, b, c }: Ctx) {
-  const text = (
-    <div className={s.heroText}>
-      <p className={s.prepared}>
-        Prepared for
-        {b.logoUrl && <span className={s.preparedLogo}><img src={b.logoUrl} alt="" /></span>}
-        <strong>{b.name}</strong>
-      </p>
-      <h1>{c.hero.headline}</h1>
-      <p className={s.heroLead}>{c.hero.lead}</p>
-      <div className={s.heroCtas}>
-        <a href="#quote" className={`${s.btn} ${s.btnRed} ${s.btnBig}`}>{HERO.primary}</a>
-        <a href={OFFICE.phoneHref} className={s.heroLink}>{HERO.secondary} <span aria-hidden>→</span></a>
+function Hero({ b, c }: Ctx) {
+  return (
+    <section id="top" className={s.hero}>
+      <div className={s.heroInner}>
+        <div className={s.heroText}>
+          <p className={s.prepared}>
+            Prepared for
+            {b.logoUrl && <span className={s.preparedLogo}><img src={b.logoUrl} alt="" /></span>}
+            <strong>{b.name}</strong>
+          </p>
+          <h1>{c.hero.headline}</h1>
+          <p className={s.heroLead}>{c.hero.lead}</p>
+          <div className={s.heroCtas}>
+            <a href="#quote" className={`${s.btn} ${s.btnRed} ${s.btnBig}`}>{HERO.primary}</a>
+            <a href={OFFICE.phoneHref} className={s.heroLink}>{HERO.secondary} <span aria-hidden>→</span></a>
+          </div>
+        </div>
+        <div className={s.heroArt}>
+          <img src={c.hero.image} alt={c.hero.imageAlt} />
+          <p className={s.heroCaption}><strong>Meet Leroy.</strong> Your friendly introduction to CTWP.</p>
+        </div>
       </div>
-    </div>
+    </section>
   );
-  const image = (
-    <div className={s.heroArt}>
-      <img src={c.hero.image} alt={c.hero.imageAlt} />
-      {v === "a" && <p className={s.heroCaption}><strong>Meet Leroy.</strong> Your friendly introduction to CTWP.</p>}
-      {v === "b" && <>
-        <span className={s.heroTile}><strong>45+</strong>Years of service</span>
-        <img src="/preview/badges/enx-elite-dealer-2025.jpg" alt="ENX Magazine Elite Dealer 2025" className={s.heroBadge} />
-      </>}
-      {v === "c" && <span className={s.heroChip}><Icon name="pin" size={16} />Your local copier company, here in Bryan</span>}
-    </div>
-  );
-  return <section id="top" className={s.hero}><div className={s.heroInner}>{text}{image}</div></section>;
 }
 
-function Help({ v, c }: Ctx) {
+function Help({ c }: Ctx) {
   return (
     <section className={`${s.section} ${s.tintA}`}>
       <div className={s.wrap}>
         <Heading kicker={c.kicker} title={c.help.heading} sub={c.help.intro} />
         <ol className={s.helpList}>
-          {c.help.items.map((it, i) => (
+          {c.help.items.map((it) => (
             <li key={it.title} className={s.helpItem}>
-              <span className={s.helpMark}>{v === "b" ? `0${i + 1}` : <Icon name={v === "c" ? "check" : it.icon} size={v === "c" ? 20 : 26} />}</span>
+              <span className={s.helpMark}><Icon name={it.icon} size={26} /></span>
               <div><h3>{it.title}</h3><p>{it.body}</p></div>
             </li>
           ))}
@@ -244,22 +226,7 @@ function Help({ v, c }: Ctx) {
   );
 }
 
-function About({ v }: { v: Variant }) {
-  if (v === "c") {
-    return (
-      <section className={s.section}>
-        <div className={s.wrap}>
-          <div className={s.aboutCard}>
-            <p className={s.kicker}>{ABOUT.kicker}</p>
-            <h2>{ABOUT.heading}</h2>
-            <p>{ABOUT.body}</p>
-            <Stats dark />
-            <p className={s.motto}>{ABOUT.motto}</p>
-          </div>
-        </div>
-      </section>
-    );
-  }
+function About() {
   return (
     <section className={s.section}>
       <div className={`${s.wrap} ${s.aboutGrid}`}>
@@ -274,36 +241,19 @@ function About({ v }: { v: Variant }) {
   );
 }
 
-function StatsBand() {
-  return <section className={s.statsBand}><div className={s.wrap}><Stats dark skipFirst /></div></section>;
-}
-
-function Proof({ v }: { v: Variant }) {
+function Proof() {
   return (
     <section className={`${s.section} ${s.proof}`}>
-      <div className={s.wrap}>
-        <div className={s.proofGrid}>
-          <div>
-            <Heading kicker={TECHS.kicker} title={TECHS.heading} />
-            <TechList />
-          </div>
-          <div>
-            <h3 className={s.miniHead}>Recognized for it</h3>
-            <Badges />
-          </div>
+      <div className={`${s.wrap} ${s.proofGrid}`}>
+        <div>
+          <Heading kicker={TECHS.kicker} title={TECHS.heading} />
+          <TechList />
         </div>
-        {v === "b" && <p className={s.mottoBand}>{ABOUT.body} <strong>{ABOUT.motto}</strong></p>}
+        <div>
+          <h3 className={s.miniHead}>Recognized for it</h3>
+          <Badges />
+        </div>
       </div>
-    </section>
-  );
-}
-
-function TrustStrip() {
-  return (
-    <section className={s.trust} aria-label="Recognition">
-      <ul>
-        {BADGES.map((b) => <li key={b.caption}><img src={b.src} alt={b.alt} /></li>)}
-      </ul>
     </section>
   );
 }
@@ -318,7 +268,6 @@ function Logos() {
 }
 
 function Local(ctx: Ctx) {
-  const { v } = ctx;
   return (
     <section className={`${s.section} ${s.tintB}`}>
       <div className={s.wrap}>
@@ -331,7 +280,7 @@ function Local(ctx: Ctx) {
             <p className={s.affil}><img src="/preview/customers/bcs-chamber.png" alt="" />Member, B/CS Chamber of Commerce</p>
           </div>
         </div>
-        {v !== "c" && <Callout />}
+        <Callout />
       </div>
     </section>
   );
@@ -342,18 +291,17 @@ function Leroy() {
     <section className={s.section}>
       <div className={`${s.wrap} ${s.leroy}`}>
         <img src="/leroy.png" alt="Leroy, a small black and tan dog wearing a blue bandana" loading="lazy" />
-        <div><h2>{LEROY.heading}</h2><span className={s.rule} aria-hidden /><p>{LEROY.body}</p></div>
+        <div><h2>{LEROY.heading}</h2><p>{LEROY.body}</p></div>
       </div>
     </section>
   );
 }
 
-function Quote({ v, b, c }: Ctx) {
+function Quote({ b, c }: Ctx) {
   return (
     <section id="quote" className={`${s.section} ${s.quoteSection}`}>
       <div className={`${s.wrap} ${s.narrow}`}>
         <Heading kicker={FORM.kicker} title={`Let’s find the right fit for ${b.name.replace(/[.,]+$/, "")}.`} sub={FORM.intro} />
-        {v === "c" && <Callout />}
         <CampaignForm business={b.name} timing={c.timing} emailHint={c.emailHint} />
       </div>
     </section>
@@ -374,32 +322,26 @@ function Footer() {
   );
 }
 
-function StickyCta() {
-  return (
-    <div className={s.sticky}>
-      <a href="#quote" className={`${s.btn} ${s.btnRed}`}>{HERO.primary}</a>
-      <a href={OFFICE.phoneHref} className={s.stickyCall} aria-label={`Call ${OFFICE.phoneDisplay}`}><Icon name="phone" size={22} fill /></a>
-    </div>
-  );
-}
-
 /* ---------- page ---------- */
 
-export function CampaignPage({ business: b, variant: v }: { business: CampaignBusiness; variant: Variant }) {
+export function CampaignPage({ business: b }: { business: CampaignBusiness }) {
   const c: NicheContent = NICHES[nicheKeyFor(b.niche, b.subgroup)];
-  const ctx: Ctx = { v, b, c };
+  const ctx: Ctx = { b, c };
   return (
-    <div className={`${s.page} ${s[v]} ${display.variable}`}>
+    <div className={s.page}>
       <PreviewBar {...ctx} />
       <Header />
       <main>
         <Hero {...ctx} />
-        {v === "a" && <><Help {...ctx} /><About v={v} /><Proof v={v} /><Logos /><Local {...ctx} /><Leroy /><Quote {...ctx} /></>}
-        {v === "b" && <><StatsBand /><Help {...ctx} /><Proof v={v} /><Logos /><Local {...ctx} /><Leroy /><Quote {...ctx} /></>}
-        {v === "c" && <><TrustStrip /><Local {...ctx} /><Help {...ctx} /><About v={v} /><Logos /><Proof v={v} /><Leroy /><Quote {...ctx} /></>}
+        <Help {...ctx} />
+        <About />
+        <Proof />
+        <Logos />
+        <Local {...ctx} />
+        <Leroy />
+        <Quote {...ctx} />
       </main>
       <Footer />
-      {v === "c" && <StickyCta />}
     </div>
   );
 }

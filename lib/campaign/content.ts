@@ -100,15 +100,6 @@ export const FORM = {
 
 const TIMING = ["As soon as possible", "In the next few months", "When our lease is up", "Just exploring"];
 
-export const VARIANTS = {
-  a: { label: "A", name: "Editorial", note: "Calm and roomy. Serif headings on cream and navy." },
-  b: { label: "B", name: "Bold", note: "Closest to ctwp.com. Squared headings, dark bands, big numbers." },
-  c: { label: "C", name: "Local first", note: "Leads with Leroy, the map and the team. Lighter and friendlier." },
-} as const;
-
-export type Variant = keyof typeof VARIANTS;
-export const DEFAULT_VARIANT: Variant = "c";
-
 /* ---------- what changes by niche ---------- */
 
 export type IconName = "scan" | "clock" | "chart" | "lock" | "packet" | "color" | "plans";
