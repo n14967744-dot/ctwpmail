@@ -11,11 +11,13 @@ import type { AccountingCopy } from "@/lib/accounting";
 
 const HERO_IMAGE = "/accounting/hero.webp";
 
-const MENU: [string, string][] = [
-  ["#solutions", "How we help"],
-  ["#service", "Local service"],
-  ["#quote", "Start my quote"],
-];
+/* Only the header and hero are being worked on right now. The sections below the hero are kept
+   in this file and switched off; set this to true to bring them back. */
+const SHOW_REST = false;
+
+const MENU: [string, string][] = SHOW_REST
+  ? [["#solutions", "How we help"], ["#service", "Local service"], ["#quote", "Start my quote"]]
+  : [];
 
 const I = {
   scan: <><path d="M3 7a2 2 0 012-2h4l2 2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" /><path d="M12 10.5v5M9.5 13l2.5 2.5 2.5-2.5" /></>,
@@ -58,6 +60,7 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
           <div className="heroSpacer" />
         </section>
 
+        {SHOW_REST && <>
         <section id="solutions" className="section cream">
           <div className="wrap">
             <p className="kicker">{copy.help.kicker}</p>
@@ -115,16 +118,17 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
             <AccountingQuoteForm business={name} copy={copy.form} />
           </div>
         </section>
+        </>}
       </main>
 
-      <footer className="footer">
+      {SHOW_REST && <footer className="footer">
         <div className="wrap">
           <img src={IMAGES.logoWide} alt="CTWP, Your Copier Company" className="footLogo" />
           <p>{OFFICE_ADDRESS}</p>
           <p><a href={PHONE_HREF} data-track="Call (footer)">{PHONE_DISPLAY}</a> · {OFFICE_HOURS}</p>
           <p className="copy">Serving Texas offices since 1979.</p>
         </div>
-      </footer>
+      </footer>}
     </div>
   );
 }
