@@ -4,15 +4,14 @@ import { useEffect, useRef, useState } from 'react';
 import s from './opening.module.css';
 
 const needs = [
-  { title: 'Less sorting. Easier scanning.', short: 'Bring client records together.', body: 'Receipts, statements, signed forms. Turn the incoming stack into searchable PDFs, with scanning options that fit how your team organizes client files.', note: 'Searchable PDFs · Document intake · Scan destinations', choice: 'Scanning and client documents', image: 'workflow-scanning.webp', alt: 'Client documents being loaded into a copier’s automatic document feeder', caption: 'From paper stacks to organized client files.' },
-  { title: 'Ready for the deadline.', short: 'Keep reports and client packets moving.', body: 'Print financial reports and prepare client copies with equipment sized for your workload. We’ll help you choose the speed, capacity and finishing options your office actually needs.', note: 'Client packets · Two-sided printing · Finishing options', choice: 'New or replacement equipment', image: 'workflow-packets.webp', alt: 'Finished financial report packets being organized beside a commercial copier', caption: 'Client copies, ready for the next conversation.' },
-  { title: 'Know what printing really costs.', short: 'See the full picture before you decide.', body: 'Equipment payments, page charges, toner and service all add up. We’ll help you compare the total cost and explore a setup that makes sense for your office.', note: 'Equipment · Supplies · Service', choice: 'Reviewing printing costs', image: 'workflow-costs.webp', alt: 'Two people comparing copier and service estimates with a calculator', caption: 'A clearer picture of equipment, supplies and service.' },
+  { label: 'DOCUMENT SCANNING', title: 'Turn paper stacks into searchable files.', body: 'Receipts, statements and signed forms. Scan them into searchable PDFs and send them where your team keeps client records.', choice: 'Scanning and client documents', button: 'Talk about scanning', image: 'workflow-scanning.webp', alt: 'Client documents being loaded into a copier’s automatic document feeder' },
+  { label: 'CLIENT PACKETS', title: 'Get client packets ready for the deadline.', body: 'Prepare reports and client copies with equipment sized for your busiest days. We’ll help you choose the right speed, capacity and finishing options.', choice: 'New or replacement equipment', button: 'Talk about equipment', image: 'workflow-packets.webp', alt: 'Finished financial report packets being organized beside a commercial copier' },
+  { label: 'PRINTING COSTS', title: 'Know what printing really costs.', body: 'Equipment, page charges, toner and service. See the full cost of your current setup and compare options that make sense for your office.', choice: 'Reviewing printing costs', button: 'Talk about printing costs', image: 'workflow-costs.webp', alt: 'Two people comparing copier and service estimates with a calculator' },
 ];
 const Arrow = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 12h15M13 5l7 7-7 7" stroke="currentColor" strokeWidth="1.6" /></svg>;
 const Phone = () => <svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m7.4 3 2.2 5.1-2.2 1.8a15.5 15.5 0 0 0 6.7 6.7l1.8-2.2 5.1 2.2v3.2c0 .7-.6 1.2-1.3 1.2A16.7 16.7 0 0 1 3 4.3C3 3.6 3.5 3 4.2 3h3.2Z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" /></svg>;
 
 export default function AccountingOpening() {
-  const [active, setActive] = useState<number | null>(0);
   const [choice, setChoice] = useState('');
   const [reviewing, setReviewing] = useState(false);
   const modal = useRef<HTMLDialogElement>(null);
@@ -52,31 +51,18 @@ export default function AccountingOpening() {
         </div>
       </section>
 
-      <section id="how-we-help" className={s.help} aria-labelledby="help-title">
-        <div className={s.helpIntro} data-reveal>
-          <p className={s.eyebrow}>FOR YOUR ACCOUNTING OFFICE</p>
-          <h2 id="help-title">Make the paperwork<br /> part easier.</h2>
-          <p className={s.helpLead}>From the first client document to the final report.</p>
-        </div>
-        <div className={s.helpContent}>
-        <div className={s.workflowVisual} data-reveal>
-          <div className={s.workflowImageFrame}>
-            {needs.map((need, index) => <img key={need.image} src={`/accounting-opening/${need.image}`} alt={active === index || (active === null && index === 0) ? need.alt : ''} aria-hidden={index !== (active ?? 0)} width="1448" height="1086" loading="lazy" decoding="async" className={`${s.workflowImage} ${index === (active ?? 0) ? s.workflowImageVisible : ''}`} />)}
+      <section id="how-we-help" className={s.help} aria-label="Printing and scanning solutions for your accounting office">
+        {needs.map((need, index) => <article className={s.solution} key={need.image} aria-labelledby={`solution-title-${index}`}>
+          <div className={s.solutionHeading} data-reveal>
+            <p className={s.eyebrow}>{need.label}</p>
+            <h2 id={`solution-title-${index}`}>{need.title}</h2>
           </div>
-        </div>
-        <div className={s.workflows} data-reveal>
-          {needs.map((need, index) => <article className={`${s.workflow} ${active === index ? s.active : ''}`} key={need.title}>
-            <h3><button className={s.workflowTrigger} aria-expanded={active === index} aria-controls={`workflow-${index}`} id={`trigger-${index}`} onClick={() => setActive(active === index ? null : index)}>
-              <span>{need.title}</span><span className={s.plus} aria-hidden="true">{active === index ? '−' : '+'}</span>
-            </button></h3>
-            <div id={`workflow-${index}`} role="region" aria-labelledby={`trigger-${index}`} className={s.workflowBody} hidden={active !== index}>
-              <img className={s.mobileWorkflowImage} src={`/accounting-opening/${need.image}`} alt={need.alt} width="1448" height="1086" loading="lazy" decoding="async" />
-              <p>{need.body}</p><button className={s.textLink} onClick={() => openQuote(need.choice)}>Let’s talk about this <Arrow /></button>
-            </div>
-          </article>)}
-          <div className={s.existing}><p>Already have a copier you like?</p><button onClick={() => openQuote('Service for existing equipment')}>Ask us about service <Arrow /></button><small>We’ll confirm support for your make and model.</small></div>
-        </div>
-        </div>
+          <img className={s.solutionImage} src={`/accounting-opening/${need.image}`} alt={need.alt} width="1448" height="1086" loading="lazy" decoding="async" data-reveal />
+          <div className={s.solutionBody} data-reveal>
+            <p>{need.body}</p>
+            <button className={`${s.primary} ${s.heroQuote} ${s.solutionButton}`} onClick={() => openQuote(need.choice)}>{need.button} <Arrow /></button>
+          </div>
+        </article>)}
       </section>
     </main>
 

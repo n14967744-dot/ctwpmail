@@ -35,3 +35,7 @@ Generated assets: `workflow-scanning.webp`, `workflow-packets.webp`, `workflow-c
 ## Second-section style alignment — 2026-11-11
 
 The user approved the hero and asked for a more consistent second-section style. The benefits section now uses the same Outfit 600 heading weight, -0.04em headline tracking, centered hierarchy, navy typography and red rounded action treatment as the hero. The former gray-green emphasis, numbering, small repeated subtitles and tiny image/capability captions are removed. Body copy is larger, imagery has softened corners, and the section uses a clean white background. The approved header/hero markup, hero CSS, generated images, animations and quote behavior are preserved.
+
+## Stacked solutions — 2026-11-11
+
+User correction: desktop and mobile must both present each complete solution vertically. Replaced the shared photo/accordion with three permanently rendered articles in a single column: headline, its own image, concise explanation, matching quote button. Removed accordion state, toggle buttons, hidden panels, shared-image switching and the existing-copier service prompt. Each solution has its own prominent headline, and all three images are in normal document flow at every breakpoint. Retained the approved hero, navy/white/red styling, subtle scroll entrances, and quote dialog with preselected interest.
