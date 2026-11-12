@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 import { headers } from "next/headers";
-import { after } from "next/server";
+import { after, connection } from "next/server";
 import { notFound } from "next/navigation";
 import { AccountingLanding } from "@/components/AccountingLanding";
 import { Landing } from "@/components/Landing";
@@ -22,6 +22,8 @@ function NichePage({ business }: { business: Business }) {
 }
 
 async function Personal({ params, searchParams }: { params: Promise<{ slug: string }>; searchParams: SP }) {
+  // Wait for a real request: the lookup and the scan count must never run while Next pre-builds the page.
+  await connection();
   const { slug } = await params;
   const query = await searchParams;
   const first = (value: string | string[] | undefined) => (Array.isArray(value) ? value[0] : value) ?? "";
