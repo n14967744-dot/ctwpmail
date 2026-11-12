@@ -294,6 +294,10 @@ h1, h2, h3, p { margin: 0; }
 .acctQuote .q legend, .acctQuote .field > span { color: #002454; }
 .acctQuote .toggle { background: rgba(0,36,84,.08); }
 .acctQuote .fine { color: rgba(0,36,84,.75); }
+.acctQuote .thanks { background: #fff; border: 2px solid #002454; }
+.acctQuote .thanks h3 { font: 700 28px/1.15 var(--sans); letter-spacing: -.02em; color: #002454; }
+.acctQuote .thanks p { color: rgba(0,36,84,.8); }
+.acctQuote .thanks a { white-space: nowrap; }
 @media (min-width: 900px) {
   .aboutLogos { max-width: 480px; gap: 14px; }
   .aboutLogos li { height: 116px; }

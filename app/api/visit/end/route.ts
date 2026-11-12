@@ -1,7 +1,7 @@
 import { headers } from "next/headers";
 import { after } from "next/server";
 import { getBusiness } from "@/lib/leads";
-import { rest } from "@/lib/supabase";
+import { query } from "@/lib/db";
 import { isBotOrPrefetch, replayLink, telegramText } from "@/lib/alert";
 import { fmtDuration, recordingId } from "@/lib/track";
 
@@ -27,17 +27,15 @@ export async function POST(req: Request) {
     const business = await getBusiness(slug);
     if (!business) return;
     // Only the first summary per session updates the row (duration_sec still null) and sends Telegram.
-    const res = await rest(
-      `landing_events?session_id=eq.${encodeURIComponent(sid)}&slug=eq.${encodeURIComponent(business.slug)}&event=eq.visit&duration_sec=is.null`,
-      {
-        method: "PATCH",
-        headers: { Prefer: "return=representation" },
-        body: JSON.stringify({ duration_sec: duration, max_scroll_pct: scroll, clicks, form_started: formStarted || formSubmitted, form_submitted: formSubmitted }),
-      },
+    const rows = await query(
+      `update landing_events
+          set duration_sec = $3, max_scroll_pct = $4, clicks = $5::jsonb, form_started = $6::boolean, form_submitted = $7::boolean
+        where session_id = $1 and slug = $2 and event = 'visit' and duration_sec is null
+        returning id`,
+      [sid, business.slug, duration, scroll, JSON.stringify(clicks), formStarted || formSubmitted, formSubmitted],
     );
-    const updated = res && res.ok ? ((await res.json().catch(() => [])) as unknown[]).length : 0;
-    console.log(`[track] end status=${res?.status ?? "no-db"} rows=${updated}`);
-    if (res && res.ok && updated === 0) return; // already summarized (or no visit row): don't double-send
+    console.log(`[track] end rows=${rows ? rows.length : "failed-or-no-db"}`);
+    if (rows && rows.length === 0) return; // already summarized (or no visit row): don't double-send
     const form = formSubmitted ? "form submitted" : formStarted ? "form started" : "form not started";
     const text = [
       `⏱ ${business.name}: ${fmtDuration(duration)}, scrolled ${scroll}%, tapped: ${clicks.length ? clicks.join(", ") : "nothing"}; ${form}`,

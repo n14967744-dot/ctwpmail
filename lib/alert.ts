@@ -1,5 +1,5 @@
 import "server-only";
-import { rest } from "./supabase";
+import { query } from "./db";
 
 export type AlertPayload = {
   event: "scan" | "form_submit";
@@ -32,11 +32,11 @@ export function toE164(raw: string | null | undefined): string | null {
 async function leadInfo(slug: string | null): Promise<{ id: number | null; phone: string | null; website: string | null }> {
   const none = { id: null, phone: null, website: null };
   if (!slug) return none;
-  const res = await rest(`leads?slug=eq.${encodeURIComponent(slug)}&select=id,phone,website&limit=1`);
-  if (!res || !res.ok) return none;
-  const rows = (await res.json().catch(() => [])) as { id: number; phone: string | null; website: string | null }[];
-  const r = rows[0];
-  return r ? { id: r.id ?? null, phone: toE164(r.phone), website: r.website?.trim() || null } : none;
+  const rows = await query<{ id: number | string; phone: string | null; website: string | null }>(
+    "select id, phone, website from leads where slug = $1 limit 1", [slug],
+  );
+  const r = rows?.[0];
+  return r ? { id: r.id == null ? null : Number(r.id), phone: toE164(r.phone), website: r.website?.trim() || null } : none;
 }
 
 const BOT_RE = /bot|crawl|spider|slurp|preview|facebookexternalhit|embedly|whatsapp|telegram|discord|skype|headless|lighthouse|curl|wget/i;
@@ -50,10 +50,8 @@ export function isBotOrPrefetch(h: Headers): boolean {
 
 export async function scanCount(slug: string | null): Promise<number | null> {
   if (!slug) return null;
-  const res = await rest(`leads?slug=eq.${encodeURIComponent(slug)}&select=qr_scans&limit=1`);
-  if (!res || !res.ok) return null;
-  const rows = (await res.json().catch(() => [])) as { qr_scans: number | null }[];
-  return rows[0]?.qr_scans ?? null;
+  const rows = await query<{ qr_scans: number | null }>("select qr_scans from leads where slug = $1 limit 1", [slug]);
+  return rows?.[0]?.qr_scans ?? null;
 }
 
 async function post(label: string, url: string, headers: Record<string, string>, payload: AlertPayload) {

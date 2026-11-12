@@ -1,6 +1,6 @@
 import "server-only";
 import { createHash } from "node:crypto";
-import { rest } from "./supabase";
+import { query } from "./db";
 
 const s = (v: unknown, n = 200): string | null => (typeof v === "string" && v.trim() ? v.trim().slice(0, n) : null);
 const dec = (v: string | null) => { if (!v) return null; try { return decodeURIComponent(v); } catch { return v; } };
@@ -31,10 +31,9 @@ export function ipHash(h: Headers): string | null {
 
 export async function leadId(slug: string | null): Promise<number | null> {
   if (!slug) return null;
-  const res = await rest(`leads?slug=eq.${encodeURIComponent(slug)}&select=id&limit=1`);
-  if (!res || !res.ok) return null;
-  const rows = (await res.json().catch(() => [])) as { id: number }[];
-  return rows[0]?.id ?? null;
+  const rows = await query<{ id: number | string }>("select id from leads where slug = $1 limit 1", [slug]);
+  const id = rows?.[0]?.id;
+  return id == null ? null : Number(id);
 }
 
 export type Arrival = {
@@ -55,20 +54,33 @@ export function arrivalFrom(h: Headers, body: Record<string, unknown>, slug: str
 }
 
 /** Insert a landing_events row. Best-effort; never throws. */
-export async function insertEvent(event: "visit" | "form_submit", h: Headers, a: Omit<Arrival, "utm"> & { utm?: Arrival["utm"] }, extra: Record<string, unknown> = {}) {
-  const row = {
-    lead_id: await leadId(a.slug), slug: a.slug, event, source: a.source, ...(a.utm ?? {}), referrer: a.referrer,
-    user_agent: s(h.get("user-agent"), 400), ip_hash: ipHash(h), request_id: h.get("x-vercel-id"), session_id: a.session_id,
-    ...a.device, screen: a.screen, city: a.city, region: a.region, country: a.country, ...extra,
-  };
-  const res = await rest("landing_events", { method: "POST", headers: { Prefer: "return=minimal" }, body: JSON.stringify(row) });
-  console.log(`[track] insert ${event} status=${res?.status ?? "no-db"}`);
+export async function insertEvent(
+  event: "visit" | "form_submit", h: Headers, a: Omit<Arrival, "utm"> & { utm?: Arrival["utm"] },
+  extra: { form_started?: boolean; form_submitted?: boolean } = {},
+) {
+  const u = a.utm;
+  const rows = await query(
+    `insert into landing_events
+       (lead_id, slug, event, source, utm_source, utm_medium, utm_campaign, utm_content, utm_term, referrer,
+        user_agent, ip_hash, request_id, session_id, device_type, os, browser, screen, city, region, country,
+        form_started, form_submitted)
+     values ((select id from leads where slug = $1), $1, $2, $3, $4, $5, $6, $7, $8, $9,
+        $10, $11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21::boolean, $22::boolean)
+     returning id`,
+    [
+      a.slug, event, a.source, u?.utm_source ?? null, u?.utm_medium ?? null, u?.utm_campaign ?? null, u?.utm_content ?? null,
+      u?.utm_term ?? null, a.referrer, s(h.get("user-agent"), 400), ipHash(h), h.get("x-vercel-id"), a.session_id,
+      a.device.device_type, a.device.os, a.device.browser, a.screen, a.city, a.region, a.country,
+      extra.form_started === true, extra.form_submitted === true,
+    ],
+  );
+  console.log(`[track] insert ${event} ${rows ? "ok" : "failed-or-no-db"}`);
 }
 
 /** Advance a lead's stage (DB function never moves it backward). */
 export async function advanceStage(slug: string | null, stage: "scanned" | "requested_info") {
   if (!slug) return;
-  await rest("rpc/advance_lead_stage", { method: "POST", body: JSON.stringify({ p_slug: slug, p_stage: stage }) });
+  await query("select advance_lead_stage($1, $2)", [slug, stage]);
 }
 
 /** "from: QR · campaign spring" / "from: google.com" / "from: direct". */

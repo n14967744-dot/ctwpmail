@@ -1,17 +1,16 @@
 import "server-only";
-import { rest } from "./supabase";
+import { query } from "./db";
 import { DEMO_BUSINESS, type Business } from "./site";
 
 export async function getBusiness(slug: string): Promise<Business | null> {
   const clean = slug.toLowerCase().replace(/[^a-z0-9-]/g, "").slice(0, 120);
   if (!clean) return null;
-  const res = await rest(`leads?slug=eq.${encodeURIComponent(clean)}&select=slug,name,niche,address,city,zip&limit=1`);
-  if (!res || !res.ok) return clean === DEMO_BUSINESS.slug ? DEMO_BUSINESS : null;
-  const rows = (await res.json()) as Business[];
+  const rows = await query<Business>("select slug, name, niche, segment, address, city, zip from leads where slug = $1 limit 1", [clean]);
+  if (!rows) return clean === DEMO_BUSINESS.slug ? DEMO_BUSINESS : null;
   return rows[0] ?? null;
 }
 
-/** Counts the scan (same as increment_qr_scans) and advances the lead stage to "scanned" (never backward). */
+/** Counts the scan and advances the lead stage to "scanned" (never backward). */
 export async function recordView(slug: string): Promise<void> {
-  await rest("rpc/log_scan", { method: "POST", body: JSON.stringify({ p_slug: slug }) });
+  await query("select log_scan($1)", [slug]);
 }

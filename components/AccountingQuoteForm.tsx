@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { startTransition, useActionState, useEffect, useState } from "react";
+import posthog from "posthog-js";
+import { submitAccountingRequest, type RequestState } from "@/app/actions";
 import { SERVICE_OPTION, type AccountingCopy } from "@/lib/accounting";
-
-/* Review build: this form does not save or send anything yet. */
 
 export function AskServiceButton({ label, className = "btn btnRed btnFull" }: { label: string; className?: string }) {
   return (
@@ -21,11 +21,20 @@ export function AskServiceButton({ label, className = "btn btnRed btnFull" }: { 
   );
 }
 
-export function AccountingQuoteForm({ business, copy }: { business: string; copy: AccountingCopy["form"] }) {
+export function AccountingQuoteForm({ business, slug, phone, copy }: {
+  business: string; slug: string; phone: { display: string; href: string }; copy: AccountingCopy["form"];
+}) {
+  const [state, action, pending] = useActionState<RequestState, FormData>(submitAccountingRequest, { ok: false });
   const [help, setHelp] = useState<string[]>([]);
   const [timing, setTiming] = useState("");
   const [contactType, setContactType] = useState<"phone" | "email">("phone");
-  const [done, setDone] = useState(false);
+  const [source, setSource] = useState<"qr" | "direct">("direct");
+
+  useEffect(() => {
+    const q = new URLSearchParams(window.location.search);
+    const isQr = (name: string) => (q.get(name) ?? "").toLowerCase() === "qr";
+    if (isQr("src") || isQr("utm_medium")) setSource("qr");
+  }, []);
 
   useEffect(() => {
     const onService = () => setHelp((h) => (h.includes(SERVICE_OPTION) ? h : [...h, SERVICE_OPTION]));
@@ -33,12 +42,12 @@ export function AccountingQuoteForm({ business, copy }: { business: string; copy
     return () => window.removeEventListener("ctwp:service", onService);
   }, []);
 
-  if (done) {
+  if (state.ok) {
     return (
       <div className="thanks" role="status">
         <div className="thanksIcon" aria-hidden>✓</div>
-        <h3>Review copy: nothing was sent.</h3>
-        <p>On the live page this is where the thank-you message goes.</p>
+        <h3>{copy.thanksHeading}</h3>
+        <p>{copy.thanksBody} If you would rather talk now, call <a href={phone.href}>{phone.display}</a>.</p>
       </div>
     );
   }
@@ -46,7 +55,18 @@ export function AccountingQuoteForm({ business, copy }: { business: string; copy
   const toggle = (o: string) => setHelp((h) => (h.includes(o) ? h.filter((x) => x !== o) : [...h, o]));
 
   return (
-    <form className="form" onSubmit={(e) => { e.preventDefault(); setDone(true); }}>
+    <form
+      className="form"
+      /* Submitted by hand rather than through the form's action, so a failed attempt keeps what was typed. */
+      onSubmit={(e) => {
+        e.preventDefault();
+        const fd = new FormData(e.currentTarget);
+        try { fd.set("ph_session", window.__ctwpSid || posthog.get_session_id?.() || ""); } catch {}
+        startTransition(() => action(fd));
+      }}
+    >
+      <input type="hidden" name="slug" value={slug} />
+      <input type="hidden" name="source" value={source} />
       <fieldset className="q">
         <legend>{copy.helpQuestion} <span className="hint">Pick any</span></legend>
         <div className="chips stack">
@@ -83,6 +103,7 @@ export function AccountingQuoteForm({ business, copy }: { business: string; copy
             <button type="button" className={contactType === "phone" ? "on" : ""} onClick={() => setContactType("phone")}>Phone</button>
             <button type="button" className={contactType === "email" ? "on" : ""} onClick={() => setContactType("email")}>Email</button>
           </div>
+          <input type="hidden" name="contactType" value={contactType} />
           <input
             key={contactType}
             name="contact"
@@ -108,7 +129,10 @@ export function AccountingQuoteForm({ business, copy }: { business: string; copy
         </label>
       </div>
 
-      <button type="submit" className="btn btnRed btnFull btnBig">{copy.submit}</button>
+      {state.error && <p className="formError" role="alert">{state.error}</p>}
+      <button type="submit" className="btn btnRed btnFull btnBig" disabled={pending}>
+        {pending ? "Sending…" : copy.submit}
+      </button>
       <p className="fine">{copy.fine}</p>
     </form>
   );

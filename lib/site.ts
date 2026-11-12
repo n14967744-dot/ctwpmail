@@ -16,6 +16,8 @@ export type Business = {
   slug: string;
   name: string;
   niche: string | null;
+  /** Sub-group inside the niche, e.g. "accounting" or "tax prep". Picks the wording, not the page. */
+  segment?: string | null;
   address: string | null;
   city: string | null;
   zip: string | null;

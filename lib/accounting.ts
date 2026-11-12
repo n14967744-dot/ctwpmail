@@ -5,7 +5,7 @@ export type AccountingCopy = {
   hero: { headline: string; lead: string; primary: string; secondary: string };
   help: { kicker: string; heading: string; intro: string; items: { icon: "scan" | "packet" | "costs"; title: string; body: string }[] };
   local: { kicker: string; heading: string; body: string; visit: string; calloutTag: string; calloutTitle: string; calloutBody: string; calloutButton: string };
-  form: { heading: string; intro: string; helpQuestion: string; help: string[]; timingQuestion: string; timing: string[]; submit: string; fine: string };
+  form: { heading: string; intro: string; helpQuestion: string; help: string[]; timingQuestion: string; timing: string[]; submit: string; fine: string; thanksHeading: string; thanksBody: string };
 };
 
 export const SERVICE_OPTION = "Service for existing equipment";
@@ -65,6 +65,8 @@ export const ACCOUNTING: AccountingCopy = {
     timing: ["As soon as possible", "Before tax season", "After tax season", "Just exploring"],
     submit: "Request my quote",
     fine: "Our local team will review your needs and follow up to discuss options.",
+    thanksHeading: "Thank you. We have your request.",
+    thanksBody: "Someone from our Bryan office will be in touch to talk through your options.",
   },
 };
 
@@ -117,3 +119,8 @@ export const CUSTOMERS = {
     { src: "/accounting/customers/bcs-chamber.png", name: "B/CS Chamber of Commerce" },
   ],
 };
+
+/** Wording for a segment inside the accounting niche. Add a segment here when one needs its own copy. */
+export function accountingCopy(segment?: string | null): AccountingCopy {
+  return segment?.trim().toLowerCase() === "tax prep" ? TAX : ACCOUNTING;
+}

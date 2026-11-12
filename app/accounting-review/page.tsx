@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { AccountingLanding } from "@/components/AccountingLanding";
 import { ACCOUNTING } from "@/lib/accounting";
 
-/* Review page with a made-up business. The form does not send anything. */
+/* Review page with a made-up business. Its form saves a request under the example slug, with no lead attached. */
 
 export const metadata: Metadata = {
   title: "CTWP | Your Copier Company",

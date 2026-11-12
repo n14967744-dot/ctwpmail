@@ -131,7 +131,7 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
             <h2>{copy.form.heading.replace("{business}", name)}</h2>
             <span className="acctRule center" aria-hidden />
             <p className="acctIntro center">{copy.form.intro}</p>
-            <AccountingQuoteForm business={name} copy={copy.form} />
+            <AccountingQuoteForm business={name} slug={business.slug} phone={BRYAN_PHONE} copy={copy.form} />
           </div>
         </section>
       </main>

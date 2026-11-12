@@ -2,11 +2,24 @@ import { Suspense } from "react";
 import { headers } from "next/headers";
 import { after } from "next/server";
 import { notFound } from "next/navigation";
+import { AccountingLanding } from "@/components/AccountingLanding";
 import { Landing } from "@/components/Landing";
+import { accountingCopy } from "@/lib/accounting";
 import { getBusiness, recordView } from "@/lib/leads";
 import { isBotOrPrefetch, scanCount, sendAlert } from "@/lib/alert";
+import type { Business } from "@/lib/site";
 
 type SP = Promise<Record<string, string | string[] | undefined>>;
+
+/** One page per niche; the segment inside a niche only changes the wording. Add new niches here. */
+function NichePage({ business }: { business: Business }) {
+  switch (business.niche) {
+    case "accounting":
+      return <AccountingLanding business={business} copy={accountingCopy(business.segment)} />;
+    default:
+      return <Landing business={business} />;
+  }
+}
 
 async function Personal({ params, searchParams }: { params: Promise<{ slug: string }>; searchParams: SP }) {
   const { slug } = await params;
@@ -30,7 +43,7 @@ async function Personal({ params, searchParams }: { params: Promise<{ slug: stri
       });
     });
   }
-  return <Landing business={business} />;
+  return <NichePage business={business} />;
 }
 
 export default function Page({ params, searchParams }: { params: Promise<{ slug: string }>; searchParams: SP }) {
