@@ -17,7 +17,7 @@ Each business on the mailing list gets its own page at `/<slug>`. The slug is th
 - Preview (follows this branch): `https://ctwpmail-git-accounting-page-n14967744-2024.vercel.app`
 - Real examples: `/seidelschroeder` (accounting), `/rosettataxservice` (tax prep)
 - Made-up examples that touch no real business: `/accounting-review`, `/tax-review`
-- Previews are behind Vercel sign-in. Make a no-sign-in link with the Vercel connector's share-link tool. A share link lasts about 23 hours and **stops working when a new deployment goes out**, so make a fresh one after every push and always hand Nick a link he can tap.
+- Previews are behind Vercel sign-in. Make a no-sign-in link with the Vercel connector's share-link tool. A share link lasts about 23 hours and **can stop working after a new deployment** (it did once on Nov 11), so check or remake it after every push and always hand Nick a link he can tap.
 - Vercel project `ctwpmail` (`prj_0eJ5uluwER6xON3ejdqwdLVx8rdm`), team `team_6Jvt5GK2EKBVZiSUz4RMiasL`. Pushing this branch deploys the preview.
 
 ## Database
