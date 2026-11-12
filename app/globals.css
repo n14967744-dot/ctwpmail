@@ -293,7 +293,7 @@ h1, h2, h3, p { margin: 0; }
 .acctQuote { background: #fff; padding: 52px 22px 64px; }
 
 /* Machine slideshow */
-.acctModels { background: #fff; padding: 52px 0 8px; overflow: hidden; }
+.acctModels { background: #fff; padding: 52px 0 20px; overflow: hidden; }
 .acctModels .acctHead { padding: 0 22px; text-align: center; }
 .acctModels .acctHead .acctRule { margin-inline: auto; }
 .acctModels h2 { font: 700 clamp(30px, 8.4vw, 48px)/1.06 var(--sans); letter-spacing: -.03em; color: #002454; text-wrap: balance; }

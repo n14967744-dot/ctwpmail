@@ -13,7 +13,7 @@ const HERO_IMAGE = "/accounting/hero.webp";
 /* The Bryan office line published on ctwp.com/bryan. */
 const BRYAN_PHONE = { display: "(979) 779-2998", href: "tel:+19797792998" };
 
-/* Page order: hero, how we help, About CTWP, local service, badges, machine slideshow, closing quote button, footer.
+/* Page order: hero, machine slideshow, how we help, About CTWP, local service, badges, closing quote button, footer.
    Elements marked data-reveal fade up as they scroll into view (components/Reveal.tsx).
    The quote form is a pop-up (components/AccountingQuote.tsx) opened by any quote button or #quote link. */
 const MENU: [string, string][] = [
@@ -47,6 +47,17 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
           <div className="heroSpacer" />
           <div className="heroCta">
             <a href="#quote" data-track="Quote button" className="btn btnRed btnBig">{copy.hero.primary}</a>
+          </div>
+        </section>
+
+        <section id="equipment" className="acctModels">
+          <div className="acctHead" data-reveal>
+            <p className="acctKicker">{EQUIPMENT.kicker}</p>
+            <h2>{EQUIPMENT.heading}</h2>
+            <span className="acctRule" aria-hidden />
+          </div>
+          <div data-reveal>
+            <ModelShowcase models={EQUIPMENT.models} />
           </div>
         </section>
 
@@ -117,17 +128,6 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
             <ul>
               {ABOUT.badges.map((b) => <li key={b.alt}><img src={b.src} alt={b.alt} loading="lazy" /></li>)}
             </ul>
-          </div>
-        </section>
-
-        <section id="equipment" className="acctModels">
-          <div className="acctHead" data-reveal>
-            <p className="acctKicker">{EQUIPMENT.kicker}</p>
-            <h2>{EQUIPMENT.heading}</h2>
-            <span className="acctRule" aria-hidden />
-          </div>
-          <div data-reveal>
-            <ModelShowcase models={EQUIPMENT.models} />
           </div>
         </section>
 
