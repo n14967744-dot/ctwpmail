@@ -1,10 +1,10 @@
 import { Header } from "./Header";
-import { AccountingQuoteForm, AskServiceButton } from "./AccountingQuoteForm";
+import { QuoteButton, QuoteDialog } from "./AccountingQuote";
 import {
   IMAGES, OFFICE_ADDRESS, OFFICE_HOURS, OFFICE_MAPS_QUERY,
   fullAddress, type Business,
 } from "@/lib/site";
-import { ABOUT, CUSTOMERS, type AccountingCopy } from "@/lib/accounting";
+import { ABOUT, CUSTOMERS, SERVICE_OPTION, type AccountingCopy } from "@/lib/accounting";
 
 /* Accounting and tax preparation version of the landing page.
    Same design as the dentist page (components/Landing.tsx); the wording comes from lib/accounting.ts. */
@@ -14,7 +14,8 @@ const HERO_IMAGE = "/accounting/hero.webp";
 /* The Bryan office line published on ctwp.com/bryan. */
 const BRYAN_PHONE = { display: "(979) 779-2998", href: "tel:+19797792998" };
 
-/* Page order: hero, how we help, About CTWP, local service, quote form. The footer is switched off. */
+/* Page order: hero, how we help, About CTWP, local service, closing quote button. The footer is switched off.
+   The quote form is a pop-up (components/AccountingQuote.tsx) opened by any quote button or #quote link. */
 const SHOW_FOOTER = false;
 
 
@@ -25,11 +26,6 @@ const MENU: [string, string][] = [
   ["#service", "Local service"],
   ["#quote", "Start my quote"],
 ];
-
-/* Photos for the three "how we help" cards, in order. Use landscape 3:2 images (1536 x 1024).
-   Put each file in public/accounting/ and set its path here; null shows a placeholder box. */
-const HELP_IMAGES: (string | null)[] = [null, null, null];
-const HELP_IMAGE_NOTES = ["Scanning client documents", "Finished client packets", "Reviewing printing costs"];
 
 export function AccountingLanding({ business, copy }: { business: Business; copy: AccountingCopy }) {
   const name = business.name.trim().replace(/\.$/, "");
@@ -66,21 +62,16 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
               <span className="acctRule" aria-hidden />
               <p className="acctIntro">{copy.help.intro}</p>
             </div>
-            <ol className="acctCards">
-              {copy.help.items.map((it, i) => (
-                <li key={it.title}>
-                  <figure className="acctPhoto">
-                    {HELP_IMAGES[i]
-                      ? <img src={HELP_IMAGES[i] as string} alt="" loading="lazy" />
-                      : <div className="acctPh"><strong>Image {i + 1} goes here</strong><span>{HELP_IMAGE_NOTES[i]}</span><span>1536 × 1024</span></div>}
-                  </figure>
-                  <p className="acctNo" aria-hidden>0{i + 1}</p>
-                  <h3>{it.title}</h3>
-                  <p className="acctBody">{it.body}</p>
-                </li>
-              ))}
-            </ol>
           </div>
+          {copy.help.items.map((it) => (
+            <article key={it.title} className="acctSolution">
+              <p className="acctLabel">{it.label}</p>
+              <h3>{it.title}</h3>
+              <img src={it.image} alt={it.alt} width={1448} height={1086} loading="lazy" decoding="async" />
+              <p className="acctBody">{it.body}</p>
+              <QuoteButton label={it.button} choice={it.choice} arrow className="btn btnRed btnBig acctSolutionBtn" />
+            </article>
+          ))}
         </section>
 
         <section id="about" className="about">
@@ -116,7 +107,7 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
           <div className="acctLocalFoot">
             <p className="acctMapLabel"><strong>CTWP</strong>{OFFICE_ADDRESS}</p>
             <a href={directions} target="_blank" rel="noopener" data-track="Directions" className="acctBtn">Get directions</a>
-            <p className="acctServiceLine">{copy.local.calloutTitle} <AskServiceButton label={copy.local.calloutButton} className="acctLink" /></p>
+            <p className="acctServiceLine">{copy.local.calloutTitle} <QuoteButton label={copy.local.calloutButton} choice={SERVICE_OPTION} track="Ask about service" className="acctLink" /></p>
           </div>
         </section>
 
@@ -131,10 +122,15 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
             <h2>{copy.form.heading.replace("{business}", name)}</h2>
             <span className="acctRule center" aria-hidden />
             <p className="acctIntro center">{copy.form.intro}</p>
-            <AccountingQuoteForm business={name} slug={business.slug} phone={BRYAN_PHONE} copy={copy.form} />
+            <div className="acctQuoteCta">
+              <QuoteButton label={copy.form.cta} arrow track="Quote button (bottom)" className="btn btnRed btnBig" />
+              <p className="acctQuoteFine">{copy.form.fine}</p>
+            </div>
           </div>
         </section>
       </main>
+
+      <QuoteDialog business={name} slug={business.slug} phone={BRYAN_PHONE} copy={copy.form} />
 
       {SHOW_FOOTER && <footer className="footer">
         <div className="wrap">

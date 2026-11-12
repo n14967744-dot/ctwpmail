@@ -245,15 +245,19 @@ h1, h2, h3, p { margin: 0; }
 .acctHead { text-align: center; }
 .acctHead .acctRule { margin-inline: auto; }
 .acctHead .acctIntro { margin-inline: auto; }
-.acctCards { list-style: none; margin: 40px 0 0; padding: 0; display: grid; gap: 44px; }
-.acctPhoto { margin: 0 0 22px; border-radius: 14px; overflow: hidden; }
-.acctPhoto img { display: block; width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
-.acctPh { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; aspect-ratio: 3 / 2; color: rgba(0,36,84,.7); background: rgba(0,36,84,.07); font-size: 14px; }
-.acctPh strong { font-size: 16px; font-weight: 600; color: #002454; }
-.acctNo { display: flex; align-items: center; gap: 14px; font-size: 14px; font-weight: 700; letter-spacing: .14em; color: #b41830; }
-.acctNo::after { content: ""; flex: 1; height: 1px; background: rgba(0,36,84,.2); }
-.acctCards h3 { margin-top: 12px; font: 600 24px/1.2 var(--sans); letter-spacing: -.02em; color: #002454; text-wrap: balance; }
-.acctBody { margin-top: 10px; font-size: 17.5px; line-height: 1.6; color: rgba(0,36,84,.78); }
+
+/* The three benefits: one centered column each, at every width (label, title, photo, text, button) */
+.acctSolution { max-width: 860px; margin: 0 auto; padding: 48px 0 52px; text-align: center; }
+.acctSolution + .acctSolution { border-top: 1px solid rgba(0,36,84,.14); }
+.acctHead + .acctSolution, .acctWrap + .acctSolution { padding-top: 44px; }
+.acctSolution:last-child { padding-bottom: 0; }
+.acctLabel { font-size: 13px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: rgba(0,36,84,.7); margin-bottom: 12px; }
+.acctSolution h3 { font: 700 clamp(28px, 7.8vw, 44px)/1.08 var(--sans); letter-spacing: -.035em; color: #002454; text-wrap: balance; max-width: 20ch; margin: 0 auto; }
+.acctSolution img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 14px; margin-top: 24px; background: rgba(0,36,84,.07); }
+.acctBody { margin: 22px auto 0; max-width: 34em; font-size: 18px; line-height: 1.55; color: rgba(0,36,84,.8); }
+.acctSolutionBtn { width: 100%; max-width: 340px; margin-top: 24px; gap: 14px; }
+.btn svg { flex: none; transition: transform .2s; }
+.btn:hover svg { transform: translateX(4px); }
 
 /* Phone header on the accounting page: no menu button, a bigger logo and a bigger call button */
 @media (max-width: 899px) {
@@ -291,13 +295,53 @@ h1, h2, h3, p { margin: 0; }
 .acctProof p { font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #002454; margin-bottom: 16px; }
 .acctProof ul { list-style: none; margin: 0 auto; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 22px 18px; align-items: center; max-width: 360px; }
 .acctProof img { width: 100%; height: 116px; object-fit: contain; }
-.acctQuote .q legend, .acctQuote .field > span { color: #002454; }
-.acctQuote .toggle { background: rgba(0,36,84,.08); }
-.acctQuote .fine { color: rgba(0,36,84,.75); }
-.acctQuote .thanks { background: #fff; border: 2px solid #002454; }
-.acctQuote .thanks h3 { font: 700 28px/1.15 var(--sans); letter-spacing: -.02em; color: #002454; }
-.acctQuote .thanks p { color: rgba(0,36,84,.8); }
-.acctQuote .thanks a { white-space: nowrap; }
+.acctQuoteCta { margin-top: 28px; text-align: center; }
+.acctQuoteCta .btn { width: 100%; max-width: 340px; gap: 14px; }
+.acctQuoteFine { margin: 16px auto 0; max-width: 30em; font-size: 16px; color: rgba(0,36,84,.75); }
+
+/* Quote pop-up */
+.qd { width: min(540px, calc(100% - 28px)); max-height: calc(100dvh - 28px); margin: auto; padding: 0; border: 0; border-radius: 16px; background: #fff; color: #002454; box-shadow: 0 30px 120px rgba(0,20,50,.45); overflow: auto; overscroll-behavior: contain; }
+.qd::backdrop { background: rgba(0,36,84,.62); backdrop-filter: blur(5px); -webkit-backdrop-filter: blur(5px); }
+.qd[open] { animation: qd-in .28s cubic-bezier(.2,.7,.2,1); }
+.qd[open]::backdrop { animation: qd-fade .28s ease-out; }
+@keyframes qd-in { from { opacity: 0; transform: translateY(14px) scale(.985); } to { opacity: 1; transform: none; } }
+@keyframes qd-fade { from { opacity: 0; } to { opacity: 1; } }
+.qdCard { position: relative; padding: 30px 24px 26px; font-family: var(--sans); }
+.qdClose { position: absolute; top: 14px; right: 12px; width: 46px; height: 46px; display: grid; place-items: center; border: 0; border-radius: 50%; background: none; color: #002454; cursor: pointer; }
+.qdClose:hover { background: rgba(0,36,84,.07); }
+.qdEyebrow { padding-right: 44px; font-size: 12px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #b41830; }
+.qdSteps { display: flex; gap: 6px; margin-top: 16px; }
+.qdSteps span { flex: 1; height: 4px; border-radius: 2px; background: rgba(0,36,84,.14); transition: background .25s; }
+.qdSteps span.on { background: #002454; }
+.qd h2 { margin-top: 20px; font: 700 clamp(28px, 7.6vw, 34px)/1.1 var(--sans); letter-spacing: -.035em; color: #002454; text-wrap: balance; outline: none; }
+.qdHint { margin-top: 8px; font-size: 16px; color: rgba(0,36,84,.7); }
+.qdText { margin: 14px 0 26px; font-size: 18px; line-height: 1.55; color: rgba(0,36,84,.85); }
+.qdText a { color: #b41830; font-weight: 700; white-space: nowrap; }
+.qdChoices { display: flex; flex-direction: column; margin-top: 14px; }
+.qdChoices label { position: relative; display: flex; align-items: center; gap: 14px; min-height: 60px; padding: 12px 2px; border-bottom: 1px solid rgba(0,36,84,.16); font-size: 18px; line-height: 1.3; cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; }
+.qdChoices label.on { font-weight: 600; }
+.qdChoices input { position: absolute; opacity: 0; pointer-events: none; }
+.qdMark { flex: none; width: 26px; height: 26px; display: grid; place-items: center; border: 2px solid rgba(0,36,84,.4); border-radius: 7px; background: #fff; transition: background .12s, border-color .12s; }
+.qdMark.round { border-radius: 50%; }
+.qdChoices label.on .qdMark { background: #002454; border-color: #002454; }
+.qdChoices label.on .qdMark::after { content: ""; width: 7px; height: 13px; border: solid #fff; border-width: 0 3px 3px 0; transform: translateY(-2px) rotate(45deg); }
+.qdChoices label.on .qdMark.round::after { width: 10px; height: 10px; border: 0; border-radius: 50%; background: #fff; transform: none; }
+.qdChoices label:has(input:focus-visible) { outline: 3px solid rgba(0,36,84,.35); outline-offset: 2px; border-radius: 6px; }
+.qdNext { margin-top: 26px; gap: 14px; }
+.qd .btn:disabled { opacity: .4; box-shadow: none; cursor: default; }
+.qdBack { display: block; margin: 14px auto 0; padding: 8px 14px; border: 0; background: none; font: 600 17px var(--sans); color: #002454; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
+.qdFields { display: flex; flex-direction: column; gap: 18px; margin-top: 20px; }
+.qd .field > span { font-size: 17px; color: #002454; }
+.qd .field input { height: 56px; color: #002454; border-color: rgba(0,36,84,.22); }
+.qd .toggle { background: rgba(0,36,84,.08); }
+.qdMore { border-top: 1px solid rgba(0,36,84,.16); padding-top: 16px; }
+.qdMore summary { font-size: 17px; font-weight: 600; color: #002454; cursor: pointer; text-decoration: underline; text-underline-offset: 4px; }
+.qdMore summary span { font-weight: 400; color: rgba(0,36,84,.65); margin-left: 4px; }
+.qdMore .field { margin-top: 16px; }
+.qd .formError { margin-top: 18px; font-size: 17px; }
+.qdFine { margin-top: 14px; text-align: center; font-size: 15px; color: rgba(0,36,84,.72); }
+@media (min-width: 640px) { .qdCard { padding: 40px 42px 36px; } }
+@media (prefers-reduced-motion: reduce) { .qd[open], .qd[open]::backdrop { animation: none; } .btn svg { transition: none; } }
 @media (min-width: 900px) {
   .aboutLogos { max-width: 480px; gap: 14px; }
   .aboutLogos li { height: 116px; }
@@ -305,7 +349,12 @@ h1, h2, h3, p { margin: 0; }
   .acctHelp { padding: 92px 40px 96px; }
   .acctHead { text-align: left; }
   .acctHead .acctRule, .acctHead .acctIntro { margin-inline: 0; }
-  .acctCards { grid-template-columns: repeat(3, 1fr); gap: 40px; margin-top: 56px; }
+  .acctHelp .acctHead { text-align: center; }
+  .acctHelp .acctHead .acctRule, .acctHelp .acctHead .acctIntro { margin-inline: auto; }
+  .acctSolution { padding: 72px 0 80px; }
+  .acctSolution img { aspect-ratio: 16 / 10; border-radius: 18px; margin-top: 32px; }
+  .acctBody { font-size: 20px; margin-top: 28px; }
+  .acctSolutionBtn { width: auto; min-width: 270px; }
   .acctLocal { padding: 96px 0 80px; }
   .acctLocal .acctHead { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
   .acctMapWrap { margin-top: 48px; }

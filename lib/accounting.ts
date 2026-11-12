@@ -3,12 +3,26 @@
 
 export type AccountingCopy = {
   hero: { headline: string; lead: string; primary: string; secondary: string };
-  help: { kicker: string; heading: string; intro: string; items: { icon: "scan" | "packet" | "costs"; title: string; body: string }[] };
+  help: {
+    kicker: string; heading: string; intro: string;
+    /* label: small line above the title. button: opens the quote pop-up with `choice` already picked (must match a form.help option). */
+    items: { image: string; alt: string; label: string; title: string; body: string; button: string; choice: string }[];
+  };
   local: { kicker: string; heading: string; body: string; visit: string; calloutTag: string; calloutTitle: string; calloutBody: string; calloutButton: string };
-  form: { heading: string; intro: string; helpQuestion: string; help: string[]; timingQuestion: string; timing: string[]; submit: string; fine: string; thanksHeading: string; thanksBody: string };
+  form: { heading: string; intro: string; helpQuestion: string; help: string[]; timingQuestion: string; timing: string[]; submit: string; fine: string; thanksHeading: string; thanksBody: string; contactQuestion: string; cta: string };
 };
 
 export const SERVICE_OPTION = "Service for existing equipment";
+const EQUIPMENT_OPTION = "Replacing or adding equipment";
+const COSTS_OPTION = "Reviewing printing costs";
+const SCANNING_OPTION = "Improving scanning and document handling";
+
+/* Photos for the three benefits (4:3, 1448 x 1086), in public/accounting/help/. */
+const PHOTO = {
+  scan: { image: "/accounting/help/scanning.webp", alt: "Client documents being loaded into a copier’s document feeder" },
+  packet: { image: "/accounting/help/packets.webp", alt: "Finished report packets being organized beside an office copier" },
+  costs: { image: "/accounting/help/costs.webp", alt: "Two people comparing copier and service estimates with a calculator" },
+};
 
 export const ACCOUNTING: AccountingCopy = {
   hero: {
@@ -23,17 +37,26 @@ export const ACCOUNTING: AccountingCopy = {
     intro: "Client records, financial statements, tax returns—your equipment should help move the work along.",
     items: [
       {
-        icon: "scan",
+        ...PHOTO.scan,
+        label: "Document scanning",
+        button: "Talk about scanning",
+        choice: SCANNING_OPTION,
         title: "Get client documents into usable digital files.",
         body: "Turn stacks of receipts, statements and signed forms into searchable PDFs. We’ll help you choose scanning features and destinations that fit how your team organizes client files.",
       },
       {
-        icon: "packet",
+        ...PHOTO.packet,
+        label: "Client packets",
+        button: "Talk about equipment",
+        choice: EQUIPMENT_OPTION,
         title: "Keep deadline work moving.",
         body: "Print reports, copy supporting documents and prepare client packets with equipment suited to your workload—and local service when something needs attention.",
       },
       {
-        icon: "costs",
+        ...PHOTO.costs,
+        label: "Printing costs",
+        button: "Talk about printing costs",
+        choice: COSTS_OPTION,
         title: "Get a clearer picture of printing costs.",
         body: "Lease payments, toner, page charges and service all affect what you spend. We’ll help you compare the full picture and find a setup that fits your office.",
       },
@@ -55,9 +78,9 @@ export const ACCOUNTING: AccountingCopy = {
     intro: "Tell us what you’d like to improve. You don’t need model numbers or exact print volumes to get started.",
     helpQuestion: "What would you like help with?",
     help: [
-      "Replacing or adding equipment",
-      "Reviewing printing costs",
-      "Improving scanning and document handling",
+      EQUIPMENT_OPTION,
+      COSTS_OPTION,
+      SCANNING_OPTION,
       SERVICE_OPTION,
       "Not sure—help me figure it out",
     ],
@@ -67,6 +90,8 @@ export const ACCOUNTING: AccountingCopy = {
     fine: "Our local team will review your needs and follow up to discuss options.",
     thanksHeading: "Thank you. We have your request.",
     thanksBody: "Someone from our Bryan office will be in touch to talk through your options.",
+    contactQuestion: "Where should we reach you?",
+    cta: "Start my quote",
   },
 };
 
@@ -82,12 +107,18 @@ export const TAX: AccountingCopy = {
     kicker: "For tax preparation offices",
     items: [
       {
-        icon: "scan",
+        ...PHOTO.scan,
+        label: "Document intake",
+        button: "Talk about scanning",
+        choice: SCANNING_OPTION,
         title: "Make tax document intake easier.",
         body: "Scan W-2s, 1099s, receipts and supporting records into searchable PDFs, with scanning options that fit how your office organizes each client’s documents.",
       },
       {
-        icon: "packet",
+        ...PHOTO.packet,
+        label: "Tax season",
+        button: "Talk about equipment",
+        choice: EQUIPMENT_OPTION,
         title: "Be ready for the busiest weeks.",
         body: "Prepare client copies, scan signed forms and handle deadline-day volume with equipment chosen for your seasonal workload.",
       },
