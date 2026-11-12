@@ -242,20 +242,17 @@ h1, h2, h3, p { margin: 0; }
 .acctRule.center { margin-inline: auto; }
 .acctIntro { margin-top: 18px; font-size: 19px; line-height: 1.5; color: rgba(0,36,84,.82); max-width: 34em; }
 .acctIntro.center { margin-inline: auto; text-align: center; }
+.acctPoints { list-style: none; max-width: 420px; margin: 40px auto 0; padding: 0; display: grid; gap: 40px; text-align: center; }
+.acctPoints img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 12px; background: rgba(0,36,84,.07); }
+.acctPoints h3 { margin-top: 18px; font: 700 24px/1.15 var(--sans); letter-spacing: -.02em; color: #002454; text-wrap: balance; }
+.acctPoints p { margin-top: 8px; font-size: 17px; line-height: 1.5; color: rgba(0,36,84,.8); text-wrap: pretty; }
+.acctPointsCta { margin-top: 40px; text-align: center; }
+.acctPointsCta .btn { width: 100%; max-width: 340px; gap: 14px; }
 .acctHead { text-align: center; }
 .acctHead .acctRule { margin-inline: auto; }
 .acctHead .acctIntro { margin-inline: auto; }
 
 /* The three benefits: one centered column each, at every width (label, title, photo, text, button) */
-.acctSolution { max-width: 860px; margin: 0 auto; padding: 48px 0 52px; text-align: center; }
-.acctSolution + .acctSolution { border-top: 1px solid rgba(0,36,84,.14); }
-.acctHead + .acctSolution, .acctWrap + .acctSolution { padding-top: 44px; }
-.acctSolution:last-child { padding-bottom: 0; }
-.acctLabel { font-size: 13px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: rgba(0,36,84,.7); margin-bottom: 12px; }
-.acctSolution h3 { font: 700 clamp(28px, 7.8vw, 44px)/1.08 var(--sans); letter-spacing: -.035em; color: #002454; text-wrap: balance; max-width: 20ch; margin: 0 auto; }
-.acctSolution img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 14px; margin-top: 24px; background: rgba(0,36,84,.07); }
-.acctBody { margin: 22px auto 0; max-width: 34em; font-size: 18px; line-height: 1.55; color: rgba(0,36,84,.8); }
-.acctSolutionBtn { width: 100%; max-width: 340px; margin-top: 24px; gap: 14px; }
 .btn svg { flex: none; transition: transform .2s; }
 .btn:hover svg { transform: translateX(4px); }
 
@@ -416,10 +413,10 @@ h1, h2, h3, p { margin: 0; }
   .acctHead .acctRule, .acctHead .acctIntro { margin-inline: 0; }
   .acctHelp .acctHead { text-align: center; }
   .acctHelp .acctHead .acctRule, .acctHelp .acctHead .acctIntro { margin-inline: auto; }
-  .acctSolution { padding: 72px 0 80px; }
-  .acctSolution img { aspect-ratio: 16 / 10; border-radius: 18px; margin-top: 32px; }
-  .acctBody { font-size: 20px; margin-top: 28px; }
-  .acctSolutionBtn { width: auto; min-width: 270px; }
+  .acctPoints { max-width: 1040px; margin-top: 56px; grid-template-columns: repeat(3, 1fr); gap: 36px; }
+  .acctPoints img { aspect-ratio: 4 / 3; }
+  .acctPointsCta { margin-top: 56px; }
+  .acctPointsCta .btn { width: auto; min-width: 270px; }
   .acctLocal { padding: 96px 0 80px; }
   .acctLocal .acctHead { max-width: 1120px; margin: 0 auto; padding: 0 40px; }
   .acctMapWrap { margin-top: 48px; }

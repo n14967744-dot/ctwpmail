@@ -5,8 +5,8 @@ export type AccountingCopy = {
   hero: { headline: string; lead: string; primary: string; secondary: string };
   help: {
     kicker: string; heading: string; intro: string;
-    /* label: small line above the title. button: opens the quote pop-up with `choice` already picked (must match a form.help option). */
-    items: { image: string; alt: string; label: string; title: string; body: string; button: string; choice: string }[];
+    /* The three points, each a photo, a title and one sentence. */
+    items: { image: string; alt: string; title: string; body: string }[];
   };
   local: { kicker: string; heading: string; body: string; visit: string; calloutTag: string; calloutTitle: string; calloutBody: string; calloutButton: string };
   form: { heading: string; intro: string; helpQuestion: string; help: string[]; timingQuestion: string; timing: string[]; submit: string; fine: string; thanksHeading: string; thanksBody: string; contactQuestion: string; cta: string;
@@ -21,7 +21,8 @@ const EQUIPMENT_OPTION = "Replacing or adding equipment";
 const COSTS_OPTION = "Reviewing printing costs";
 const SCANNING_OPTION = "Improving scanning and document handling";
 
-/* Photos for the three benefits (4:3, 1448 x 1086), in public/accounting/help/. */
+/* Photos for the three points (4:3, 1448 x 1086), in public/accounting/help/.
+   The costs photo stands in on the privacy point until there is a photo that shows it. */
 const PHOTO = {
   scan: { image: "/accounting/help/scanning.webp", alt: "Client documents being loaded into a copier’s document feeder" },
   packet: { image: "/accounting/help/packets.webp", alt: "Finished report packets being organized beside an office copier" },
@@ -41,28 +42,19 @@ export const ACCOUNTING: AccountingCopy = {
     intro: "Client records, financial statements, tax returns—your equipment should help move the work along.",
     items: [
       {
-        ...PHOTO.scan,
-        label: "Document scanning",
-        button: "Talk about scanning",
-        choice: SCANNING_OPTION,
-        title: "Get client documents into usable digital files.",
-        body: "Turn stacks of receipts, statements and signed forms into searchable PDFs. We’ll help you choose scanning features and destinations that fit how your team organizes client files.",
+        ...PHOTO.packet,
+        title: "Built for tax season.",
+        body: "Fast, reliable machines for your busiest weeks, and a local technician from our Bryan office when one needs attention.",
       },
       {
-        ...PHOTO.packet,
-        label: "Client packets",
-        button: "Talk about equipment",
-        choice: EQUIPMENT_OPTION,
-        title: "Keep deadline work moving.",
-        body: "Print reports, copy supporting documents and prepare client packets with equipment suited to your workload—and local service when something needs attention.",
+        ...PHOTO.scan,
+        title: "Scan client files in one touch.",
+        body: "Documents go straight to the folder you choose as searchable PDFs, with no extra steps.",
       },
       {
         ...PHOTO.costs,
-        label: "Printing costs",
-        button: "Talk about printing costs",
-        choice: COSTS_OPTION,
-        title: "Get a clearer picture of printing costs.",
-        body: "Lease payments, toner, page charges and service all affect what you spend. We’ll help you compare the full picture and find a setup that fits your office.",
+        title: "Keep client information private.",
+        body: "Print jobs wait until you enter a PIN at the machine, so returns don’t sit in the tray.",
       },
     ],
   },
@@ -117,25 +109,6 @@ export const TAX: AccountingCopy = {
   help: {
     ...ACCOUNTING.help,
     kicker: "For tax preparation offices",
-    items: [
-      {
-        ...PHOTO.scan,
-        label: "Document intake",
-        button: "Talk about scanning",
-        choice: SCANNING_OPTION,
-        title: "Make tax document intake easier.",
-        body: "Scan W-2s, 1099s, receipts and supporting records into searchable PDFs, with scanning options that fit how your office organizes each client’s documents.",
-      },
-      {
-        ...PHOTO.packet,
-        label: "Tax season",
-        button: "Talk about equipment",
-        choice: EQUIPMENT_OPTION,
-        title: "Be ready for the busiest weeks.",
-        body: "Prepare client copies, scan signed forms and handle deadline-day volume with equipment chosen for your seasonal workload.",
-      },
-      ACCOUNTING.help.items[2],
-    ],
   },
 };
 

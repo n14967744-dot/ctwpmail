@@ -48,7 +48,7 @@ Alerts: Telegram is set for preview and production. The GoHighLevel webhook is s
 
 1. Header: logo, "Get my quote", call button with the Bryan line (979) 779-2998.
 2. Hero: "Prepared for", business name, headline, Leroy photo, "Start my quote".
-3. "Make the paperwork part easier": three benefit sections, each with a label, title, photo, text and a button.
+3. "Make the paperwork part easier": three points (built for tax season, one-touch scanning, private printing with a PIN), each a small photo, a title and one sentence, then one "Start my quote" button. Three across on a computer, stacked on a phone. Same wording for accounting and tax. Cost control was dropped on purpose (Nov 12): every dealer says it. The privacy point still uses the old costs photo as a stand-in.
 4. About CTWP: flag photo, "Serving Bryan–College Station since 1979", Customers for Life line, four customer logos.
 5. "Your local copier company": route map from the business to the office, directions button, "Ask us about service".
 6. Badges ("Recognized for service").
@@ -58,7 +58,7 @@ Alerts: Telegram is set for preview and production. The GoHighLevel webhook is s
 
 Sections fade up as they scroll into view (`components/Reveal.tsx`, elements marked `data-reveal`).
 
-The quote form is a pop-up (`components/AccountingQuote.tsx`) opened by every quote button and any `#quote` link. Three steps: what to help with (pick any), timing, then name and contact with optional copier details. A benefit button opens it with that topic already checked.
+The quote form is a pop-up (`components/AccountingQuote.tsx`) opened by every quote button and any `#quote` link. Three steps: what to help with (pick any), timing, then name and contact with optional copier details. A button can open it with a topic already checked (the service link does).
 
 After the request is sent, the thank-you screen offers an optional "Add copier details" step: a photo of the label, current provider, make and model, serial number, lease end and monthly cost. `addRequestDetails` in `app/actions.ts` merges them into the same request's `answers` (keys `provider`, `equipment`, `serial`, `leaseEnd`, `spend`, `photo`), stores the photo and sends Telegram. Nick chose to ask after sending so nothing gets in the way of the lead. These details do not go to the GoHighLevel webhook yet.
 

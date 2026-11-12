@@ -70,19 +70,18 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
               <p className="acctIntro">{copy.help.intro}</p>
             </div>
           </div>
-          {copy.help.items.map((it) => (
-            <article key={it.title} className="acctSolution">
-              <div data-reveal>
-                <p className="acctLabel">{it.label}</p>
+          <ul className="acctPoints">
+            {copy.help.items.map((it) => (
+              <li key={it.title} data-reveal>
+                <img src={it.image} alt={it.alt} width={1448} height={1086} loading="lazy" decoding="async" />
                 <h3>{it.title}</h3>
-              </div>
-              <img src={it.image} alt={it.alt} width={1448} height={1086} loading="lazy" decoding="async" data-reveal />
-              <div data-reveal>
-                <p className="acctBody">{it.body}</p>
-                <QuoteButton label={it.button} choice={it.choice} arrow className="btn btnRed btnBig acctSolutionBtn" />
-              </div>
-            </article>
-          ))}
+                <p>{it.body}</p>
+              </li>
+            ))}
+          </ul>
+          <div className="acctPointsCta" data-reveal>
+            <QuoteButton label={copy.hero.primary} arrow track="Quote button (how we help)" className="btn btnRed btnBig" />
+          </div>
         </section>
 
         <section id="about" className="about">
