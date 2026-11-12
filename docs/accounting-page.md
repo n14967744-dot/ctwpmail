@@ -28,6 +28,7 @@ Neon project **ctwp-mail** (`restless-star-70875975`), database `mail`, branch `
 - `landing_events`: page visits and form submits.
 - `landing_requests`: quote requests (`answers` holds help, timing, equipment, spend, contactType).
 - `lead_followups`: follow-up log.
+- `landing_request_photos`: copier photos added after a request (`request_id`, `content_type`, `bytes`). Created Nov 11; the SQL is in `db/2026-11-11_request_photos.sql`. Photos are not on a public URL; Telegram also gets a copy.
 - `mail_pipeline`: view, one row per business with visits, request, last follow-up and `next_step`.
 - Functions: `log_scan(p_slug)`, `advance_lead_stage(p_slug, p_stage)`, `stage_rank(s)`.
 
@@ -51,8 +52,13 @@ Alerts: Telegram is set for preview and production. The GoHighLevel webhook is s
 4. About CTWP: flag photo, "Serving Bryan–College Station since 1979", Customers for Life line, four customer logos.
 5. "Your local copier company": route map from the business to the office, directions button, "Ask us about service".
 6. Badges, "Let's find the right fit for <business>", one "Start my quote" button.
+7. Footer: the seven CTWP offices from ctwp.com (`OFFICES` in `lib/site.ts`), with Bryan marked as the local office.
+
+Sections fade up as they scroll into view (`components/Reveal.tsx`, elements marked `data-reveal`).
 
 The quote form is a pop-up (`components/AccountingQuote.tsx`) opened by every quote button and any `#quote` link. Three steps: what to help with (pick any), timing, then name and contact with optional copier details. A benefit button opens it with that topic already checked.
+
+After the request is sent, the thank-you screen offers an optional "Add copier details" step: a photo of the label, current provider, make and model, serial number, lease end and monthly cost. `addRequestDetails` in `app/actions.ts` merges them into the same request's `answers` (keys `provider`, `equipment`, `serial`, `leaseEnd`, `spend`, `photo`), stores the photo and sends Telegram. Nick chose to ask after sending so nothing gets in the way of the lead. These details do not go to the GoHighLevel webhook yet.
 
 The pop-up's look and the three benefit photos came from ChatGPT's concept on branch `design/accounting-opening-v1` (route `/accounting-opening`). That branch also has a newer Leroy office photo (`public/accounting-opening/leroy-office-v2.webp`) that is not used here.
 
@@ -62,8 +68,9 @@ The pop-up's look and the three benefit photos came from ChatGPT's concept on br
   1. "We're right here in Bryan, close to your office. Come by anytime to see the equipment and meet us in person. And when you need service, we're just a few minutes away."
   2. "We're close by, right here in Bryan. Come see the equipment anytime. And when you need service, help is a few minutes away."
   3. "Our office is right here in Bryan, a short drive from yours. You're welcome to come by anytime to see the equipment and meet the team. When you need service, we're only a few minutes away."
+- **"Meet Leroy" section:** an idea Nick wants to hold for later.
 - **Law firm page** on this design for the 50 legal leads. Needs copy from Nick, or a draft for him to approve first.
-- **Test data to clear before mailing** (ask Nick before deleting anything): test visits on `seidelschroeder` and `rosettataxservice` (both now at stage `scanned` with `qr_scans` above zero), and two requests named "TEST Claude…" under slug `example-accounting-group`.
+- **Test data to clear before mailing** (ask Nick before deleting anything): test visits on `seidelschroeder` and `rosettataxservice` (both now at stage `scanned` with `qr_scans` above zero), and three requests named "TEST Claude…" under slug `example-accounting-group` (one has a test photo).
 - **Do not merge this branch into `main` yet.** `main` is the live dentist site and still reads Supabase. Merging would point the live site at Neon, where the dentist leads do not exist.
 - **Permission to show customer logos** (Texas A&M in particular) and whether the badge years should say 2026: raised with Nick, not answered.
 - **Connection string rotation:** the string passed through an assistant session's tool log when it was copied from Neon to Vercel. Rotation was offered to Nick and not requested.
