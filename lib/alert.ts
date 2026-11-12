@@ -119,6 +119,23 @@ export async function telegramText(text: string, label: string): Promise<void> {
   }
 }
 
+/** Send a photo with a caption to Nick's Telegram. Skips silently if unset; never throws; 10s timeout. Never logs the token. */
+export async function telegramPhoto(bytes: Uint8Array<ArrayBuffer>, contentType: string, caption: string, label: string): Promise<void> {
+  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const chatId = process.env.TELEGRAM_CHAT_ID;
+  if (!token || !chatId) return;
+  try {
+    const body = new FormData();
+    body.set("chat_id", chatId);
+    body.set("caption", caption.slice(0, 1000));
+    body.set("photo", new Blob([bytes], { type: contentType }), "copier.jpg");
+    const res = await fetch(`https://api.telegram.org/bot${token}/sendPhoto`, { method: "POST", body, signal: AbortSignal.timeout(10000), cache: "no-store" });
+    console.log(`[alert] telegram ${label} status=${res.status}`);
+  } catch (e) {
+    console.error(`[alert] telegram ${label} error=${e instanceof Error ? e.name : "unknown"}`);
+  }
+}
+
 /** Fire-and-forget webhooks (Grok Bot alert + GoHighLevel). Each skips silently if unset; never throws; 3s timeout. */
 export async function sendAlert(payload: AlertPayload): Promise<void> {
   if (payload.name && !payload.first_name) {

@@ -48,3 +48,14 @@ export function fullAddress(b: Business): string | null {
     .filter(Boolean)
     .join(", ");
 }
+
+/* CTWP offices, as listed in the footer of ctwp.com (checked November 11, 2026). Bryan is the local office for these pages. */
+export const OFFICES: { name: string; note?: string; address: string; phone: string; tel: string }[] = [
+  { name: "Bryan", address: "410 E. Villa Maria Rd, Bryan, TX 77801", phone: "(979) 779-2998", tel: "+19797792998" },
+  { name: "Waco", note: "Home office", address: "3730 Franklin Ave., Waco, TX 76710", phone: "(254) 752-0376", tel: "+12547520376" },
+  { name: "San Antonio", address: "2946 NE Loop 410, San Antonio, TX 78218", phone: "(210) 590-2897", tel: "+12105902897" },
+  { name: "Marble Falls", address: "903 Ave H, Marble Falls, TX 78654", phone: "(830) 693-6479", tel: "+18306936479" },
+  { name: "Temple", address: "1505 W. Ave M, Temple, TX 76504", phone: "(254) 774-9667", tel: "+12547749667" },
+  { name: "San Angelo", address: "1821 Industrial, San Angelo, TX 76904", phone: "(325) 658-1507", tel: "+13256581507" },
+  { name: "Corsicana", note: "Copy center", address: "117 S. Beaton St., Corsicana, TX 75110", phone: "(903) 872-6657", tel: "+19038726657" },
+];

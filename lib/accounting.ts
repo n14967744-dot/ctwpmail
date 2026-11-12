@@ -9,7 +9,11 @@ export type AccountingCopy = {
     items: { image: string; alt: string; label: string; title: string; body: string; button: string; choice: string }[];
   };
   local: { kicker: string; heading: string; body: string; visit: string; calloutTag: string; calloutTitle: string; calloutBody: string; calloutButton: string };
-  form: { heading: string; intro: string; helpQuestion: string; help: string[]; timingQuestion: string; timing: string[]; submit: string; fine: string; thanksHeading: string; thanksBody: string; contactQuestion: string; cta: string };
+  form: { heading: string; intro: string; helpQuestion: string; help: string[]; timingQuestion: string; timing: string[]; submit: string; fine: string; thanksHeading: string; thanksBody: string; contactQuestion: string; cta: string;
+    /* The optional copier-details step offered after the request is sent. */
+    detailsLabel: string; detailsInvite: string; detailsButton: string; detailsHeading: string; detailsHint: string;
+    detailsSubmit: string; detailsThanksHeading: string; detailsThanksBody: string;
+  };
 };
 
 export const SERVICE_OPTION = "Service for existing equipment";
@@ -92,6 +96,14 @@ export const ACCOUNTING: AccountingCopy = {
     thanksBody: "Someone from our Bryan office will be in touch to talk through your options.",
     contactQuestion: "Where should we reach you?",
     cta: "Start my quote",
+    detailsLabel: "For a more accurate quote",
+    detailsInvite: "Tell us about your current copier. A photo of its label, with the serial number showing, is the quickest way.",
+    detailsButton: "Add copier details",
+    detailsHeading: "About your current copier",
+    detailsHint: "All of this is optional. Share whatever you have.",
+    detailsSubmit: "Send details",
+    detailsThanksHeading: "Thank you. That helps.",
+    detailsThanksBody: "We’ll use it to prepare your quote.",
   },
 };
 
