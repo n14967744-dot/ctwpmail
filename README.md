@@ -1,12 +1,13 @@
 # CTWP landing pages — site directory
 
-Last verified: October 29, 2026.
+Last verified: October 29, 2026. Accounting row added November 11, 2026.
 
 ## Which site is which?
 
 | Site | GitHub branch | Vercel project | Link |
 | --- | --- | --- | --- |
 | Lawyers / law firms | `feature/law-test-private` | `ctwpmail` (preview) | [Banks & Banks lawyer example](https://ctwp-lawyers.vercel.app/banks-banks-attorneys-at-law-p-c-law-006#needs-title) |
+| Accountants and tax preparers (current work) | `accounting-page` | `ctwpmail` (preview) | `ctwpmail-git-accounting-page-n14967744-2024.vercel.app/<slug>`. Read [docs/accounting-page.md](docs/accounting-page.md) first. |
 | Dentists / existing production site | `main` | `ctwpmail` (production) | [Dentist site](https://ctwpmail.vercel.app) |
 | Image library | Separate project; branch not verified here | `ctwp-image-library` | [Image library](https://ctwp-image-library.vercel.app) |
 
