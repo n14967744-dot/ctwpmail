@@ -2,8 +2,9 @@
 
 import { useEffect } from "react";
 
-/** Fades sections up as they scroll into view. Marks: any element with `data-reveal` inside `.acct`.
- *  Nothing is hidden unless this script is running, so the page reads fine without it. */
+/** Marks elements with `data-reveal` inside `.acct` as they scroll into view (adds `.in`).
+ *  The CSS decides what each one does: most rise a few pixels into place; the color-tier sheets print out.
+ *  Nothing is hidden unless this script is running, and nothing moves with prefers-reduced-motion. */
 export function Reveal() {
   useEffect(() => {
     const root = document.querySelector(".acct");
@@ -16,9 +17,15 @@ export function Reveal() {
         e.target.classList.add("in");
         seen.unobserve(e.target);
       }
-    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+    }, { threshold: 0.2, rootMargin: "0px 0px -8% 0px" });
+    // Anything already on screen when the script starts shows at once, without a fade.
+    const vh = window.innerHeight;
+    items.forEach((el) => {
+      const r = el.getBoundingClientRect();
+      if (r.top < vh * 0.92 && r.bottom > 0) el.classList.add("in", "now");
+    });
     root.classList.add("revealOn");
-    items.forEach((el) => seen.observe(el));
+    items.forEach((el) => { if (!el.classList.contains("in")) seen.observe(el); });
     return () => { seen.disconnect(); root.classList.remove("revealOn"); };
   }, []);
   return null;

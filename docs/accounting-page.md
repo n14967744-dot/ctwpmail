@@ -1,6 +1,6 @@
 # Accounting and tax landing page: where it stands
 
-Last updated: November 11, 2026 (evening, Central). Branch: `accounting-page`.
+Last updated: November 12, 2026. Branch: `design/accounting-v2-focus` (from `accounting-page`).
 
 Read this before working on the accounting, tax or any new niche page.
 
@@ -44,32 +44,35 @@ As of this update `leads` holds 90 rows: 20 accounting, 20 tax prep, and 50 law 
 
 Alerts: Telegram is set for preview and production. The GoHighLevel webhook is set for production only, so preview tests do not reach the CRM.
 
-## Page layout today
+## Page layout today (branch `design/accounting-v2-focus`, "focus" version)
 
-1. Header: logo, "Get my quote", call button with the Bryan line (979) 779-2998.
-2. Hero: "Prepared for", business name, headline, Leroy photo, "Start my quote".
-3. "Make the paperwork part easier": three benefit sections, each with a label, title, photo, text and a button.
-4. About CTWP: flag photo, "Serving Bryan–College Station since 1979", Customers for Life line, four customer logos.
-5. "Your local copier company": route map from the business to the office, directions button, "Ask us about service".
-6. Badges ("Recognized for service").
-7. "A few of the machines we carry": a swipeable slideshow of four machines (`components/ModelShowcase.tsx`, data in `EQUIPMENT` in `lib/accounting.ts`). Names, photos and descriptions are from ctwp.com. It advances on its own until touched.
-8. "Let's find the right fit for <business>" with one "Start my quote" button.
-9. Footer: the seven CTWP offices from ctwp.com (`OFFICES` in `lib/site.ts`), with Bryan marked as the local office.
+About five phone screens, one idea each. Wording for both segments is in `lib/accounting.ts`; TAX is written separately and leads with the season.
 
-Sections fade up as they scroll into view (`components/Reveal.tsx`, elements marked `data-reveal`).
+1. Header (`components/AccountingChrome.tsx`, not the dentist `Header.tsx`): 60px, wide logo ("Your copier company"), the Bryan line. On wide screens a small "Get my quote" joins once the hero button has scrolled away.
+2. Hero: "Prepared for" + business name (h1), Leroy photo with the caption "Leroy, our office dog", one statement (what CTWP is: copiers from Bryan, own technicians), "Get my quote", "Three questions. Then someone from our Bryan office calls you." The photo gives up height first, so the button stays on the first screen with a long name.
+3. The quote's first question: a lead line "CTWP has served accounting and tax offices in Texas since 1979." (Nick's line, Nov 12), then the question tied to tax season and five large rows. A row opens the pop-up at step 2 with that choice saved.
+4. Featured Kyocera TASKalfa 5053i and three-tier color: three drawn pages (a little color, some color, full color) that "print" out of a slot when scrolled to. No prices. Wording and featured model await Ryan's confirmation (`FEATURED` in `lib/accounting.ts`).
+5. Four short benefits: one-pass scanning, private client records (secure print), monthly cost, the busy weeks.
+6. Proof: "Sold, leased and serviced from Bryan.", route map from the business (not draggable on touch screens), "Directions" link, four customer logos, four badges in one row.
+7. Why now (before tax season) and the closing "Get my quote" with the phone number.
+8. Footer: Bryan office in full; the other six offices as a compact list with phone numbers.
 
-The quote form is a pop-up (`components/AccountingQuote.tsx`) opened by every quote button and any `#quote` link. Three steps: what to help with (pick any), timing, then name and contact with optional copier details. A benefit button opens it with that topic already checked.
+Phones get a bottom action bar ("Get my quote") after the hero, hidden again at the closing ask and footer. Red is used only for that one action. The action has one name everywhere: "Get my quote"; after a request is sent, page buttons say "Quote requested" and reopen the thank-you screen.
 
-After the request is sent, the thank-you screen offers an optional "Add copier details" step: a photo of the label, current provider, make and model, serial number, lease end and monthly cost. `addRequestDetails` in `app/actions.ts` merges them into the same request's `answers` (keys `provider`, `equipment`, `serial`, `leaseEnd`, `spend`, `photo`), stores the photo and sends Telegram. Nick chose to ask after sending so nothing gets in the way of the lead. These details do not go to the GoHighLevel webhook yet.
+Motion: one load sequence in the hero (Leroy settles, words rise), short rises on scroll (`components/Reveal.tsx`, elements marked `data-reveal`; anything already on screen shows at once), the printing pages, the bottom sheet. All of it is off with `prefers-reduced-motion`, and nothing is hidden without JavaScript.
 
-The pop-up's look and the three benefit photos came from ChatGPT's concept on branch `design/accounting-opening-v1` (route `/accounting-opening`). That branch also has a newer Leroy office photo (`public/accounting-opening/leroy-office-v2.webp`) that is not used here.
+The three stock benefit photos, the flag photo and the machine slideshow are no longer on the page (files kept; `ModelShowcase.tsx` and its CSS remain for other versions).
+
+The quote form is a pop-up (`components/AccountingQuote.tsx`). On phones it is a bottom sheet whose main button is pinned at the bottom and rides above the keyboard (it reads `visualViewport`). Three steps: what to help with (any), timing (one tap advances), name and phone or email. The business name is sent from the page, not asked. Return in the name field moves to the phone field; Return in the phone field sends. Errors clear as soon as the visitor types. "Next" with nothing chosen says what is missing instead of being disabled. It still calls `submitAccountingRequest` with the same fields.
+
+After the request is sent, the thank-you screen offers the optional "Add copier details" step: a photo of the label, current provider, make and model, serial number, lease end and monthly cost. `addRequestDetails` in `app/actions.ts` merges them into the same request's `answers` (keys `provider`, `equipment`, `serial`, `leaseEnd`, `spend`, `photo`), stores the photo and sends Telegram. Return in a details field moves to the next field and never sends. These details do not go to the GoHighLevel webhook yet.
+
+Help options saved in `answers.help` now read like the visitor talking ("I want to check what I’m paying"), and differ between ACCOUNTING and TAX.
 
 ## Open items
 
-- **Local section wording.** Nick has not picked the paragraph. The page still has the older sentence. The three options offered were:
-  1. "We're right here in Bryan, close to your office. Come by anytime to see the equipment and meet us in person. And when you need service, we're just a few minutes away."
-  2. "We're close by, right here in Bryan. Come see the equipment anytime. And when you need service, help is a few minutes away."
-  3. "Our office is right here in Bryan, a short drive from yours. You're welcome to come by anytime to see the equipment and meet the team. When you need service, we're only a few minutes away."
+- **Ryan to confirm:** the three-tier color wording and that the TASKalfa 5053i is the machine to feature.
+- **Seasonal wording:** the "before tax season / before January" lines suit a November to January mailing. Revisit after January.
 - **"Meet Leroy" section:** an idea Nick wants to hold for later.
 - **Law firm page** on this design for the 50 legal leads. Needs copy from Nick, or a draft for him to approve first.
 - **Test data to clear before mailing** (ask Nick before deleting anything): test visits on `seidelschroeder` and `rosettataxservice` (both now at stage `scanned` with `qr_scans` above zero), and three requests named "TEST Claude…" under slug `example-accounting-group` (one has a test photo).
