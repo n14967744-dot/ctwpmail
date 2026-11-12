@@ -163,6 +163,19 @@ export const CUSTOMERS = {
   ],
 };
 
+/* Machines shown in the slideshow above the closing quote button. Names, photos and the short
+   descriptions come from ctwp.com (copiers, printers and products pages, checked November 11, 2026). */
+export const EQUIPMENT = {
+  kicker: "Equipment",
+  heading: "A few of the machines we carry.",
+  models: [
+    { brand: "Konica Minolta", model: "bizhub C360i", type: "Color copier for small and mid-size offices", image: "/accounting/models/konica-minolta-bizhub-c360i.webp", width: 1000, height: 792 },
+    { brand: "Kyocera", model: "TASKalfa 5053i", type: "High-speed copier for mid-size offices", image: "/accounting/models/kyocera-taskalfa-5053i.webp", width: 515, height: 600 },
+    { brand: "Lexmark", model: "XC4143", type: "Color multifunction printer", image: "/accounting/models/lexmark-xc4143.webp", width: 616, height: 800 },
+    { brand: "Canon", model: "imageRUNNER ADVANCE 8505i", type: "Production printer", image: "/accounting/models/canon-imagerunner-advance-8505i.webp", width: 982, height: 486 },
+  ],
+};
+
 /** Wording for a segment inside the accounting niche. Add a segment here when one needs its own copy. */
 export function accountingCopy(segment?: string | null): AccountingCopy {
   return segment?.trim().toLowerCase() === "tax prep" ? TAX : ACCOUNTING;

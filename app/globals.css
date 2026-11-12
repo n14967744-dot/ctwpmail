@@ -288,10 +288,39 @@ h1, h2, h3, p { margin: 0; }
 .acctServiceLine { margin-top: 22px; font-size: 17px; color: rgba(0,36,84,.82); }
 .acctLink { background: none; border: 0; padding: 0; font: inherit; font-weight: 600; color: #002454; text-decoration: underline; text-underline-offset: 4px; cursor: pointer; }
 
-/* Quote form, with the badges just above it */
-.acctQuote { background: #fff; padding: 0 22px 64px; }
+/* Badges, then the machine slideshow, then the closing quote button */
+.acctProofBand { background: #fff; padding: 0 22px; }
+.acctQuote { background: #fff; padding: 52px 22px 64px; }
+
+/* Machine slideshow */
+.acctModels { background: #fff; padding: 52px 0 8px; overflow: hidden; }
+.acctModels .acctHead { padding: 0 22px; text-align: center; }
+.acctModels .acctHead .acctRule { margin-inline: auto; }
+.acctModels h2 { font: 700 clamp(30px, 8.4vw, 48px)/1.06 var(--sans); letter-spacing: -.03em; color: #002454; text-wrap: balance; }
+.ms { margin-top: 26px; }
+.msTrack { list-style: none; margin: 0; padding: 0 15%; display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; overscroll-behavior-x: contain; }
+.msTrack::-webkit-scrollbar { display: none; }
+.msTrack li { flex: 0 0 100%; scroll-snap-align: center; scroll-snap-stop: always; padding: 14px 0 6px; }
+.msStage { position: relative; display: flex; align-items: flex-end; justify-content: center; height: 250px; padding: 0 8px 18px; transform: scale(.78); opacity: .38; transition: transform .55s cubic-bezier(.2,.7,.2,1), opacity .45s ease-out; transform-origin: 50% 88%; }
+.msStage::after { content: ""; position: absolute; left: 12%; right: 12%; bottom: 4px; height: 26px; border-radius: 50%; background: radial-gradient(closest-side, rgba(0,36,84,.26), rgba(0,36,84,0)); }
+.msStage img { position: relative; z-index: 1; width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; user-select: none; -webkit-user-drag: none; }
+.msTrack li.on .msStage { transform: none; opacity: 1; }
+.msCaption { margin-top: 8px; padding: 0 22px; min-height: 98px; text-align: center; animation: ms-caption .45s ease-out both; }
+@keyframes ms-caption { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.msBrand { font-size: 12.5px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: #b41830; }
+.msModel { margin-top: 4px; font: 700 clamp(20px, 5.9vw, 26px)/1.15 var(--sans); letter-spacing: -.025em; color: #002454; }
+.msType { margin-top: 6px; font-size: 16.5px; color: rgba(0,36,84,.75); }
+.msDots { display: flex; justify-content: center; gap: 8px; margin-top: 18px; }
+.msDots button { width: 10px; height: 28px; padding: 0; border: 0; background: none; cursor: pointer; transition: width .3s ease; }
+.msDots button span { display: block; position: relative; height: 4px; border-radius: 2px; background: rgba(0,36,84,.2); overflow: hidden; }
+.msDots button.on { width: 36px; }
+.msDots button.on span::after { content: ""; position: absolute; inset: 0; background: #002454; }
+.ms.auto .msDots button.on span::after { transform-origin: 0 50%; animation: ms-fill var(--ms-hold, 4200ms) linear both; }
+@keyframes ms-fill { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@media (prefers-reduced-motion: reduce) { .msStage, .msDots button { transition: none; } .msCaption { animation: none; } }
+
 .acctQuote h2 { text-align: center; }
-.acctProof { max-width: 620px; margin: 0 auto 40px; padding: 30px 0 30px; border-bottom: 2px solid rgba(0,36,84,.12); text-align: center; }
+.acctProof { max-width: 620px; margin: 0 auto; padding: 30px 0 34px; border-bottom: 2px solid rgba(0,36,84,.12); text-align: center; }
 .acctProof p { font-size: 13px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: #002454; margin-bottom: 16px; }
 .acctProof ul { list-style: none; margin: 0 auto; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 22px 18px; align-items: center; max-width: 360px; }
 .acctProof img { width: 100%; height: 116px; object-fit: contain; }
@@ -396,8 +425,13 @@ h1, h2, h3, p { margin: 0; }
   .acctMapWrap { margin-top: 48px; }
   .acctMapWrap iframe { height: 440px; }
   .acctBtn { width: auto; }
-  .acctQuote { padding: 0 40px 96px; }
-  .acctProof { padding: 44px 0; margin-bottom: 64px; max-width: 760px; }
+  .acctQuote { padding: 72px 40px 96px; }
+  .acctProofBand { padding: 0 40px; }
+  .acctProof { padding: 44px 0; max-width: 760px; }
+  .acctModels { padding: 84px 0 8px; }
+  .msTrack { padding: 0 33%; }
+  .msStage { height: 340px; }
+  .msModel { font-size: 32px; }
   .acctProof ul { grid-template-columns: repeat(4, 1fr); gap: 44px; max-width: none; }
   .acctProof img { height: 124px; }
   .acctFooterInner { padding: 72px 40px 48px; }

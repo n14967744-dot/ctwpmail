@@ -51,8 +51,10 @@ Alerts: Telegram is set for preview and production. The GoHighLevel webhook is s
 3. "Make the paperwork part easier": three benefit sections, each with a label, title, photo, text and a button.
 4. About CTWP: flag photo, "Serving Bryan–College Station since 1979", Customers for Life line, four customer logos.
 5. "Your local copier company": route map from the business to the office, directions button, "Ask us about service".
-6. Badges, "Let's find the right fit for <business>", one "Start my quote" button.
-7. Footer: the seven CTWP offices from ctwp.com (`OFFICES` in `lib/site.ts`), with Bryan marked as the local office.
+6. Badges ("Recognized for service").
+7. "A few of the machines we carry": a swipeable slideshow of four machines (`components/ModelShowcase.tsx`, data in `EQUIPMENT` in `lib/accounting.ts`). Names, photos and descriptions are from ctwp.com. It advances on its own until touched.
+8. "Let's find the right fit for <business>" with one "Start my quote" button.
+9. Footer: the seven CTWP offices from ctwp.com (`OFFICES` in `lib/site.ts`), with Bryan marked as the local office.
 
 Sections fade up as they scroll into view (`components/Reveal.tsx`, elements marked `data-reveal`).
 

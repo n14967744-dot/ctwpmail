@@ -1,8 +1,9 @@
 import { Header } from "./Header";
 import { QuoteButton, QuoteDialog } from "./AccountingQuote";
+import { ModelShowcase } from "./ModelShowcase";
 import { Reveal } from "./Reveal";
 import { OFFICE_ADDRESS, OFFICE_MAPS_QUERY, OFFICES, fullAddress, type Business } from "@/lib/site";
-import { ABOUT, CUSTOMERS, SERVICE_OPTION, type AccountingCopy } from "@/lib/accounting";
+import { ABOUT, CUSTOMERS, EQUIPMENT, SERVICE_OPTION, type AccountingCopy } from "@/lib/accounting";
 
 /* Accounting and tax preparation version of the landing page.
    Same design as the dentist page (components/Landing.tsx); the wording comes from lib/accounting.ts. */
@@ -12,7 +13,7 @@ const HERO_IMAGE = "/accounting/hero.webp";
 /* The Bryan office line published on ctwp.com/bryan. */
 const BRYAN_PHONE = { display: "(979) 779-2998", href: "tel:+19797792998" };
 
-/* Page order: hero, how we help, About CTWP, local service, closing quote button, footer with every office.
+/* Page order: hero, how we help, About CTWP, local service, badges, machine slideshow, closing quote button, footer.
    Elements marked data-reveal fade up as they scroll into view (components/Reveal.tsx).
    The quote form is a pop-up (components/AccountingQuote.tsx) opened by any quote button or #quote link. */
 const MENU: [string, string][] = [
@@ -110,13 +111,27 @@ export function AccountingLanding({ business, copy }: { business: Business; copy
           </div>
         </section>
 
-        <section id="quote" className="acctQuote">
+        <section className="acctProofBand">
           <div className="acctProof" data-reveal>
             <p>{ABOUT.badgesLabel}</p>
             <ul>
               {ABOUT.badges.map((b) => <li key={b.alt}><img src={b.src} alt={b.alt} loading="lazy" /></li>)}
             </ul>
           </div>
+        </section>
+
+        <section id="equipment" className="acctModels">
+          <div className="acctHead" data-reveal>
+            <p className="acctKicker">{EQUIPMENT.kicker}</p>
+            <h2>{EQUIPMENT.heading}</h2>
+            <span className="acctRule" aria-hidden />
+          </div>
+          <div data-reveal>
+            <ModelShowcase models={EQUIPMENT.models} />
+          </div>
+        </section>
+
+        <section id="quote" className="acctQuote">
           <div className="acctWrap narrow" data-reveal>
             <h2>{copy.form.heading.replace("{business}", name)}</h2>
             <span className="acctRule center" aria-hidden />
